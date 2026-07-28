@@ -3,8 +3,8 @@ import { WEEK_1 } from '../data/weekPlan';
 import manosUnidas400 from '../assets/avatars/optimized/avatar-manos-unidas-ventajas-400w.webp';
 import manosUnidas600 from '../assets/avatars/optimized/avatar-manos-unidas-ventajas-600w.webp';
 
-// Solo 2 semanas: el difuminado de la foto termina hacia la mitad de la
-// Semana 2, así que una 3ª semana quedaría "suelta" sin la foto encima.
+// Apenas 2 semanas: o desfoque da foto termina perto da metade da
+// Semana 2, então uma 3ª semana ficaria "solta" sem a foto por cima.
 const WEEKS = ['Semana 1', 'Semana 2'];
 
 export default function VentajasHeader() {
@@ -50,7 +50,7 @@ export default function VentajasHeader() {
           height={430}
           loading="lazy"
           decoding="async"
-          alt="Mujer con las manos unidas, en postura de calma"
+          alt="Mulher com as mãos unidas, em postura de calma"
           className="h-full w-auto object-contain object-top"
         />
       </div>

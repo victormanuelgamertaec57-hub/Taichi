@@ -1,6 +1,6 @@
-const MONTHS_ES = [
-  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
+const MONTHS_PT = [
+  'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+  'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro',
 ];
 
 /**
@@ -14,9 +14,9 @@ function parseLocal(dateStr: string): Date {
 }
 
 /** Formats a Date or "yyyy-mm-dd" string as "15 de agosto" (local time). */
-export function formatDateEs(date: Date | string): string {
+export function formatDateBr(date: Date | string): string {
   const d = typeof date === 'string' ? parseLocal(date) : date;
-  return `${d.getDate()} de ${MONTHS_ES[d.getMonth()]}`;
+  return `${d.getDate()} de ${MONTHS_PT[d.getMonth()]}`;
 }
 
 /** Local yyyy-mm-dd string for a Date, e.g. for <input type="date"> values. */
@@ -39,7 +39,7 @@ export function subDays(date: Date | string, days: number): Date {
   return d;
 }
 
-/** "yyyy-mm-dd" (local) for "today + 4 weeks" — default when the user has no event, consistent with the "Meta realista: mejorar tu equilibrio en 4 semanas" InfoCard. */
+/** "yyyy-mm-dd" (local) for "today + 4 weeks" — default when the user has no event, consistent with the "Meta realista: melhorar seu equilíbrio em 4 semanas" InfoCard. */
 export function defaultFechaObjetivo(): string {
   return toLocalIso(addWeeks(new Date(), 4));
 }

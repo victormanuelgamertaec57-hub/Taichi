@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useQuizStore, interpolate } from '../../store/quizStore';
 import type { ResultPaywallScreen } from '../../types/quiz';
@@ -17,17 +17,24 @@ import objetivoComparacion600 from '../../assets/avatars/optimized/avatar-objeti
 
 import selloGarantia from '../../assets/icons/sello-garantia-30dias.webp';
 
+// Plan prices in BRL (numeric values for Meta Pixel)
+const PLAN_VALUES: Record<string, number> = {
+  mensal: 77.90,
+  trimestral: 132.90,
+  semestral: 239.90,
+};
+
 interface Props {
   screen: ResultPaywallScreen;
 }
 
-const SAGE = '#5B8A72';
-const SAGE_BG = '#E8F0E9';
+const SAGE = '#5A6FD6';
+const SAGE_BG = '#EEF1FB';
 
 // Mismo gradiente que la barra de progreso superior (ProgressBar.tsx)
 const LEVEL_GRADIENT_STOPS: [number, string][] = [
-  [0, '#5B8A72'],
-  [0.5, '#6B8CAE'],
+  [0, '#5A6FD6'],
+  [0.5, '#7B8FE0'],
   [1, '#D4A24C'],
 ];
 
@@ -90,34 +97,53 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
     useQuizStore();
   const [hasTracked, setHasTracked] = useState(false);
 
+  // Cargar el script de Hotmart una sola vez
   useEffect(() => {
-    const highlighted = pricingPlans.find((p) => p.highlighted);
-    if (highlighted && !selectedPlan) setSelectedPlan(highlighted.id);
+    // Setear plan default (Trimestral) si no hay ninguno seleccionado
+    const defaultPlan = pricingPlans.find((p) => p.highlighted) || pricingPlans[0];
+    if (!selectedPlan) setSelectedPlan(defaultPlan.id);
+    
     if (!hasTracked) {
       trackPixelEvent('InitiateCheckout');
       setHasTracked(true);
+    }
+
+    // Cargar widget de Hotmart (solo si no está ya cargado)
+    if (!document.querySelector('script[src="https://static.hotmart.com/checkout/widget.min.js"]')) {
+      const imported = document.createElement('script');
+      imported.src = 'https://static.hotmart.com/checkout/widget.min.js';
+      document.head.appendChild(imported);
+    }
+    if (!document.querySelector('link[href="https://static.hotmart.com/css/hotmart-fb.min.css"]')) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = 'https://static.hotmart.com/css/hotmart-fb.min.css';
+      document.head.appendChild(link);
     }
   }, [hasTracked, selectedPlan, setSelectedPlan]);
 
   const headline = interpolate(screen.headline, userName, userAge, userGender);
   const nivel = activityLevelLabel(answers.activityLevel as string | undefined);
-  const chosenPlan = pricingPlans.find((p) => p.id === selectedPlan);
 
-  function handleCheckout() {
-    if (!chosenPlan) return;
-    trackPixelEvent('Purchase', {
-      value: parseFloat(chosenPlan.price.replace(/[^0-9.]/g, '')),
-      currency: 'USD',
-      content_name: chosenPlan.label,
-    });
-    window.location.href = chosenPlan.hotmartUrl;
-  }
+  // Track Purchase event when user clicks checkout button
+  const handleCheckout = useCallback(
+    (planId: string, hotmartUrl: string) => {
+      const value = PLAN_VALUES[planId];
+      if (value) {
+        trackPixelEvent('Purchase', { value, currency: 'BRL' });
+      }
+      // Navigate to Hotmart checkout
+      window.location.href = hotmartUrl;
+    },
+    []
+  );
 
   return (
     <div className="px-5 pt-8 pb-12 flex flex-col gap-8">
       {currentScreen > 1 && (
         <button onClick={goBack} className="back-btn self-start">
-          ← Atrás
+          ← Voltar
         </button>
       )}
 
@@ -138,7 +164,7 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
             height={213}
             loading="lazy"
             decoding="async"
-            alt="Fotografía de cuerpo completo — estado actual"
+            alt="Foto de corpo inteiro — estado atual"
             className="flex-1 max-w-[160px] aspect-[3/4] object-cover object-top rounded-xl"
           />
           <ChevronTrail />
@@ -150,16 +176,16 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
             height={213}
             loading="lazy"
             decoding="async"
-            alt="Fotografía de cuerpo completo — objetivo"
+            alt="Foto de corpo inteiro — objetivo"
             className="flex-1 max-w-[160px] aspect-[3/4] object-cover object-top rounded-xl"
           />
         </div>
         <div className="grid grid-cols-2 gap-4 mt-3">
           <div className="flex flex-col items-center gap-2 text-center">
-            <p className="text-xs font-bold uppercase tracking-wide text-secondary">Ahora</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-secondary">Agora</p>
             <div className="w-full space-y-2">
               <div>
-                <p className="text-xs text-secondary mb-1">Nivel de equilibrio</p>
+                <p className="text-xs text-secondary mb-1">Nível de equilíbrio</p>
                 <LevelBar filled={1} />
               </div>
               <div>
@@ -171,11 +197,11 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
           </div>
           <div className="flex flex-col items-center gap-2 text-center">
             <p className="text-xs font-bold uppercase tracking-wide" style={{ color: SAGE }}>
-              Tu objetivo
+              Seu objetivo
             </p>
             <div className="w-full space-y-2">
               <div>
-                <p className="text-xs text-secondary mb-1">Nivel de equilibrio</p>
+                <p className="text-xs text-secondary mb-1">Nível de equilíbrio</p>
                 <LevelBar filled={4} />
               </div>
               <div>
@@ -187,7 +213,7 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
           </div>
         </div>
         <p className="text-[11px] text-secondary/70 text-center mt-4">
-          Los resultados varían según cada persona y constancia en la práctica.
+          Os resultados variam de pessoa para pessoa e da constância na prática.
         </p>
       </motion.div>
 
@@ -207,9 +233,9 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
 
       {/* Ventajas — título + intro, justo antes de la tabla semanal */}
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold text-main">Ventajas</h2>
+        <h2 className="text-2xl font-bold text-main">Vantagens</h2>
         <p className="text-sm text-secondary leading-relaxed max-w-sm mx-auto">
-          Nuestro potente algoritmo diseña un plan de entrenamientos personalizado a partir de tus datos y objetivos.
+          Nosso algoritmo inteligente monta um plano de treinos personalizado a partir dos seus dados e objetivos.
         </p>
       </div>
 
@@ -251,10 +277,10 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
           58%
         </p>
         <p className="text-base font-semibold text-main max-w-[240px]">
-          menos caídas que con estiramiento tradicional
+          menos quedas do que com alongamento tradicional
         </p>
         <p className="text-xs font-medium text-secondary uppercase tracking-wide">
-          Estudio Stanford
+          Estudo Stanford
         </p>
       </div>
 
@@ -308,26 +334,50 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
         })}
 
         <a href="#guarantee" className="text-xs text-center underline text-secondary">
-          Garantía de reembolso
+          Garantia de reembolso
         </a>
 
-        <motion.button
+        {/* 3 botones de Hotmart renderizados desde el inicio - CSS muestra/oculta según selección */}
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          onClick={handleCheckout}
-          disabled={!chosenPlan}
-          className="cta-btn disabled:opacity-40 disabled:cursor-not-allowed"
+          className="checkout-buttons-container"
         >
-          {screen.ctaLabel}
-        </motion.button>
+          {/* Botón Mensal */}
+          <a
+            href="https://pay.hotmart.com/N106896758T?checkoutMode=2&off=gj6hcxhu"
+            onClick={(e) => { e.preventDefault(); handleCheckout('mensal', 'https://pay.hotmart.com/N106896758T?checkoutMode=2&off=gj6hcxhu'); }}
+            className={`hotmart-fb hotmart__button-checkout checkout-btn-plan ${selectedPlan === 'mensal' ? 'active' : ''}`}
+          >
+            {screen.ctaLabel}
+          </a>
+
+          {/* Botón Trimestral */}
+          <a
+            href="https://pay.hotmart.com/N106896758T?checkoutMode=2&off=wrzjhjvz"
+            onClick={(e) => { e.preventDefault(); handleCheckout('trimestral', 'https://pay.hotmart.com/N106896758T?checkoutMode=2&off=wrzjhjvz'); }}
+            className={`hotmart-fb hotmart__button-checkout checkout-btn-plan ${selectedPlan === 'trimestral' ? 'active' : ''}`}
+          >
+            {screen.ctaLabel}
+          </a>
+
+          {/* Botón Semestral */}
+          <a
+            href="https://pay.hotmart.com/N106896758T?checkoutMode=2&off=6d5ogulh"
+            onClick={(e) => { e.preventDefault(); handleCheckout('semestral', 'https://pay.hotmart.com/N106896758T?checkoutMode=2&off=6d5ogulh'); }}
+            className={`hotmart-fb hotmart__button-checkout checkout-btn-plan ${selectedPlan === 'semestral' ? 'active' : ''}`}
+          >
+            {screen.ctaLabel}
+          </a>
+        </motion.div>
       </div>
 
       {/* Garantía */}
       <div id="guarantee" className="flex flex-col gap-4 items-center text-center scroll-mt-6">
         <img
           src={selloGarantia}
-          alt="Sello de garantía de 30 días"
+          alt="Selo de garantia de 30 dias"
           width={160}
           height={160}
           style={{ width: 160, height: 160 }}

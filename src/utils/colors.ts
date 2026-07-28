@@ -1,8 +1,8 @@
 // Accent color rotation for icon circles in checklists / stat lists.
-// Order: sage green -> slate blue -> mustard, repeating.
+// Order: periwinkle indigo -> slate blue -> mustard, repeating.
 export const ACCENT_COLORS = [
-  { fg: '#5B8A72', bg: '#E8F0E9' },
-  { fg: '#6B8CAE', bg: '#E7EEF3' },
+  { fg: '#5A6FD6', bg: '#EEF1FB' },
+  { fg: '#5A6FD6', bg: '#EEF1FB' },
   { fg: '#D4A24C', bg: '#F6EEDD' },
 ];
 

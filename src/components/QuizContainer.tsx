@@ -99,7 +99,7 @@ export default function QuizContainer() {
       <footer className="w-full max-w-lg px-6 py-4 text-center">
         <p className="text-xs text-secondary/60 flex items-center justify-center gap-1">
           <i className="ti ti-lock text-xs"></i>
-          <span>Tus datos están protegidos · FirmMe © 2025</span>
+          <span>Seus dados estão protegidos · FirmMe © 2025</span>
         </p>
       </footer>
     </div>

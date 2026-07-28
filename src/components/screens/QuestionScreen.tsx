@@ -66,7 +66,7 @@ export default function QuestionScreenComp({ screen }: Props) {
       {/* Back button */}
       {currentScreen > 1 && (
         <button onClick={goBack} className="back-btn">
-          ← Atrás
+          ← Voltar
         </button>
       )}
 
@@ -75,7 +75,7 @@ export default function QuestionScreenComp({ screen }: Props) {
         <h2 className="text-2xl font-bold text-main leading-snug">{headline}</h2>
         {subtext && <p className="text-base text-secondary">{subtext}</p>}
         {screen.multiSelect && (
-          <p className="text-sm text-secondary/80 italic">Puedes seleccionar varias opciones</p>
+          <p className="text-sm text-secondary/80 italic">Você pode selecionar várias opções</p>
         )}
       </div>
 
@@ -137,7 +137,7 @@ export default function QuestionScreenComp({ screen }: Props) {
           disabled={selected.length === 0}
           className="cta-btn disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
-          <span>Continuar</span>
+          <span>{screen.ctaLabel}</span>
           <i className="ti ti-arrow-right"></i>
         </motion.button>
       )}

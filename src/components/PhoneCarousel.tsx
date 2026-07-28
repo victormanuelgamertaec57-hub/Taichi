@@ -49,9 +49,9 @@ function CenterPhoneContent() {
       <StatusBar />
       <div className="flex-1 overflow-hidden px-4 pb-4 pt-1 flex flex-col gap-2.5">
         <div className="text-center">
-          <p className="text-[15px] font-bold text-main leading-tight">Tu plan está listo</p>
+          <p className="text-[15px] font-bold text-main leading-tight">Seu plano está pronto</p>
           <p className="text-[10px] text-secondary mt-1 leading-snug">
-            Empieza con algo sencillo. ¡Vuelve cada semana para seguir avanzando!
+            Comece com algo simples. Volte toda semana para continuar avançando!
           </p>
         </div>
         <div className="rounded-xl overflow-hidden flex-shrink-0">
@@ -63,21 +63,21 @@ function CenterPhoneContent() {
             height={128}
             loading="lazy"
             decoding="async"
-            alt="Vista previa del módulo: Equilibrio en tu silla"
+            alt="Prévia do módulo: Equilíbrio na sua cadeira"
             className="w-full aspect-[4/3] object-cover"
           />
         </div>
         <div>
-          <p className="text-[13px] font-bold text-main">Equilibrio en tu silla</p>
+          <p className="text-[13px] font-bold text-main">Equilíbrio na sua cadeira</p>
           <p className="text-[10px] text-secondary leading-snug mt-0.5">
-            Mejora tu equilibrio y fuerza con una rutina sentada para principiantes.
+            Melhore seu equilíbrio e força com uma rotina sentada para iniciantes.
           </p>
         </div>
         <div
           className="mt-auto w-full rounded-full py-2 text-center text-[12px] font-bold text-white"
           style={{ backgroundColor: SAGE }}
         >
-          Empezar mi plan
+          Começar meu plano
         </div>
       </div>
     </div>
@@ -87,7 +87,7 @@ function CenterPhoneContent() {
 function LeftPhoneContent() {
   return (
     <div className="flex flex-col h-full px-3.5 pt-4 pb-4 gap-3">
-      <p className="text-[13px] font-bold text-main">Tu sesión</p>
+      <p className="text-[13px] font-bold text-main">Sua sessão</p>
       <div className="flex gap-2">
         <span
           className="text-[10px] px-2.5 py-1 rounded-full border font-medium text-secondary"
@@ -102,12 +102,12 @@ function LeftPhoneContent() {
           Media
         </span>
       </div>
-      <p className="text-[11px] text-secondary">8 min · Equilibrio</p>
+      <p className="text-[11px] text-secondary">8 min · Equilíbrio</p>
       <div
         className="mt-auto w-full rounded-full py-2 text-center text-[11px] font-bold text-white"
         style={{ backgroundColor: SAGE }}
       >
-        Guardar
+        Salvar
       </div>
     </div>
   );
@@ -192,7 +192,7 @@ export default function PhoneCarousel() {
       </div>
 
       <h3 className="text-xl font-bold text-main text-center mt-5 leading-snug max-w-xs">
-        Muévete con confianza, recupera tu independencia
+        Mexa-se com confiança, recupere sua independência
       </h3>
 
       {/* Rating ilustrativo — actualizar con datos reales cuando existan */}
@@ -203,7 +203,7 @@ export default function PhoneCarousel() {
               <i key={i} className="ti ti-star text-base"></i>
             ))}
           </span>
-          <span className="text-sm font-semibold text-main">4.8 de 5</span>
+          <span className="text-sm font-semibold text-main">4,8 de 5</span>
         </div>
         <div className="flex items-center gap-1.5 text-secondary">
           <SiApple size={18} color="#000000" />

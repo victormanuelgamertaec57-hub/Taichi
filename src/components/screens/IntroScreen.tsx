@@ -2,35 +2,22 @@ import { motion } from 'framer-motion';
 import { useQuizStore } from '../../store/quizStore';
 import { trackPixelEvent } from '../../utils/pixel';
 
-// ─── Optimized WebP images (3 sizes each) ─────────────────────────────────────
-// Using static imports so Vite/imagetools can process them at build time.
-// srcset serves the right size per viewport; explicit width/height prevents CLS.
+// ─── Age photos (WebP optimizados — ~10-28 KB vs 10-12 MB original) ────────
+import img4049 from '../../assets/avatars/optimized/avatar-edad-40-49-400w.webp';
+import img5059 from '../../assets/avatars/optimized/avatar-edad-50-59-400w.webp';
+import img6069 from '../../assets/avatars/optimized/avatar-edad-60-69-400w.webp';
+import img70 from '../../assets/avatars/optimized/avatar-edad-70mas-400w.webp';
 
-import img4049_400 from '../../assets/avatars/optimized/avatar-edad-40-49-400w.webp';
-import img4049_600 from '../../assets/avatars/optimized/avatar-edad-40-49-600w.webp';
-import img4049_800 from '../../assets/avatars/optimized/avatar-edad-40-49-800w.webp';
+// ─── Color token: periwinkle indigo vívido ─────────────────────────────────
+const INDIGO = '#5C7AE0';
 
-import img5059_400 from '../../assets/avatars/optimized/avatar-edad-50-59-400w.webp';
-import img5059_600 from '../../assets/avatars/optimized/avatar-edad-50-59-600w.webp';
-import img5059_800 from '../../assets/avatars/optimized/avatar-edad-50-59-800w.webp';
-
-import img6069_400 from '../../assets/avatars/optimized/avatar-edad-60-69-400w.webp';
-import img6069_600 from '../../assets/avatars/optimized/avatar-edad-60-69-600w.webp';
-import img6069_800 from '../../assets/avatars/optimized/avatar-edad-60-69-800w.webp';
-
-import img70_400 from '../../assets/avatars/optimized/avatar-edad-70mas-400w.webp';
-import img70_600 from '../../assets/avatars/optimized/avatar-edad-70mas-600w.webp';
-import img70_800 from '../../assets/avatars/optimized/avatar-edad-70mas-800w.webp';
-
-// ─── Age card data ─────────────────────────────────────────────────────────────
+// ─── Age card data ─────────────────────────────────────────────────────────
 
 interface AgeCard {
   id: string;
   label: string;
-  storeLabel: string; // value stored in userAge
-  src400: string;
-  src600: string;
-  src800: string;
+  storeLabel: string;
+  src: string;
   loading: 'eager' | 'lazy';
   alt: string;
 }
@@ -40,45 +27,37 @@ const AGE_CARDS: AgeCard[] = [
     id: '40-49',
     label: '40 – 49',
     storeLabel: '40-49',
-    src400: img4049_400,
-    src600: img4049_600,
-    src800: img4049_800,
-    loading: 'eager',   // first card in viewport — no lazy
-    alt: 'Mujer activa de 40 a 49 años practicando tai chi en silla',
+    src: img4049,
+    loading: 'lazy',
+    alt: 'Mulher ativa de 40 a 49 anos praticando tai chi na cadeira',
   },
   {
     id: '50-59',
     label: '50 – 59',
     storeLabel: '50-59',
-    src400: img5059_400,
-    src600: img5059_600,
-    src800: img5059_800,
+    src: img5059,
     loading: 'lazy',
-    alt: 'Mujer activa de 50 a 59 años practicando tai chi en silla',
+    alt: 'Mulher ativa de 50 a 59 anos praticando tai chi na cadeira',
   },
   {
     id: '60-69',
     label: '60 – 69',
     storeLabel: '60-69',
-    src400: img6069_400,
-    src600: img6069_600,
-    src800: img6069_800,
+    src: img6069,
     loading: 'lazy',
-    alt: 'Mujer activa de 60 a 69 años practicando tai chi en silla',
+    alt: 'Mulher ativa de 60 a 69 anos praticando tai chi na cadeira',
   },
   {
     id: '70+',
     label: '70 +',
     storeLabel: '70+',
-    src400: img70_400,
-    src600: img70_600,
-    src800: img70_800,
+    src: img70,
     loading: 'lazy',
-    alt: 'Mujer activa de más de 70 años practicando tai chi en silla',
+    alt: 'Mulher ativa com mais de 70 anos praticando tai chi na cadeira',
   },
 ];
 
-// ─── Component ────────────────────────────────────────────────────────────────
+// ─── Component ───────────────────────────────────────────────────────────────
 
 export default function IntroScreen() {
   const { setAnswer, setUserAge, goNext } = useQuizStore();
@@ -91,7 +70,7 @@ export default function IntroScreen() {
   }
 
   return (
-    <div className="px-4 pt-6 pb-10 flex flex-col gap-5">
+    <div className="px-4 pt-6 pb-10 flex flex-col gap-5" style={{ backgroundColor: '#FFFFFF' }}>
       {/* Header copy */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -100,10 +79,10 @@ export default function IntroScreen() {
         className="text-center space-y-1.5"
       >
         <h1 className="text-3xl font-bold text-main leading-tight">
-          ¿Cuántos años tienes?
+          Quantos anos você tem?
         </h1>
         <p className="text-base text-secondary leading-relaxed max-w-sm mx-auto">
-          Personalizamos tu programa según tu etapa de vida.
+          Personalizamos seu programa de acordo com sua fase de vida.
         </p>
       </motion.div>
 
@@ -116,26 +95,85 @@ export default function IntroScreen() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.07, duration: 0.3, ease: 'easeOut' }}
             onClick={() => handleSelect(card)}
-            className="age-photo-card group"
-            aria-label={`Seleccionar rango de edad ${card.label} años`}
+            aria-label={`Selecionar faixa de idade ${card.label} anos`}
+            style={{
+              position: 'relative',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              aspectRatio: '3 / 4',
+              cursor: 'pointer',
+              border: `3px solid ${INDIGO}`,
+              backgroundColor: '#F5F5F5',
+              transition: 'transform 120ms ease, box-shadow 150ms ease',
+              minHeight: '44px',
+            }}
           >
             {/* Photo */}
             <img
-              src={card.src400}
-              srcSet={`${card.src400} 400w, ${card.src600} 600w, ${card.src800} 800w`}
-              sizes="(max-width: 480px) calc(50vw - 24px), 220px"
+              src={card.src}
               width={400}
-              height={400}
+              height={533}
               loading={card.loading}
               decoding="async"
               alt={card.alt}
-              className="age-photo-img"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'top center',
+                display: 'block',
+              }}
             />
 
-            {/* Bottom badge */}
-            <div className="age-photo-badge">
-              <span className="age-photo-label">{card.label}</span>
-              <span className="age-photo-arrow">→</span>
+            {/* Bottom badge - gradient azul indigo */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                background: `linear-gradient(to bottom, transparent 0%, color-mix(in srgb, ${INDIGO} 75%, black) 100%)`,
+                padding: '28px 14px 14px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                transition: 'padding-bottom 150ms ease',
+              }}
+            >
+              <span
+                style={{
+                  fontSize: '1.25rem',
+                  fontWeight: 800,
+                  color: '#ffffff',
+                  letterSpacing: '0.01em',
+                  lineHeight: 1,
+                  textShadow: '0 1px 4px rgba(0,0,0,0.25)',
+                }}
+              >
+                {card.label}
+              </span>
+              {/* Flecha circular azul */}
+              <span
+                style={{
+                  width: '30px',
+                  height: '30px',
+                  borderRadius: '50%',
+                  backgroundColor: INDIGO,
+                  border: '1.5px solid rgba(255, 255, 255, 0.5)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '0.9rem',
+                  color: '#ffffff',
+                  flexShrink: 0,
+                  fontWeight: 'bold',
+                  boxShadow: `0 2px 8px ${INDIGO}50`,
+                }}
+              >
+                →
+              </span>
             </div>
           </motion.button>
         ))}
@@ -143,7 +181,7 @@ export default function IntroScreen() {
 
       <p className="text-xs text-secondary/60 text-center flex items-center justify-center gap-1">
         <i className="ti ti-lock text-xs"></i>
-        <span>Tu información es confidencial</span>
+        <span>Suas informações são confidenciais</span>
       </p>
     </div>
   );

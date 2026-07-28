@@ -2,7 +2,6 @@ import { useState, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useQuizStore } from '../../store/quizStore';
 import type { NameInputScreen } from '../../types/quiz';
-import { trackPixelEvent } from '../../utils/pixel';
 
 interface Props {
   screen: NameInputScreen;
@@ -28,7 +27,6 @@ export default function NameInputScreenComp({ screen }: Props) {
     setSubmitted(true);
     setUserName(trimmed);
     setAnswer(screen.answerKey!, trimmed);
-    trackPixelEvent('Lead', { content_name: 'Name Entered' });
     goNext();
   }, [submitted, isValid, name, setUserName, setAnswer, screen.answerKey, goNext]);
 
@@ -36,7 +34,7 @@ export default function NameInputScreenComp({ screen }: Props) {
     <div className="px-5 pt-8 pb-10 flex flex-col gap-6">
       {currentScreen > 1 && (
         <button onClick={goBack} className="back-btn">
-          ← Atrás
+          ← Voltar
         </button>
       )}
 
@@ -67,7 +65,7 @@ export default function NameInputScreenComp({ screen }: Props) {
           className={`name-input ${touched && !isValid ? 'border-red-400' : ''}`}
         />
         {touched && !isValid && (
-          <p className="text-sm text-red-500">Por favor ingresa al menos 2 caracteres.</p>
+          <p className="text-sm text-red-500">Por favor, digite pelo menos 2 caracteres.</p>
         )}
       </motion.div>
 
@@ -84,7 +82,7 @@ export default function NameInputScreenComp({ screen }: Props) {
 
       <p className="text-xs text-secondary/60 text-center flex items-center justify-center gap-1">
         <i className="ti ti-lock text-xs"></i>
-        <span>Tu información es privada y nunca se comparte.</span>
+        <span>Suas informações são privadas e nunca são compartilhadas.</span>
       </p>
     </div>
   );

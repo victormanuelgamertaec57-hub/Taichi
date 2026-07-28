@@ -15,8 +15,8 @@ import ivoneDespues400 from '../assets/testimonials/optimized/testimonio-ivone-d
 import ivoneDespues600 from '../assets/testimonials/optimized/testimonio-ivone-despues-600w.webp';
 import ivoneDespues800 from '../assets/testimonials/optimized/testimonio-ivone-despues-800w.webp';
 
-const SAGE = '#5B8A72';
-const SAGE_BG = '#E8F0E9';
+const SAGE = '#5A6FD6';
+const SAGE_BG = '#EEF1FB';
 const GOLD = '#D4A24C';
 
 interface PhotoSrcSet {
@@ -138,7 +138,7 @@ function FeaturedCard({ t }: { t: FeaturedTestimonial }) {
           height={400}
           loading="lazy"
           decoding="async"
-          alt={`${t.name} antes de empezar`}
+          alt={`${t.name} antes de começar`}
           className="w-1/2 aspect-square object-cover object-top"
         />
         <div className="w-px flex-shrink-0" style={{ backgroundColor: 'var(--color-border)' }} />

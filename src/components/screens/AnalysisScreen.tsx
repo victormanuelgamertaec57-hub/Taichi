@@ -163,7 +163,7 @@ export default function AnalysisScreenComp({ screen }: Props) {
       {/* Testimonial carousel */}
       <div className="flex-1 flex flex-col justify-center">
         <p className="text-xs uppercase tracking-widest text-secondary/60 text-center mb-4">
-          Lo que dicen nuestras estudiantes
+          O que dizem nossas alunas
         </p>
 
         <AnimatePresence mode="wait">
@@ -192,7 +192,7 @@ export default function AnalysisScreenComp({ screen }: Props) {
               </div>
               <div>
                 <p className="font-semibold text-main text-sm">
-                  {currentTestimonial.name}, {currentTestimonial.age} años
+                  {currentTestimonial.name}, {currentTestimonial.age} anos
                 </p>
                 <p className="text-xs text-secondary">{currentTestimonial.location}</p>
               </div>
@@ -209,7 +209,7 @@ export default function AnalysisScreenComp({ screen }: Props) {
               className={`w-2 h-2 rounded-full transition-all duration-200 ${
                 i === testimonialIndex ? 'bg-primary w-5' : 'bg-border'
               }`}
-              aria-label={`Testimonio ${i + 1}`}
+              aria-label={`Depoimento ${i + 1}`}
             />
           ))}
         </div>

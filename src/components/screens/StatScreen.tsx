@@ -18,9 +18,8 @@ interface Props {
 
 // Palette: sage/cream come from the design tokens; terracotta only on the
 // "gym te deja agotada" screen.
-const SAGE = '#5B8A72';
+const SAGE = '#5C7AE0';
 const TERRACOTTA = '#D97A4E';
-const GOLD = '#D4A24C';
 const MUTED = '#B9C4BB';
 
 // ─── SVG visuals (one per StatVisualKind) ─────────────────────────────────────
@@ -37,8 +36,8 @@ interface FallRiskDatum {
 // isn't given a bar here — we don't have a number for "estiramiento vs. sin
 // ejercicio" to back up plotting them at different heights.
 const FALL_RISK_BARS: FallRiskDatum[] = [
-  { value: 100, color: GOLD, lines: ['Estiramiento', 'tradicional'] },
-  { value: 42, color: SAGE, lines: ['Tai Chi', 'en silla'] },
+  { value: 100, color: MUTED, lines: ['Alongamento', 'tradicional'] },
+  { value: 42, color: SAGE, lines: ['Tai Chi', 'na cadeira'] },
 ];
 
 const CHART_BASELINE_Y = 132;
@@ -210,7 +209,7 @@ function FatigueClock() {
       src400={antesEstres400}
       src600={antesEstres600}
       src800={antesEstres800}
-      alt="Mujer con gesto de cansancio y tensión, sentada en su silla"
+      alt="Mulher com expressão de cansaço e tensão, sentada na sua cadeira"
     />
   );
 }
@@ -221,7 +220,7 @@ function ImpactCompare() {
       src400={brollExtendidos400}
       src600={brollExtendidos600}
       src800={brollExtendidos800}
-      alt="Mujer sentada en su silla con los brazos extendidos y los pies apoyados en el piso"
+      alt="Mulher sentada na sua cadeira com os braços estendidos e os pés apoiados no chão"
     />
   );
 }
@@ -263,7 +262,7 @@ export default function StatScreenComp({ screen }: Props) {
       {/* Back button */}
       {currentScreen > 1 && (
         <button onClick={goBack} className="back-btn self-start">
-          ← Atrás
+          ← Voltar
         </button>
       )}
 

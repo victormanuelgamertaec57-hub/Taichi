@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuizStore, interpolate } from '../../store/quizStore';
 import type { FadeSequenceScreen } from '../../types/quiz';
-import { formatDateEs, subDays, defaultFechaObjetivo } from '../../utils/date';
+import { formatDateBr, subDays, defaultFechaObjetivo } from '../../utils/date';
 
 interface Props {
   screen: FadeSequenceScreen;
@@ -17,8 +17,8 @@ export default function FadeSequenceComp({ screen }: Props) {
   const msPerLine = screen.msPerLine ?? 2500;
 
   const fechaObjetivo = (answers.fechaObjetivo as string | undefined) ?? defaultFechaObjetivo();
-  const fechaFormatted = formatDateEs(fechaObjetivo);
-  const fechaMenos7Formatted = formatDateEs(subDays(fechaObjetivo, 7));
+  const fechaFormatted = formatDateBr(fechaObjetivo);
+  const fechaMenos7Formatted = formatDateBr(subDays(fechaObjetivo, 7));
 
   // Auto-advance through the lines, then hand off to the normal flow.
   useEffect(() => {

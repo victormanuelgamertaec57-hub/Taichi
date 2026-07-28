@@ -21,8 +21,8 @@ export default function CommitmentScreenComp({ screen }: Props) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const headline = interpolate(screen.headline, userName, userAge, userGender);
-  // Highlight the word "lista" in sage green, matching the rest of the headline.
-  const parts = headline.split(/(lista)/i);
+  // Highlight the word "pronta" in indigo, matching the rest of the headline.
+  const parts = headline.split(/(pronta)/i);
 
   function handleSelect(optId: string) {
     if (selectedId) return;
@@ -35,7 +35,7 @@ export default function CommitmentScreenComp({ screen }: Props) {
     <div className="px-5 pt-8 pb-10 flex flex-col gap-6">
       {currentScreen > 1 && (
         <button onClick={goBack} className="back-btn">
-          ← Atrás
+          ← Voltar
         </button>
       )}
 
@@ -50,7 +50,7 @@ export default function CommitmentScreenComp({ screen }: Props) {
           height={88}
           loading="lazy"
           decoding="async"
-          alt="Tu instructora de FirmMe"
+          alt="Sua instrutora da FirmMe"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.35 }}
@@ -70,7 +70,7 @@ export default function CommitmentScreenComp({ screen }: Props) {
 
         <h2 className="text-2xl font-bold text-main leading-snug">
           {parts.map((part, i) =>
-            /^lista$/i.test(part) ? (
+            /^pronta$/i.test(part) ? (
               <span key={i} style={{ color: 'var(--color-primary)' }}>
                 {part}
               </span>

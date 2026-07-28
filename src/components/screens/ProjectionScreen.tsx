@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useQuizStore, interpolate } from '../../store/quizStore';
 import type { ProjectionScreen } from '../../types/quiz';
 import { metaIdealLabel } from '../../utils/copy';
-import { formatDateEs, defaultFechaObjetivo } from '../../utils/date';
+import { formatDateBr, defaultFechaObjetivo } from '../../utils/date';
 
 interface Props {
   screen: ProjectionScreen;
@@ -31,7 +31,7 @@ function ProjectionChart({ targetLabel }: { targetLabel: string }) {
       {/* start point */}
       <circle cx="20" cy="150" r="6" fill={SAGE_SOFT} />
       <text x="20" y="188" fontSize="12" fontWeight="800" fill="#6B7A70" fontFamily="Nunito, sans-serif">
-        AHORA
+        AGORA
       </text>
       {/* end point */}
       <circle cx="300" cy="15" r="7" fill={SAGE} />
@@ -47,7 +47,7 @@ export default function ProjectionScreenComp({ screen }: Props) {
 
   const metaIdeal = metaIdealLabel(answers.metaIdeal as string | undefined);
   const fechaObjetivo = (answers.fechaObjetivo as string | undefined) ?? defaultFechaObjetivo();
-  const fechaFormatted = formatDateEs(fechaObjetivo);
+  const fechaFormatted = formatDateBr(fechaObjetivo);
 
   const headlineWithTokens = screen.headline
     .replace(/\{\{metaIdeal\}\}/g, metaIdeal)
@@ -59,7 +59,7 @@ export default function ProjectionScreenComp({ screen }: Props) {
     <div className="px-5 pt-8 pb-10 flex flex-col gap-6">
       {currentScreen > 1 && (
         <button onClick={goBack} className="back-btn">
-          ← Atrás
+          ← Voltar
         </button>
       )}
 

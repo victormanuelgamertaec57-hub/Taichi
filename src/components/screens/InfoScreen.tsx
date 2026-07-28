@@ -21,19 +21,19 @@ const IMAGE_MAP: Record<string, { w400: string; w600: string; w800: string; alt:
     w400: confianza400,
     w600: confianza600,
     w800: confianza800,
-    alt: 'Mujer de 60 años sonriendo con confianza a la cámara',
+    alt: 'Mulher de 60 anos sorrindo com confiança para a câmera',
   },
   'avatar-antes-estres': {
     w400: estres400,
     w600: estres600,
     w800: estres800,
-    alt: 'Mujer de 60 años con gesto de cansancio y tensión, sentada en su silla',
+    alt: 'Mulher de 60 anos com expressão de cansaço e tensão, sentada na sua cadeira',
   },
   'avatar-hero-cloud-hands': {
     w400: hero400,
     w600: hero600,
     w800: hero800,
-    alt: 'Mujer practicando Tai Chi en silla con los brazos al frente',
+    alt: 'Mulher praticando Tai Chi na cadeira com os braços à frente',
   },
 };
 
@@ -52,25 +52,26 @@ export default function InfoScreenComp({ screen }: Props) {
     <div className="relative flex flex-col min-h-[580px] bg-warm overflow-hidden rounded-3xl border border-border">
       
       {/* 1. Background image area with smooth fade-to-cream bottom gradient */}
-      <div className="relative h-64 sm:h-72 w-full overflow-hidden flex-shrink-0">
+      <div className="relative h-72 sm:h-80 w-full overflow-hidden flex-shrink-0">
         {imgData && (
           <img
             src={imgData.w400}
             srcSet={`${imgData.w400} 400w, ${imgData.w600} 600w, ${imgData.w800} 800w`}
             sizes="(max-width: 480px) 100vw, 500px"
             width={400}
-            height={280}
+            height={320}
             loading="eager" // Info screens are important hero assets
             decoding="async"
             alt={imgData.alt}
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: 'center 25%' }}
           />
         )}
-        {/* Gradient overlay - starts fading from 60%, fully cream at bottom (100%) */}
+        {/* Gradient overlay - starts fading below the face (70%), fully white at bottom (100%) */}
         <div 
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(to bottom, transparent 0%, transparent 50%, var(--color-warm) 98%, var(--color-warm) 100%)'
+            background: 'linear-gradient(to bottom, transparent 0%, transparent 70%, var(--color-warm) 100%)'
           }}
         />
 
@@ -79,7 +80,7 @@ export default function InfoScreenComp({ screen }: Props) {
           <button 
             onClick={goBack} 
             className="absolute top-4 left-4 z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white/80 border border-border text-main backdrop-blur-xs transition hover:bg-white hover:scale-105 active:scale-95 shadow-xs"
-            aria-label="Volver atrás"
+            aria-label="Voltar"
           >
             <i className="ti ti-arrow-left text-lg"></i>
           </button>

@@ -53,6 +53,7 @@ export interface QuestionScreen extends BaseScreen {
   subtext?: string;
   multiSelect?: boolean;
   options: QuestionOption[];
+  ctaLabel?: string; // Label for the continue button (multi-select only)
   autoAdvance?: boolean;
   infoCard?: InfoCardData; // optional context card rendered below the options
 }
@@ -205,7 +206,7 @@ export interface Testimonial {
 
 // ─── Pricing Plan ─────────────────────────────────────────────────────────────
 
-export type PricingPlanId = 'trial' | 'plan4weeks' | 'plan12weeks';
+export type PricingPlanId = 'mensal' | 'trimestral' | 'semestral';
 
 export interface PricingPlan {
   id: PricingPlanId;

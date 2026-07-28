@@ -1,0 +1,1223 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Receita do Chá Dourado FirmMe — Bônus Especial</title>
+<style>
+/* ============================================================
+   GEOMETRY & PRINT FIDELITY
+   ============================================================ */
+@page { size: A4 portrait; margin: 0; }
+
+* {
+  box-sizing: border-box;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* === WARM GOLDEN PALETTE (dominant) === */
+  --amber-deep:  #9C4A1A;
+  --amber:       #B8651B;
+  --amber-2:     #D4922E;
+  --gold:        #E8B860;
+  --honey:       #F0C978;
+  --cream:       #FAF3E7;
+  --cream-2:     #FDF8EE;
+  --paper:       #FFFFFF;
+  --rule:        #E8DCC4;
+  --rule-soft:   #F0E6D0;
+
+  /* === INK (warm dark) === */
+  --ink:         #2D1B0F;
+  --ink-soft:    #5C4530;
+  --mute:        #8A7456;
+
+  /* === FIRMME BRAND BLUE (accent only) === */
+  --blue:        #4F63E8;
+  --blue-light:  #6C7FE0;
+  --blue-soft:   #EEF1FB;
+
+  --serif: 'Fraunces', 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --sans:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+html, body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  font-size: 10.5pt;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================================
+   PAGE SHEET (A4)
+   ============================================================ */
+.sheet {
+  width: 210mm;
+  height: 297mm;
+  padding: 18mm 20mm 18mm 20mm;
+  page-break-after: always;
+  position: relative;
+  overflow: hidden;
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+}
+.sheet:last-child { page-break-after: auto; }
+
+/* ============================================================
+   COVER (page 1)
+   ============================================================ */
+.cover {
+  width: 210mm;
+  height: 297mm;
+  padding: 0;
+  page-break-after: always;
+  position: relative;
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 0%,  rgba(255,255,255,0.20) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 10% 100%, rgba(184,101,27,0.30) 0%, transparent 60%),
+    linear-gradient(155deg, #9C4A1A 0%, #B8651B 35%, #D4922E 75%, #E8B860 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.cover::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,0.06) 1px, transparent 0);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+.cover::after {
+  content: "";
+  position: absolute;
+  width: 460px;
+  height: 460px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+  bottom: -180px;
+  right: -160px;
+  pointer-events: none;
+}
+
+.cover-top {
+  position: relative;
+  z-index: 2;
+  padding: 20mm 20mm 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cover-logo {
+  /* Place actual logo image */
+  height: 50px;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+}
+
+.cover-bonus-tag {
+  font-size: 8.5pt;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.95);
+  font-weight: 700;
+  border: 1.5px solid rgba(255,255,255,0.45);
+  padding: 7px 16px;
+  border-radius: 99px;
+  backdrop-filter: blur(8px);
+  background: rgba(255,255,255,0.10);
+}
+
+.cover-mid {
+  position: relative;
+  z-index: 2;
+  padding: 0 20mm;
+}
+
+.cover-eyebrow {
+  font-size: 9pt;
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+  font-weight: 600;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.cover-eyebrow::before {
+  content: "";
+  width: 32px;
+  height: 1px;
+  background: rgba(255,255,255,0.6);
+}
+
+.cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 50pt;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  margin-bottom: 24px;
+  max-width: 165mm;
+  color: #fff;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.10);
+}
+.cover-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: rgba(255,255,255,0.96);
+}
+
+.cover-sub {
+  font-size: 13.5pt;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.95);
+  max-width: 140mm;
+  font-weight: 400;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.cover-bottom {
+  position: relative;
+  z-index: 2;
+  padding: 0 20mm 22mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.cover-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 9pt;
+  color: rgba(255,255,255,0.90);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.cover-meta strong {
+  font-weight: 700;
+  color: #fff;
+  font-size: 10pt;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-family: var(--serif);
+  font-size: 13pt;
+  font-weight: 500;
+}
+
+.cover-deco-droplet {
+  position: absolute;
+  right: 20mm;
+  bottom: 50mm;
+  width: 110px;
+  height: 110px;
+  z-index: 1;
+  opacity: 0.30;
+}
+
+/* ============================================================
+   SECTION HEADERS (pages 2-5)
+   ============================================================ */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+  font-size: 9pt;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--amber);
+}
+.section-header::before {
+  content: "";
+  width: 30px;
+  height: 1.5px;
+  background: var(--amber);
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 32pt;
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin-bottom: 22px;
+  max-width: 160mm;
+}
+.section-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--amber-deep);
+}
+
+/* ============================================================
+   PAGE 2 — INTRODUÇÃO
+   ============================================================ */
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16mm;
+  align-items: center;
+  flex: 1;
+  margin-top: 4mm;
+}
+
+.intro-text-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.intro-lede {
+  font-family: var(--serif);
+  font-size: 19pt;
+  line-height: 1.40;
+  color: var(--ink);
+  font-weight: 400;
+  margin-bottom: 16mm;
+  letter-spacing: -0.005em;
+}
+.intro-lede::first-letter {
+  font-family: var(--serif);
+  font-size: 64pt;
+  font-weight: 500;
+  float: left;
+  line-height: 0.85;
+  margin: 6pt 10pt 0 0;
+  color: var(--amber);
+}
+
+.intro-body {
+  font-size: 11pt;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 6mm;
+}
+
+.intro-quote {
+  border-left: 3px solid var(--amber);
+  padding: 4px 0 4px 16px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 11.5pt;
+  line-height: 1.55;
+  color: var(--ink);
+  margin-top: 4mm;
+}
+
+.intro-image-col {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-image {
+  width: 100%;
+  height: 100%;
+  max-height: 220mm;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 30px 80px -20px rgba(184,101,27,0.30), 0 8px 24px -8px rgba(184,101,27,0.18);
+}
+
+.intro-image-caption {
+  position: absolute;
+  bottom: 18mm;
+  left: 8mm;
+  right: 8mm;
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(8px);
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 9pt;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  font-style: italic;
+  font-family: var(--serif);
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+/* ============================================================
+   PAGE 3 — INGREDIENTES
+   ============================================================ */
+.ingredients-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.ingredients-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 12mm;
+}
+
+.ingredients-intro {
+  max-width: 110mm;
+  font-size: 11pt;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  font-family: var(--serif);
+  font-style: italic;
+  margin-top: -8mm;
+  text-align: right;
+}
+
+.ingredients-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7mm 9mm;
+  flex: 1;
+  margin-top: 4mm;
+}
+
+.ing-card {
+  background: var(--cream);
+  border: 1px solid var(--rule-soft);
+  border-radius: 20px;
+  padding: 7mm 7mm 6mm;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  page-break-inside: avoid;
+}
+
+.ing-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 6mm;
+}
+
+.ing-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--amber) 0%, var(--amber-2) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 6px 18px -6px rgba(184,101,27,0.40);
+}
+.ing-icon svg { width: 28px; height: 28px; }
+
+.ing-name {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 18pt;
+  line-height: 1.1;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.ing-name-sub {
+  font-size: 8.5pt;
+  color: var(--mute);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-top: 2px;
+  display: block;
+}
+
+.ing-text {
+  font-size: 10.5pt;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.ing-tag {
+  display: inline-block;
+  font-size: 8pt;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--blue);
+  background: var(--blue-soft);
+  padding: 3px 9px;
+  border-radius: 99px;
+  margin-top: 4mm;
+  align-self: flex-start;
+}
+
+.ingredients-bottom-strip {
+  margin-top: 6mm;
+  background: linear-gradient(135deg, #FAF3E7 0%, #FDF8EE 100%);
+  border: 1px solid var(--rule-soft);
+  border-radius: 16px;
+  padding: 5mm 7mm;
+  display: flex;
+  align-items: center;
+  gap: 6mm;
+  flex-shrink: 0;
+}
+.ingredients-bottom-strip img {
+  width: 55mm;
+  height: 32mm;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+.ingredients-bottom-strip-text {
+  flex: 1;
+}
+.ingredients-bottom-strip h4 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 13pt;
+  color: var(--ink);
+  margin-bottom: 3px;
+  line-height: 1.2;
+}
+.ingredients-bottom-strip p {
+  font-size: 9.5pt;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* ============================================================
+   PAGE 4 — A RECEITA
+   ============================================================ */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 12mm;
+  margin-top: 4mm;
+  flex: 1;
+  min-height: 0;
+}
+
+.recipe-left {
+  background: linear-gradient(155deg, var(--amber) 0%, var(--amber-deep) 100%);
+  border-radius: 22px;
+  padding: 8mm 7mm;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.recipe-left::before {
+  content: "";
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.14) 0%, transparent 70%);
+  top: -80px; right: -60px;
+  pointer-events: none;
+}
+.recipe-left::after {
+  content: "";
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+  bottom: -60px; left: -40px;
+  pointer-events: none;
+}
+
+.recipe-left-label {
+  font-size: 8.5pt;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.recipe-left h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 22pt;
+  line-height: 1.1;
+  color: #fff;
+  margin-bottom: 5mm;
+  position: relative;
+  z-index: 1;
+  letter-spacing: -0.01em;
+}
+
+.recipe-portion {
+  font-size: 9pt;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 7mm;
+  position: relative;
+  z-index: 1;
+  font-style: italic;
+  font-family: var(--serif);
+}
+
+.recipe-ing-list {
+  list-style: none;
+  position: relative;
+  z-index: 1;
+}
+.recipe-ing-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 10.5pt;
+  line-height: 1.45;
+  color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,0.18);
+}
+.recipe-ing-list li:last-child { border-bottom: none; }
+.recipe-ing-bullet {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.22);
+  border: 1.5px solid rgba(255,255,255,0.55);
+  flex-shrink: 0;
+  margin-top: 2px;
+  position: relative;
+}
+.recipe-ing-bullet::after {
+  content: "";
+  position: absolute;
+  top: 4px; left: 4px;
+  width: 7px; height: 7px;
+  background: #fff;
+  border-radius: 50%;
+}
+.recipe-ing-list strong {
+  font-weight: 600;
+}
+
+.recipe-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.recipe-right h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 22pt;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 7mm;
+  letter-spacing: -0.01em;
+}
+.recipe-right h3 em {
+  font-style: italic;
+  color: var(--amber-deep);
+  font-weight: 400;
+}
+
+.recipe-steps {
+  list-style: none;
+  counter-reset: step;
+}
+.recipe-steps li {
+  counter-increment: step;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 6mm;
+  position: relative;
+}
+.recipe-step-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--amber) 0%, var(--amber-2) 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 14pt;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px -4px rgba(184,101,27,0.40);
+  position: relative;
+  z-index: 1;
+}
+.recipe-step-num::after {
+  content: "";
+  position: absolute;
+  top: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.5px;
+  height: calc(100% + 6mm);
+  background: linear-gradient(to bottom, var(--amber) 0%, transparent 100%);
+  opacity: 0.30;
+  z-index: 0;
+}
+.recipe-steps li:last-child .recipe-step-num::after { display: none; }
+
+.recipe-step-content {
+  flex: 1;
+  padding-top: 4px;
+}
+.recipe-step-content strong {
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 11pt;
+  display: block;
+  margin-bottom: 1px;
+}
+.recipe-step-content span {
+  font-size: 10pt;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  display: block;
+}
+
+.recipe-bottom-image {
+  margin-top: 5mm;
+  height: 38mm;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+.recipe-bottom-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.recipe-bottom-image-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
+  color: #fff;
+  font-size: 8.5pt;
+  font-style: italic;
+  font-family: var(--serif);
+  padding: 12mm 12px 6px;
+  text-align: center;
+}
+
+/* ============================================================
+   PAGE 5 — QUANDO TOMAR + AVISO
+   ============================================================ */
+.ritual-hero {
+  position: relative;
+  height: 120mm;
+  border-radius: 22px;
+  overflow: hidden;
+  margin-top: 4mm;
+  box-shadow: 0 30px 80px -20px rgba(184,101,27,0.30);
+  flex-shrink: 0;
+}
+.ritual-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ritual-hero-content {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 14mm 12mm 12mm;
+  background: linear-gradient(to top, rgba(45,27,15,0.85) 0%, rgba(45,27,15,0.40) 60%, transparent 100%);
+  color: #fff;
+}
+.ritual-hero-eyebrow {
+  font-size: 8.5pt;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--honey);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ritual-hero-eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1.5px;
+  background: var(--honey);
+}
+.ritual-hero h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 28pt;
+  line-height: 1.1;
+  letter-spacing: -0.018em;
+  margin-bottom: 10px;
+  color: #fff;
+}
+.ritual-hero h2 em {
+  font-style: italic;
+  font-weight: 400;
+}
+.ritual-hero p {
+  font-size: 11pt;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.95);
+  max-width: 145mm;
+}
+
+.ritual-times {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7mm;
+  margin-top: 6mm;
+  flex-shrink: 0;
+}
+
+.time-card {
+  background: var(--cream);
+  border: 1px solid var(--rule-soft);
+  border-radius: 16px;
+  padding: 6mm 6mm;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.time-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--amber) 0%, var(--amber-2) 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.time-card-icon svg { width: 22px; height: 22px; }
+.time-card h4 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 13pt;
+  color: var(--ink);
+  margin-bottom: 3px;
+  line-height: 1.2;
+}
+.time-card p {
+  font-size: 9.5pt;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.warning-box {
+  margin-top: 6mm;
+  background: var(--blue-soft);
+  border-left: 4px solid var(--blue);
+  border-radius: 14px;
+  padding: 5mm 6mm;
+  position: relative;
+  flex-shrink: 0;
+}
+.warning-box-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+.warning-box-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--blue);
+  flex-shrink: 0;
+}
+.warning-box-icon svg { width: 100%; height: 100%; }
+.warning-box h4 {
+  font-size: 9.5pt;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--blue);
+}
+.warning-box p {
+  font-size: 9.5pt;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  font-family: var(--serif);
+}
+
+/* ============================================================
+   FOOTER (brand mark on every page) — flex-flow at the bottom
+   ============================================================ */
+.page-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8pt;
+  color: var(--mute);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-top: auto;
+  padding-top: 4mm;
+  flex-shrink: 0;
+}
+.page-footer-mark {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.page-footer-mark-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     PAGE 1 — COVER
+     ============================================================ -->
+<section class="cover">
+  <div class="cover-top">
+    <img class="cover-logo" src="assets/firmme-logo.png" alt="FirmMe — Tai Chi em Cadeira" />
+    <span class="cover-bonus-tag">Bônus especial</span>
+  </div>
+
+  <div class="cover-mid">
+    <div class="cover-eyebrow">Guia complementar</div>
+    <h1 class="cover-title">Receita do <em>Chá Dourado</em> FirmMe</h1>
+    <p class="cover-sub">O ritual perfeito para os dias da sua prática</p>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="cover-meta">
+      <span>Material complementar</span>
+      <strong>Chá Dourado FirmMe</strong>
+    </div>
+    <div class="cover-meta" style="text-align: right;">
+      <span>Tai Chi em Cadeira</span>
+      <strong>Bônus</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PAGE 2 — INTRODUÇÃO
+     ============================================================ -->
+<section class="sheet">
+  <div class="section-header">Sobre este guia</div>
+  <h2 class="section-title">A <em>introdução</em></h2>
+
+  <div class="intro-grid">
+    <div class="intro-text-col">
+      <p class="intro-lede">Esta é a receita completa do Chá Dourado — um ritual simples que combina ingredientes usados há séculos.</p>
+      <p class="intro-body">Cúrcuma, gengibre, canela e mel se encontram em uma xícara para criar um momento de pausa e cuidado — fácil de preparar, com ingredientes que você provavelmente já tem em casa.</p>
+      <p class="intro-body">Mais do que uma bebida, é um pequeno ritual que convida você a desacelerar antes — ou depois — da sua prática de Tai Chi em cadeira.</p>
+      <div class="intro-quote">
+        "Um gole de calma. Um momento só seu."
+      </div>
+    </div>
+
+    <div class="intro-image-col">
+      <img class="intro-image" src="assets/hero-tea.jpg" alt="Xícara de chá dourado com vapor" />
+      <div class="intro-image-caption">A xícara que começa o ritual</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="page-footer-mark">
+      <span class="page-footer-mark-dot"></span>
+      <span>FirmMe — Tai Chi em Cadeira</span>
+    </div>
+    <span>02 · Introdução</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     PAGE 3 — INGREDIENTES E BENEFÍCIOS
+     ============================================================ -->
+<section class="sheet ingredients-page">
+  <div class="ingredients-top">
+    <div>
+      <div class="section-header">Ingredientes</div>
+      <h2 class="section-title">Os ingredientes e <em>seus benefícios</em></h2>
+    </div>
+    <p class="ingredients-intro">Quatro ingredientes simples, cada um com uma longa história de uso tradicional.</p>
+  </div>
+
+  <div class="ingredients-grid">
+    <!-- CÚRCUMA -->
+    <div class="ing-card">
+      <div class="ing-card-header">
+        <div class="ing-icon">
+          <!-- Turmeric root icon -->
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 22c-1.5-1.5-2-3.5-1-5.5s3-2.5 5-1.5c2-2 5-2 7 0 1.5-1 4-1 5.5 1s1 4-0.5 5.5"/>
+            <path d="M14 16c0-3 2-5 5-5"/>
+            <path d="M11 18c0-2 1.5-3.5 3.5-3.5"/>
+            <circle cx="22" cy="11" r="1.3" fill="currentColor"/>
+          </svg>
+        </div>
+        <div>
+          <div class="ing-name">Cúrcuma</div>
+          <span class="ing-name-sub">Curcumina</span>
+        </div>
+      </div>
+      <p class="ing-text">Tradicionalmente usada para apoiar a digestão, a cúrcuma contém curcumina, um composto estudado por suas propriedades anti-inflamatórias. Pode ajudar a estimular a produção de bile, favorecendo a digestão de gorduras.</p>
+      <span class="ing-tag">Digestão</span>
+    </div>
+
+    <!-- GENGIBRE -->
+    <div class="ing-card">
+      <div class="ing-card-header">
+        <div class="ing-icon">
+          <!-- Ginger root icon -->
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 24c1-3 3-4 6-4 0-3 2-5 5-5 0-3 2-5 5-5s5 2 5 5"/>
+            <path d="M5 24c-1 0-2 1-2 2"/>
+            <path d="M11 20c-1 0-2 1-2 2"/>
+            <path d="M16 15c-1 0-2 1-2 2"/>
+            <path d="M21 10c-1 0-2 1-2 2"/>
+          </svg>
+        </div>
+        <div>
+          <div class="ing-name">Gengibre</div>
+          <span class="ing-name-sub">Zingiber officinale</span>
+        </div>
+      </div>
+      <p class="ing-text">O gengibre é conhecido por estimular as enzimas digestivas e ajudar a aliviar o desconforto estomacal. Também é tradicionalmente associado ao apoio da circulação sanguínea.</p>
+      <span class="ing-tag">Conforto · Circulação</span>
+    </div>
+
+    <!-- CANELA -->
+    <div class="ing-card">
+      <div class="ing-card-header">
+        <div class="ing-icon">
+          <!-- Cinnamon stick icon -->
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="8" y="6" width="6" height="20" rx="2.5" transform="rotate(-12 11 16)"/>
+            <path d="M10 10 L10 22" transform="rotate(-12 11 16)"/>
+            <rect x="16" y="8" width="6" height="20" rx="2.5" transform="rotate(8 19 18)"/>
+            <path d="M18 12 L18 24" transform="rotate(8 19 18)"/>
+          </svg>
+        </div>
+        <div>
+          <div class="ing-name">Canela</div>
+          <span class="ing-name-sub">Cinnamomum</span>
+        </div>
+      </div>
+      <p class="ing-text">A canela contém compostos que, segundo alguns estudos, podem ajudar a relaxar os vasos sanguíneos e apoiar a circulação saudável. Também tem propriedades antioxidantes.</p>
+      <span class="ing-tag">Circulação · Antioxidante</span>
+    </div>
+
+    <!-- MEL -->
+    <div class="ing-card">
+      <div class="ing-card-header">
+        <div class="ing-icon">
+          <!-- Honey jar icon -->
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13 L22 13 L22 26 Q22 28 20 28 L12 28 Q10 28 10 26 Z"/>
+            <path d="M10 13 L12 9 L20 9 L22 13"/>
+            <line x1="13" y1="18" x2="19" y2="18"/>
+            <line x1="13" y1="22" x2="19" y2="22"/>
+            <path d="M16 4 L16 9"/>
+            <path d="M14 5 L18 5"/>
+          </svg>
+        </div>
+        <div>
+          <div class="ing-name">Mel</div>
+          <span class="ing-name-sub">Adoçante natural</span>
+        </div>
+      </div>
+      <p class="ing-text">Além de adoçar naturalmente, o mel tem um efeito suave e reconfortante — o toque final do ritual.</p>
+      <span class="ing-tag">Conforto</span>
+    </div>
+  </div>
+
+  <div class="ingredients-bottom-strip">
+    <img src="assets/ingredients-flatlay.jpg" alt="Ingredientes do chá dourado" />
+    <div class="ingredients-bottom-strip-text">
+      <h4>Tudo o que você precisa, em uma imagem.</h4>
+      <p>Estes são os quatro ingredientes que formam o ritual. Você encontra cúrcuma, gengibre e canela na seção de especiarias do seu mercado — e o mel, é claro, você já conhece.</p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="page-footer-mark">
+      <span class="page-footer-mark-dot"></span>
+      <span>FirmMe — Tai Chi em Cadeira</span>
+    </div>
+    <span>03 · Ingredientes</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     PAGE 4 — A RECEITA
+     ============================================================ -->
+<section class="sheet">
+  <div class="section-header">Modo de preparo</div>
+  <h2 class="section-title">A <em>receita</em></h2>
+
+  <div class="recipe-grid">
+    <!-- LEFT: ingredients list -->
+    <div class="recipe-left">
+      <div class="recipe-left-label">Ingredientes</div>
+      <h3>Para uma xícara<br/>perfeita</h3>
+      <div class="recipe-portion">Rende 1 porção · 5 minutos</div>
+
+      <ul class="recipe-ing-list">
+        <li><span class="recipe-ing-bullet"></span><span><strong>1 colher de chá</strong> de cúrcuma em pó <em style="opacity:0.8">(ou 2cm de cúrcuma fresca ralada)</em></span></li>
+        <li><span class="recipe-ing-bullet"></span><span><strong>1 colher de chá</strong> de gengibre fresco ralado</span></li>
+        <li><span class="recipe-ing-bullet"></span><span><strong>1 pau de canela</strong> pequeno</span></li>
+        <li><span class="recipe-ing-bullet"></span><span><strong>500 ml</strong> de água</span></li>
+        <li><span class="recipe-ing-bullet"></span><span><strong>1 colher de chá</strong> de mel <em style="opacity:0.8">(a gosto)</em></span></li>
+        <li><span class="recipe-ing-bullet"></span><span><strong>Suco de meio limão</strong> <em style="opacity:0.8">(opcional)</em></span></li>
+      </ul>
+    </div>
+
+    <!-- RIGHT: steps -->
+    <div class="recipe-right">
+      <h3>Passo a <em>passo</em></h3>
+
+      <ol class="recipe-steps">
+        <li>
+          <div class="recipe-step-num">1</div>
+          <div class="recipe-step-content">
+            <strong>Ferva a base</strong>
+            <span>Leve a água com a cúrcuma, o gengibre e a canela ao fogo baixo por 8–10 minutos. É aqui que os aromas se misturam.</span>
+          </div>
+        </li>
+        <li>
+          <div class="recipe-step-num">2</div>
+          <div class="recipe-step-content">
+            <strong>coe para a xícara</strong>
+            <span>Despeje o chá em uma xícara, coando os ingredientes sólidos. O líquido deve estar bem dourado.</span>
+          </div>
+        </li>
+        <li>
+          <div class="recipe-step-num">3</div>
+          <div class="recipe-step-content">
+            <strong>Deixe amornar</strong>
+            <span>Aguarde 1–2 minutos antes de adicionar o mel — temperaturas muito altas podem alterar suas propriedades.</span>
+          </div>
+        </li>
+        <li>
+          <div class="recipe-step-num">4</div>
+          <div class="recipe-step-content">
+            <strong>Adicione mel e limão</strong>
+            <span>Mexa delicadamente e ajuste o sabor a gosto. O limão traz um toque cítrico que combina muito bem.</span>
+          </div>
+        </li>
+        <li>
+          <div class="recipe-step-num">5</div>
+          <div class="recipe-step-content">
+            <strong>Sirva quente</strong>
+            <span>Respire fundo, sinta o vapor e dê o primeiro gole com calma. O ritual começa aqui.</span>
+          </div>
+        </li>
+      </ol>
+
+      <div class="recipe-bottom-image">
+        <img src="assets/ritual-mug.jpg" alt="Mãos segurando uma xícara de chá dourado" />
+        <div class="recipe-bottom-image-caption">"O ritual começa quando você desacelera."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="page-footer-mark">
+      <span class="page-footer-mark-dot"></span>
+      <span>FirmMe — Tai Chi em Cadeira</span>
+    </div>
+    <span>04 · A receita</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     PAGE 5 — QUANDO TOMAR + AVISO
+     ============================================================ -->
+<section class="sheet">
+  <div class="section-header">Quando e como</div>
+  <h2 class="section-title">Quando <em>tomar</em></h2>
+
+  <!-- HERO image with overlay text -->
+  <div class="ritual-hero">
+    <img src="assets/ritual-mug.jpg" alt="Mãos segurando xícara de chá dourado" />
+    <div class="ritual-hero-content">
+      <div class="ritual-hero-eyebrow">O momento certo</div>
+      <h2>Encontre o seu <em>ritmo</em></h2>
+      <p>O momento ideal é 20–30 minutos antes da sua sessão de Tai Chi, ou a qualquer hora do dia que você queira um momento de pausa e cuidado consigo mesma.</p>
+    </div>
+  </div>
+
+  <!-- When to take: 2 cards -->
+  <div class="ritual-times">
+    <div class="time-card">
+      <div class="time-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 7 L12 12 L16 14"/>
+        </svg>
+      </div>
+      <div>
+        <h4>Antes da prática</h4>
+        <p>20–30 min antes do Tai Chi. Aquece o corpo por dentro e prepara a mente para começar com presença.</p>
+      </div>
+    </div>
+    <div class="time-card">
+      <div class="time-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12 L6 12 L8 7 L12 17 L14 12 L21 12"/>
+        </svg>
+      </div>
+      <div>
+        <h4>Qualquer hora do dia</h4>
+        <p>Use como pausa consciente — no meio da tarde, à noite, ou sempre que quiser um momento só seu.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- WARNING -->
+  <div class="warning-box">
+    <div class="warning-box-header">
+      <div class="warning-box-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3 L22 20 L2 20 Z"/>
+          <line x1="12" y1="10" x2="12" y2="14"/>
+          <circle cx="12" cy="17" r="0.8" fill="currentColor"/>
+        </svg>
+      </div>
+      <h4>Aviso importante</h4>
+    </div>
+    <p>Se você toma medicamentos anticoagulantes (afinadores de sangue) ou tem alguma condição de saúde específica, converse com seu médico antes de consumir cúrcuma, gengibre ou canela regularmente, já que esses ingredientes podem interagir com certos medicamentos.</p>
+  </div>
+
+  <div class="page-footer">
+    <div class="page-footer-mark">
+      <span class="page-footer-mark-dot"></span>
+      <span>FirmMe — Tai Chi em Cadeira</span>
+    </div>
+    <span>05 · Quando tomar</span>
+  </div>
+</section>
+
+</body>
+</html>

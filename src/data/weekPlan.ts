@@ -1,10 +1,10 @@
-// Reutilizado por el carrusel de teléfonos y la sección de ventajas
+// Reutilizado pelo carrossel de telefones e pela seção de vantagens
 export const WEEK_1 = [
-  { day: 'Día 1', activity: '8 min · Equilibrio' },
-  { day: 'Día 2', activity: 'Descanso' },
-  { day: 'Día 3', activity: '6 min · Movilidad' },
-  { day: 'Día 4', activity: '10 min · Equilibrio' },
-  { day: 'Día 5', activity: 'Descanso' },
-  { day: 'Día 6', activity: '8 min · Fuerza suave' },
-  { day: 'Día 7', activity: '12 min · Rutina completa' },
+  { day: 'Dia 1', activity: '8 min · Equilíbrio' },
+  { day: 'Dia 2', activity: 'Descanso' },
+  { day: 'Dia 3', activity: '6 min · Mobilidade' },
+  { day: 'Dia 4', activity: '10 min · Equilíbrio' },
+  { day: 'Dia 5', activity: 'Descanso' },
+  { day: 'Dia 6', activity: '8 min · Força suave' },
+  { day: 'Dia 7', activity: '12 min · Rotina completa' },
 ];

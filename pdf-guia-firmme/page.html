@@ -1,0 +1,2127 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Guia FirmMe — Seu Plano de Tai Chi em Cadeira</title>
+<style>
+/* ============================================================
+   GEOMETRY & PRINT FIDELITY
+   ============================================================ */
+@page { size: A4 portrait; margin: 0; }
+
+* {
+  box-sizing: border-box;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --grad-from: #6C7FE0;
+  --grad-to:   #4F63E8;
+  --accent:    #4F63E8;
+  --accent-2:  #6C7FE0;
+  --accent-soft: #EEF1FB;
+  --ink:       #1B2138;
+  --ink-soft:  #4A5070;
+  --mute:      #8089A3;
+  --rule:      #E4E8F2;
+  --paper:     #FFFFFF;
+  --bg-cream:  #F7F8FC;
+  --gold:      #C9A86A;
+
+  --serif: 'Fraunces', 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --sans:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+html, body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  font-size: 11pt;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================================
+   PAGE SHEET (A4)
+   ============================================================ */
+.sheet {
+  width: 210mm;
+  height: 297mm;
+  padding: 22mm 22mm 22mm 22mm;
+  page-break-after: always;
+  position: relative;
+  overflow: hidden;
+  background: var(--paper);
+}
+.sheet:last-child { page-break-after: auto; }
+
+/* ============================================================
+   COVER
+   ============================================================ */
+.cover {
+  width: 210mm;
+  height: 297mm;
+  padding: 0;
+  page-break-after: always;
+  position: relative;
+  background:
+    radial-gradient(ellipse 90% 70% at 80% 0%,  rgba(255,255,255,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 60% at 10% 100%, rgba(255,255,255,0.10) 0%, transparent 60%),
+    linear-gradient(155deg, #6C7FE0 0%, #5A6FE0 45%, #4F63E8 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.cover::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,0.08) 1px, transparent 0);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+.cover::after {
+  content: "";
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.10) 0%, transparent 70%);
+  top: -120px;
+  right: -120px;
+  pointer-events: none;
+}
+
+.cover-top {
+  position: relative;
+  z-index: 2;
+  padding: 22mm 22mm 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  font-size: 19pt;
+  letter-spacing: -0.02em;
+}
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #FFFFFF 0%, #F0F2FF 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+}
+.brand-mark::after {
+  content: "F";
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 18pt;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--grad-from) 0%, var(--grad-to) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-top: -1px;
+}
+.brand-name { color: #fff; }
+.brand-name span { color: rgba(255,255,255,0.7); font-weight: 500; }
+
+.cover-tag {
+  font-size: 9pt;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 6px 14px;
+  border-radius: 99px;
+  backdrop-filter: blur(8px);
+}
+
+.cover-mid {
+  position: relative;
+  z-index: 2;
+  padding: 0 22mm;
+}
+
+.cover-eyebrow {
+  font-size: 9.5pt;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  font-weight: 600;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cover-eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: rgba(255,255,255,0.5);
+}
+
+.cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 46pt;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin-bottom: 22px;
+  max-width: 165mm;
+}
+.cover-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: rgba(255,255,255,0.92);
+}
+
+.cover-sub {
+  font-size: 14pt;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.92);
+  max-width: 145mm;
+  font-weight: 400;
+}
+
+.cover-bottom {
+  position: relative;
+  z-index: 2;
+  padding: 0 22mm 24mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.cover-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 9.5pt;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.02em;
+}
+.cover-meta strong {
+  font-weight: 700;
+  color: #fff;
+  font-size: 10.5pt;
+  letter-spacing: 0;
+}
+
+.cover-cta {
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 99px;
+  padding: 12px 22px;
+  font-size: 10pt;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(10px);
+}
+
+/* ============================================================
+   DESTAQUE / UPDATE BANNER
+   ============================================================ */
+.destaque {
+  width: 210mm;
+  height: 297mm;
+  padding: 0;
+  page-break-after: always;
+  position: relative;
+  background:
+    radial-gradient(ellipse 80% 60% at 100% 0%,  rgba(108,127,224,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 60% at 0% 100%,  rgba(108,127,224,0.08) 0%, transparent 60%),
+    #FBFBFD;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.destaque-banner {
+  background: linear-gradient(155deg, var(--grad-from) 0%, var(--grad-to) 100%);
+  border-radius: 28px;
+  padding: 48px 56px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  margin: 0 22mm 28px;
+  box-shadow: 0 30px 80px -20px rgba(79,99,232,0.40), 0 8px 24px -8px rgba(79,99,232,0.20);
+}
+.destaque-banner::before {
+  content: "";
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+  top: -160px; right: -120px;
+  pointer-events: none;
+}
+.destaque-banner::after {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  bottom: -120px; left: -80px;
+  pointer-events: none;
+}
+
+.destaque-icon {
+  width: 88px;
+  height: 88px;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.18);
+  border: 1.5px solid rgba(255,255,255,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  margin-bottom: 26px;
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(10px);
+}
+.destaque-icon::before {
+  content: "";
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.20);
+  animation: pulse-ring 3s ease-out infinite;
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(0.85); opacity: 0.7; }
+  100% { transform: scale(1.4);  opacity: 0;   }
+}
+.destaque-icon svg { width: 44px; height: 44px; position: relative; z-index: 1; }
+
+.destaque-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10pt;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(255,255,255,0.92);
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.30);
+  padding: 7px 16px;
+  border-radius: 99px;
+  margin-bottom: 22px;
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+}
+.destaque-eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: #6EE7B7;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(110,231,183,0.30);
+}
+
+.destaque-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 40pt;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin-bottom: 18px;
+  position: relative;
+  z-index: 1;
+  max-width: 130mm;
+}
+.destaque-title em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.destaque-text {
+  font-size: 12.5pt;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.95);
+  position: relative;
+  z-index: 1;
+  max-width: 140mm;
+  margin-bottom: 0;
+}
+.destaque-text strong { color: #fff; font-weight: 600; }
+
+.destaque-below {
+  padding: 0 22mm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.destaque-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+  color: var(--accent);
+  font-size: 9pt;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.destaque-divider::before,
+.destaque-divider::after {
+  content: "";
+  width: 40px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.5;
+}
+.destaque-below h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 18pt;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.destaque-below p {
+  font-size: 11pt;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 130mm;
+}
+
+.destaque-steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  margin-top: 22px;
+  width: 100%;
+  max-width: 160mm;
+}
+.destaque-step {
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  border-radius: 14px;
+  padding: 16px 18px 14px;
+  text-align: left;
+  position: relative;
+}
+.destaque-step-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 22pt;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.destaque-step h4 {
+  font-size: 10pt;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: -0.005em;
+}
+.destaque-step p {
+  font-size: 8.8pt;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  margin: 0;
+  text-align: left;
+}
+
+
+.toc-eyebrow {
+  font-size: 9.5pt;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.toc-eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  background: var(--accent);
+}
+
+h1.page-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 32pt;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.page-lead {
+  font-size: 11.5pt;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 155mm;
+  margin-bottom: 28px;
+}
+
+.toc-list {
+  list-style: none;
+  margin-top: 4px;
+}
+.toc-item {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: var(--ink);
+}
+.toc-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 13pt;
+  color: var(--accent);
+  flex-shrink: 0;
+  width: 32px;
+}
+.toc-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.toc-text strong {
+  font-size: 12pt;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: inherit;
+}
+.toc-text span {
+  font-size: 9pt;
+  color: var(--mute);
+  font-weight: 400;
+  line-height: 1.4;
+}
+.toc-dots {
+  flex: 1;
+  border-bottom: 1px dotted var(--rule);
+  margin: 0 6px;
+  align-self: center;
+  height: 1px;
+  min-width: 20px;
+}
+.toc-page {
+  font-size: 10pt;
+  color: var(--mute);
+  font-weight: 500;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.toc-footnote {
+  margin-top: 18px;
+  padding: 12px 18px;
+  background: var(--accent-soft);
+  border-radius: 12px;
+  font-size: 9pt;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.toc-footnote-icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  color: var(--accent);
+}
+
+/* ============================================================
+   SECTION HEADERS
+   ============================================================ */
+.section-num {
+  font-size: 9.5pt;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-num::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  background: var(--accent);
+}
+
+h2.section-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 30pt;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.section-lead {
+  font-size: 11.5pt;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 158mm;
+  margin-bottom: 24px;
+}
+
+h3.subsection {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 13.5pt;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  margin: 24px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+h3.subsection::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   WELCOME BLOCK
+   ============================================================ */
+.welcome-card {
+  background: linear-gradient(135deg, var(--accent-soft) 0%, #F5F0FF 100%);
+  border-radius: 18px;
+  padding: 26px 30px;
+  margin-bottom: 22px;
+  position: relative;
+  overflow: hidden;
+}
+.welcome-card::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(108,127,224,0.10) 0%, transparent 70%);
+}
+.welcome-card p {
+  font-size: 12pt;
+  line-height: 1.65;
+  color: var(--ink);
+  position: relative;
+  z-index: 1;
+}
+.welcome-card p + p { margin-top: 12px; }
+.welcome-card .signature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(108,127,224,0.18);
+  position: relative;
+  z-index: 1;
+}
+.welcome-card .signature-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--grad-from);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 16pt;
+}
+.welcome-card .signature-text {
+  font-size: 9.5pt;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+.welcome-card .signature-text strong {
+  color: var(--ink);
+  display: block;
+  font-size: 10.5pt;
+  margin-bottom: 1px;
+}
+
+/* Quick info chips after welcome card */
+.chips-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-cream);
+  border: 1px solid var(--rule);
+  border-radius: 99px;
+  padding: 8px 14px;
+  font-size: 9.5pt;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+.chip svg { width: 14px; height: 14px; color: var(--accent); }
+.chip strong { color: var(--ink); font-weight: 600; }
+
+/* ============================================================
+   STAT CALLOUT (Stanford)
+   ============================================================ */
+.stat-block {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 24px;
+  align-items: center;
+  background: linear-gradient(135deg, var(--grad-from) 0%, var(--grad-to) 100%);
+  border-radius: 18px;
+  padding: 24px 30px;
+  color: #fff;
+  margin-bottom: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.stat-block::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.10) 0%, transparent 70%);
+  top: -90px; right: -90px;
+}
+.stat-num {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 72pt;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  position: relative;
+  z-index: 1;
+}
+.stat-num sup {
+  font-size: 28pt;
+  vertical-align: top;
+  margin-left: 2px;
+  font-weight: 500;
+}
+.stat-content {
+  position: relative;
+  z-index: 1;
+}
+.stat-content h4 {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 12pt;
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+}
+.stat-content p {
+  font-size: 10pt;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.92);
+}
+.stat-source {
+  font-size: 8.5pt;
+  color: rgba(255,255,255,0.7);
+  margin-top: 6px;
+  font-style: italic;
+}
+
+.body-text {
+  font-size: 11pt;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+  max-width: 160mm;
+}
+.body-text strong { color: var(--ink); font-weight: 600; }
+.body-text em { font-style: italic; }
+
+/* ============================================================
+   HOW TO USE — rules list
+   ============================================================ */
+.rules-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 22px;
+  margin-bottom: 18px;
+}
+.rule {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.rule-icon {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+.rule-icon svg { width: 22px; height: 22px; }
+.rule-content h5 {
+  font-size: 10.5pt;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: -0.005em;
+}
+.rule-content p {
+  font-size: 9.5pt;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.warning-box {
+  background: #FFF8EE;
+  border-left: 3px solid var(--gold);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 9.5pt;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+.warning-box svg { flex-shrink: 0; color: var(--gold); margin-top: 1px; }
+.warning-box strong { color: var(--ink); }
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 14px;
+  font-size: 9.5pt;
+}
+.schedule-table thead th {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 8.5pt;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 8px 10px;
+  text-align: left;
+  border: none;
+}
+.schedule-table tbody td {
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-soft);
+  vertical-align: top;
+}
+.schedule-table tbody tr:last-child td { border-bottom: none; }
+.schedule-table .day {
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 10pt;
+  width: 30%;
+}
+.schedule-table .tag {
+  display: inline-block;
+  background: var(--bg-cream);
+  color: var(--ink-soft);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 8.5pt;
+  font-weight: 500;
+  margin-right: 6px;
+}
+.schedule-table .tag.is-focus { background: var(--accent-soft); color: var(--accent); }
+
+/* ============================================================
+   WEEK BLOCKS
+   ============================================================ */
+.week-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+}
+.week-pill {
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--grad-from);
+  padding: 6px 14px;
+  border-radius: 99px;
+}
+.week-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 17pt;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.week-meta {
+  margin-left: auto;
+  font-size: 9.5pt;
+  color: var(--mute);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.movement-list {
+  list-style: none;
+}
+.movement {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule);
+  page-break-inside: avoid;
+}
+.movement:last-child { border-bottom: none; }
+
+.movement-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #F4F6FF 0%, #ECEEFB 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  border: 1px solid #E0E5F5;
+  position: relative;
+}
+.movement-icon svg { width: 28px; height: 28px; }
+
+.movement-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.movement-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.movement-name {
+  font-size: 11pt;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.movement-time {
+  font-size: 8.5pt;
+  color: var(--accent);
+  font-weight: 600;
+  background: var(--accent-soft);
+  padding: 3px 10px;
+  border-radius: 99px;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+.movement-desc {
+  font-size: 9.5pt;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin-top: 1px;
+}
+.movement-benefit {
+  font-size: 8.8pt;
+  color: var(--mute);
+  font-style: italic;
+  margin-top: 3px;
+  padding-left: 12px;
+  border-left: 2px solid var(--accent);
+  line-height: 1.4;
+}
+.movement-benefit strong { color: var(--accent); font-weight: 600; font-style: normal; }
+
+/* ============================================================
+   PROGRESS TIMELINE
+   ============================================================ */
+.progression {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.prog-card {
+  border-radius: 16px;
+  padding: 18px 20px 16px;
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  position: relative;
+}
+.prog-card.is-active {
+  background: linear-gradient(155deg, #F4F6FF 0%, #ECEEFB 100%);
+  border-color: #D4DBF0;
+}
+.prog-week {
+  font-size: 8.5pt;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.prog-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 13.5pt;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.prog-desc {
+  font-size: 9.3pt;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+}
+.prog-meta {
+  font-size: 8.5pt;
+  color: var(--mute);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+}
+
+/* Movement list inside Semanas 2-4 page */
+.new-moves {
+  margin-top: 18px;
+}
+.new-moves h4 {
+  font-size: 11pt;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+  letter-spacing: -0.005em;
+}
+.new-moves ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+}
+.new-moves li {
+  font-size: 9.5pt;
+  color: var(--ink-soft);
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.45;
+}
+.new-moves li::before {
+  content: "+";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 13pt;
+  line-height: 1;
+}
+.new-moves li strong { color: var(--ink); font-weight: 600; }
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq-list {
+  list-style: none;
+}
+.faq-item {
+  padding: 11px 0;
+  border-bottom: 1px solid var(--rule);
+  page-break-inside: avoid;
+}
+.faq-item:first-child { padding-top: 4px; }
+.faq-item:last-child { border-bottom: none; }
+.faq-q {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+.faq-q-mark {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10pt;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-style: italic;
+  margin-top: 1px;
+}
+.faq-q-text {
+  font-size: 11pt;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+}
+.faq-a {
+  padding-left: 38px;
+  font-size: 9.6pt;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+/* ============================================================
+   TESTIMONIALS
+   ============================================================ */
+.testimonials-intro {
+  font-size: 11pt;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin-bottom: 22px;
+  max-width: 160mm;
+}
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.testimonial {
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  border-radius: 14px;
+  padding: 18px 20px 16px;
+  position: relative;
+  page-break-inside: avoid;
+}
+.testimonial::before {
+  content: "“";
+  position: absolute;
+  top: 4px;
+  left: 14px;
+  font-family: var(--serif);
+  font-size: 38pt;
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.22;
+  font-style: italic;
+}
+.testimonial-stars {
+  display: flex;
+  gap: 3px;
+  color: var(--gold);
+  font-size: 10.5pt;
+  margin-bottom: 8px;
+}
+.testimonial-text {
+  font-size: 9.5pt;
+  line-height: 1.55;
+  color: var(--ink);
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+}
+.testimonial-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--grad-from) 0%, var(--grad-to) 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 10.5pt;
+  flex-shrink: 0;
+}
+.testimonial-meta {
+  font-size: 9pt;
+  line-height: 1.3;
+}
+.testimonial-meta strong { color: var(--ink); display: block; font-size: 9.5pt; }
+.testimonial-meta span { color: var(--mute); }
+
+.testimonials-disclaimer {
+  font-size: 8.5pt;
+  font-style: italic;
+  color: var(--mute);
+  line-height: 1.45;
+  padding: 11px 16px;
+  background: var(--bg-cream);
+  border-radius: 10px;
+  margin-top: 4px;
+}
+
+/* ============================================================
+   GUARANTEE FINAL BLOCK
+   ============================================================ */
+.guarantee-card {
+  background: linear-gradient(155deg, var(--grad-from) 0%, var(--grad-to) 100%);
+  border-radius: 22px;
+  padding: 28px 32px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.guarantee-card::before {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.10) 0%, transparent 70%);
+  top: -100px; right: -100px;
+}
+.guarantee-card::after {
+  content: "";
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  bottom: -80px; left: -60px;
+}
+.guarantee-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 99px;
+  padding: 7px 16px;
+  font-size: 8.5pt;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+.guarantee-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 24pt;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+  max-width: 145mm;
+}
+.guarantee-text {
+  font-size: 11pt;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.92);
+  position: relative;
+  z-index: 1;
+  max-width: 150mm;
+  margin-bottom: 20px;
+}
+.guarantee-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+.guarantee-point {
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.guarantee-point svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; }
+.guarantee-point-text {
+  font-size: 8.8pt;
+  line-height: 1.4;
+  color: rgba(255,255,255,0.95);
+}
+.guarantee-point-text strong { display: block; font-size: 9.3pt; margin-bottom: 2px; }
+
+.support-card {
+  background: var(--bg-cream);
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+.support-icon {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--grad-from) 0%, var(--grad-to) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.support-icon svg { width: 22px; height: 22px; }
+.support-text h4 {
+  font-size: 12pt;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: -0.005em;
+}
+.support-text p {
+  font-size: 9.5pt;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.closing-card {
+  margin-top: 18px;
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  border-radius: 16px;
+  padding: 22px 28px;
+  text-align: center;
+  position: relative;
+}
+.closing-card::before, .closing-card::after {
+  content: "";
+  display: inline-block;
+  width: 30px;
+  height: 1px;
+  background: var(--accent);
+  vertical-align: middle;
+  margin: 0 12px;
+}
+.closing-eyebrow {
+  font-size: 9pt;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: inline-block;
+  position: relative;
+}
+.closing-card p {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 13pt;
+  line-height: 1.5;
+  color: var(--ink);
+  font-style: italic;
+  letter-spacing: -0.005em;
+}
+.closing-card p strong {
+  font-weight: 600;
+  font-style: normal;
+  color: var(--ink);
+  display: block;
+  margin-top: 4px;
+  font-size: 13pt;
+}
+
+/* ============================================================
+   FOOTER (per page)
+   ============================================================ */
+.page-footer {
+  position: absolute;
+  left: 22mm;
+  right: 22mm;
+  bottom: 12mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8.5pt;
+  color: var(--mute);
+  letter-spacing: 0.04em;
+}
+.page-footer .brand-mini {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.page-footer .brand-mini-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--grad-from);
+}
+.page-footer .pg {
+  font-weight: 600;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   SCREEN EMULATION (for browser preview)
+   ============================================================ */
+@media screen {
+  html { background: #d8dbe6; }
+  body { margin: 0; padding: 30px 0; }
+  .cover, .sheet {
+    margin: 0 auto 24px;
+    box-shadow: 0 6px 30px rgba(0,0,0,0.18);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ COVER ═══════════════ -->
+<section class="cover">
+  <div class="cover-top">
+    <div class="brand">
+      <span class="brand-mark"></span>
+      <span class="brand-name">FirmMe<span>· Tai Chi em Cadeira</span></span>
+    </div>
+    <span class="cover-tag">Guia · Edição 2026</span>
+  </div>
+
+  <div class="cover-mid">
+    <div class="cover-eyebrow">Programa de Bem-Estar · 4 Semanas</div>
+    <h1 class="cover-title">Guia <em>FirmMe</em>:<br/>Seu Plano de Tai Chi em Cadeira</h1>
+    <p class="cover-sub">Equilíbrio, mobilidade e confiança — direto da sua cadeira, em apenas 15 minutos por dia.</p>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="cover-meta">
+      <strong>Edição 2026</strong>
+      <span>Para mulheres que querem começar com gentileza</span>
+    </div>
+    <span class="cover-cta">4 semanas · 28 movimentos</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════ DESTAQUE — ATUALIZAÇÃO DO APP ═══════════════ -->
+<section class="destaque">
+  <div class="destaque-banner">
+    <div class="destaque-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+        <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+      </svg>
+    </div>
+    <div class="destaque-eyebrow">Atualização em andamento</div>
+    <h2 class="destaque-title">Grande Atualização<br/>em <em>Andamento!</em></h2>
+    <p class="destaque-text">Estamos finalizando uma atualização especial do aplicativo FirmMe para te entregar a melhor experiência possível. <strong>Seu acesso completo ao app será liberado em até 24–48 horas</strong> — você vai receber um e-mail assim que estiver pronto.</p>
+  </div>
+
+  <div class="destaque-below">
+    <div class="destaque-divider">Enquanto isso</div>
+    <h3>Comece agora mesmo com este guia</h3>
+    <p>Ele já traz tudo que você precisa para dar os primeiros passos com segurança, mesmo antes do app estar pronto.</p>
+
+    <div class="destaque-steps">
+      <div class="destaque-step">
+        <div class="destaque-step-num">01</div>
+        <h4>Leia a sua rotina</h4>
+        <p>Comece pela Semana 1 — é o começo gentil, com 7 movimentos seguros.</p>
+      </div>
+      <div class="destaque-step">
+        <div class="destaque-step-num">02</div>
+        <h4>Pratique no seu ritmo</h4>
+        <p>15 minutos por dia, no horário que funcionar melhor para você.</p>
+      </div>
+      <div class="destaque-step">
+        <div class="destaque-step-num">03</div>
+        <h4>Aguarde o e-mail do app</h4>
+        <p>Em até 48h você recebe o link de acesso completo ao FirmMe.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════ TOC ═══════════════ -->
+<section class="sheet" id="toc">
+  <div class="toc-eyebrow">Sumário</div>
+  <h1 class="page-title">O que você vai encontrar aqui</h1>
+  <p class="page-lead">Este guia foi pensado para acompanhá-la durante as quatro semanas do programa FirmMe. Cada seção foi escrita para ser lida em poucos minutos e consultada sempre que precisar.</p>
+
+  <ul class="toc-list">
+    <li>
+      <a href="#boas-vindas" class="toc-item">
+        <span class="toc-num">01</span>
+        <span class="toc-text"><strong>Boas-vindas</strong><span>Por que criamos este programa e para quem ele foi feito</span></span>
+        <span class="toc-dots"></span>
+        <span class="toc-page">p. 04</span>
+      </a>
+    </li>
+    <li>
+      <a href="#ciencia" class="toc-item">
+        <span class="toc-num">02</span>
+        <span class="toc-text"><strong>A ciência por trás do método</strong><span>O que a pesquisa diz sobre Tai Chi e equilíbrio</span></span>
+        <span class="toc-dots"></span>
+        <span class="toc-page">p. 05</span>
+      </a>
+    </li>
+    <li>
+      <a href="#como-usar" class="toc-item">
+        <span class="toc-num">03</span>
+        <span class="toc-text"><strong>Como usar este guia</strong><span>Cuidados, materiais e o que esperar da prática diária</span></span>
+        <span class="toc-dots"></span>
+        <span class="toc-page">p. 06</span>
+      </a>
+    </li>
+    <li>
+      <a href="#semana-1" class="toc-item">
+        <span class="toc-num">04</span>
+        <span class="toc-text"><strong>Semana 1 — O começo gentil</strong><span>Sete movimentos introdutórios · 15 minutos por dia</span></span>
+        <span class="toc-dots"></span>
+        <span class="toc-page">p. 07</span>
+      </a>
+    </li>
+    <li>
+      <a href="#semanas-2-4" class="toc-item">
+        <span class="toc-num">05</span>
+        <span class="toc-text"><strong>Semanas 2 a 4 — A progressão</strong><span>Como os movimentos evoluem ao longo do programa</span></span>
+        <span class="toc-dots"></span>
+        <span class="toc-page">p. 09</span>
+      </a>
+    </li>
+    <li>
+      <a href="#faq" class="toc-item">
+        <span class="toc-num">06</span>
+        <span class="toc-text"><strong>Perguntas frequentes</strong><span>Respostas para as dúvidas mais comuns antes de começar</span></span>
+        <span class="toc-dots"></span>
+        <span class="toc-page">p. 10</span>
+      </a>
+    </li>
+    <li>
+      <a href="#depoimentos" class="toc-item">
+        <span class="toc-num">07</span>
+        <span class="toc-text"><strong>Depoimentos de quem pratica</strong><span>Histórias reais de mulheres que fizeram o programa</span></span>
+        <span class="toc-dots"></span>
+        <span class="toc-page">p. 11</span>
+      </a>
+    </li>
+    <li>
+      <a href="#garantia" class="toc-item">
+        <span class="toc-num">08</span>
+        <span class="toc-text"><strong>Garantia e suporte</strong><span>Como pedir reembolso e onde encontrar ajuda</span></span>
+        <span class="toc-dots"></span>
+        <span class="toc-page">p. 12</span>
+      </a>
+    </li>
+  </ul>
+
+  <div class="toc-footnote">
+    <svg class="toc-footnote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+    <div>Este guia é um material educativo. <strong>Não substitui orientação médica profissional</strong> — em caso de condições preexistentes, consulte seu médico antes de iniciar qualquer programa de exercícios.</div>
+  </div>
+
+  <div class="page-footer">
+    <span class="brand-mini"><span class="brand-mini-dot"></span>FirmMe · Tai Chi em Cadeira</span>
+    <span class="pg">03 / 12</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════ BOAS-VINDAS ═══════════════ -->
+<section class="sheet" id="boas-vindas">
+  <div class="section-num">01 · Boas-vindas</div>
+  <h2 class="section-title">Parabéns por dar este<br/>primeiro passo.</h2>
+  <p class="section-lead">A decisão de cuidar de si já é, por si só, um ato corajoso. Este guia existe para tornar esse caminho mais simples e gentil.</p>
+
+  <div class="welcome-card">
+    <p>Este guia foi feito especialmente para mulheres que querem recuperar o equilíbrio e a confiança para se mover, sem precisar de academia, equipamento ou experiência prévia.</p>
+    <p>Tudo o que você precisa é da cadeira que já tem em casa e 15 minutos por dia. Ao longo das próximas quatro semanas, vamos caminhar juntas — desde o primeiro movimento de respiração até uma rotina completa que pode se tornar um dos melhores momentos do seu dia.</p>
+    <div class="signature">
+      <div class="signature-mark">F</div>
+      <div class="signature-text">
+        <strong>Equipe FirmMe</strong>
+        Com carinho, as criadoras do programa
+      </div>
+    </div>
+  </div>
+
+  <div class="chips-row">
+    <span class="chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span><strong>15 min</strong> por dia</span>
+    </span>
+    <span class="chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      <span><strong>Sem equipamento</strong> especial</span>
+    </span>
+    <span class="chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c2 0 3-1 5-1s3 1 5 1 3-1 5-1"/></svg>
+      <span><strong>Suave</strong> e seguro</span>
+    </span>
+    <span class="chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span><strong>Para iniciantes</strong> completas</span>
+    </span>
+  </div>
+
+  <h3 class="subsection">Para quem é este programa</h3>
+  <p class="body-text">Para qualquer mulher que sente que o corpo está mais travado, mais pesado ou mais desconfiado do que antes. <strong>Para quem quer começar devagar, sem dor e sem pressão.</strong> Não importa sua idade, sua experiência prévia ou há quanto tempo você não se movimenta — o programa foi desenhado para se adaptar a você.</p>
+
+  <h3 class="subsection">O que esperar das próximas semanas</h3>
+  <p class="body-text">Movimentos suaves, respirações profundas e uma progressão que respeita seus limites. Vamos começar com o básico — respiração, mobilidade dos ombros e do pescoço — e ir adicionando, aos poucos, movimentos que treinam equilíbrio, força leve e presença. <strong>Não existe pressa.</strong></p>
+
+  <div class="page-footer">
+    <span class="brand-mini"><span class="brand-mini-dot"></span>FirmMe · Tai Chi em Cadeira</span>
+    <span class="pg">04 / 12</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════ A CIÊNCIA ═══════════════ -->
+<section class="sheet" id="ciencia">
+  <div class="section-num">02 · A ciência por trás do método</div>
+  <h2 class="section-title">Tai Chi não é místico.<br/>É pesquisa.</h2>
+  <p class="section-lead">Antes de escolher os movimentos deste programa, olhamos para a evidência. É o que nos dá confiança para recomendar — e o que pode dar a você também.</p>
+
+  <div class="stat-block">
+    <div class="stat-num">58<sup>%</sup></div>
+    <div class="stat-content">
+      <h4>menos quedas em adultos mais velhos</h4>
+      <p>Em um dos maiores estudos já realizados sobre Tai Chi, pesquisadores observaram uma redução de 58% nas quedas entre adultos mais velhos que praticaram regularmente, em comparação com programas tradicionais de alongamento.</p>
+      <div class="stat-source">Estudo conduzido por pesquisadores de Stanford, publicado em revista científica revisada por pares.</div>
+    </div>
+  </div>
+
+  <p class="body-text">O Tai Chi treina <strong>equilíbrio de verdade</strong> — diferente de caminhar ou malhar, que treinam resistência, mas não necessariamente a capacidade do corpo de se manter firme em situações do dia a dia.</p>
+
+  <h3 class="subsection">Por que isso importa para você</h3>
+  <p class="body-text">A maioria das quedas em casa acontece em situações simples: levantar do sofá, pegar algo no armário, virar o corpo para olhar para trás. São movimentos que pedem <strong>coordenação, propriocepção e presença</strong> — exatamente o que o Tai Chi em cadeira treina, sem exigir que você se levante ou suporte peso.</p>
+
+  <p class="body-text">A literatura científica também aponta que a prática regular pode ajudar a reduzir a rigidez articular, melhorar a qualidade do sono e contribuir para uma maior sensação de bem-estar geral. Não estamos prometendo curas — estamos compartilhando o que a pesquisa consistentemente observa.</p>
+
+  <div class="warning-box">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <div><strong>Importante:</strong> os resultados variam de pessoa para pessoa e dependem de constância, condições individuais e outros fatores. Este guia não substitui orientação médica, fisioterapêutica ou de outros profissionais de saúde.</div>
+  </div>
+
+  <div class="page-footer">
+    <span class="brand-mini"><span class="brand-mini-dot"></span>FirmMe · Tai Chi em Cadeira</span>
+    <span class="pg">05 / 12</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════ COMO USAR ═══════════════ -->
+<section class="sheet" id="como-usar">
+  <div class="section-num">03 · Como usar este guia</div>
+  <h2 class="section-title">Antes de começar,<br/>leia esta página.</h2>
+  <p class="section-lead">Pequenos cuidados fazem uma grande diferença. Estas são as recomendações para que sua prática seja segura, confortável e constante desde o primeiro dia.</p>
+
+  <h3 class="subsection">Sua rotina ideal</h3>
+  <div class="rules-grid">
+    <div class="rule">
+      <div class="rule-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+      </div>
+      <div class="rule-content">
+        <h5>10 a 15 minutos por dia</h5>
+        <p>Pratique no seu próprio ritmo, no horário em que se sentir mais disposta. Constância importa mais que duração.</p>
+      </div>
+    </div>
+    <div class="rule">
+      <div class="rule-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v16H6z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+      </div>
+      <div class="rule-content">
+        <h5>Cadeira firme, sem rodinhas</h5>
+        <p>Estável, com encosto reto e os pés bem apoiados no chão. Evite cadeiras de balanço ou com rodas.</p>
+      </div>
+    </div>
+    <div class="rule">
+      <div class="rule-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l3-3h12l3 3v10l-3 3H6l-3-3z"/><path d="M9 11a3 3 0 0 1 6 0c0 2-3 2-3 4"/><circle cx="12" cy="18" r=".5"/></svg>
+      </div>
+      <div class="rule-content">
+        <h5>Roupas confortáveis</h5>
+        <p>Vestimentas que permitam movimento livre, especialmente nos ombros, quadril e joelhos.</p>
+      </div>
+    </div>
+    <div class="rule">
+      <div class="rule-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M5 8a7 7 0 1 0 14 0c0 4-3 6-7 6s-7 2-7 6"/><circle cx="12" cy="20" r="1"/></svg>
+      </div>
+      <div class="rule-content">
+        <h5>Respeite os sinais do corpo</h5>
+        <p>Pare se sentir dor. Leve desconforto muscular é normal; dor articular ou aguda não é.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    <div><strong>Consulte seu médico antes de começar</strong> se você tem alguma condição de saúde preexistente — especialmente problemas cardíacos, osteoporose avançada, hérnias, vertigens ou se está em recuperação de cirurgia recente. <strong>Este guia é um complemento</strong> e não substitui o acompanhamento de profissionais de saúde.</div>
+  </div>
+
+  <h3 class="subsection">Como ler cada semana</h3>
+  <p class="body-text">Cada semana está organizada em uma sequência de movimentos. Para cada um, você vai encontrar: <strong>nome do movimento</strong>, <strong>tempo sugerido</strong>, <strong>instruções simples de execução</strong> e o <strong>principal benefício</strong> daquela prática. Leia a sequência uma vez antes de começar, depois deixe o guia ao lado enquanto pratica.</p>
+
+  <h3 class="subsection">Sugestão de cronograma semanal</h3>
+  <table class="schedule-table">
+    <thead>
+      <tr><th>Dia</th><th>O que fazer</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="day">Seg a Sex</td><td><span class="tag is-focus">Prática</span>15 minutos de movimentos guiados por este guia</td></tr>
+      <tr><td class="day">Sábado</td><td><span class="tag">Revisão</span>Escolha 3 movimentos favoritos e repita com calma</td></tr>
+      <tr><td class="day">Domingo</td><td><span class="tag">Descanso</span>Apenas respiração consciente, se quiser se movimentar</td></tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer">
+    <span class="brand-mini"><span class="brand-mini-dot"></span>FirmMe · Tai Chi em Cadeira</span>
+    <span class="pg">06 / 12</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════ SEMANA 1 ═══════════════ -->
+<section class="sheet" id="semana-1">
+  <div class="section-num">04 · Semana 1</div>
+  <h2 class="section-title">O começo gentil.</h2>
+  <p class="section-lead">A primeira semana é sobre se acostumar com o ritmo. Sete movimentos, quinze minutos, e a promessa de terminar cada sessão um pouco mais centrada do que começou.</p>
+
+  <div class="week-header">
+    <span class="week-pill">Semana 1</span>
+    <span class="week-title">Familiarização com o ritmo</span>
+    <span class="week-meta">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      15 min · 7 movimentos
+    </span>
+  </div>
+
+  <ul class="movement-list">
+    <li class="movement">
+      <div class="movement-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4a3 3 0 0 0-3 3v3a3 3 0 0 0 6 0V7a3 3 0 0 0-3-3z"/><path d="M9 14v2a3 3 0 0 0 6 0v-2"/><path d="M7 10c0 2 1 3 1 4M17 10c0 2-1 3-1 4"/></svg>
+      </div>
+      <div class="movement-body">
+        <div class="movement-head">
+          <span class="movement-name">1. Respiração consciente</span>
+          <span class="movement-time">2 min</span>
+        </div>
+        <p class="movement-desc">Sente-se com a coluna ereta, ombros soltos. Inspire pelo nariz contando até 4, segure por 1 instante, expire pela boca contando até 6. Repita o ciclo com suavidade.</p>
+        <div class="movement-benefit"><strong>Benefício:</strong> começa a prática centrada e acalma o sistema nervoso — base de tudo que vem depois.</div>
+      </div>
+    </li>
+
+    <li class="movement">
+      <div class="movement-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7"/><path d="M9 4l3-2 3 2"/></svg>
+      </div>
+      <div class="movement-body">
+        <div class="movement-head">
+          <span class="movement-name">2. Aquecimento de pescoço e ombros</span>
+          <span class="movement-time">2 min</span>
+        </div>
+        <p class="movement-desc">Gire os ombros para frente 5 vezes e para trás 5 vezes. Depois, incline o ouvido na direção do ombro, devagar, um lado de cada vez, sem forçar. Termine com suaves sim de cabeça.</p>
+        <div class="movement-benefit"><strong>Benefício:</strong> libera a tensão do pescoço e dos ombros, especialmente após longos períodos sentada.</div>
+      </div>
+    </li>
+
+    <li class="movement">
+      <div class="movement-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/><path d="M3 12c4-2 14-2 18 0"/></svg>
+      </div>
+      <div class="movement-body">
+        <div class="movement-head">
+          <span class="movement-name">3. Círculos de tornozelo</span>
+          <span class="movement-time">2 min</span>
+        </div>
+        <p class="movement-desc">Eleve um pouco o pé direito e desenhe círculos lentos no ar — 8 para um lado, 8 para o outro. Repita com o pé esquerdo. Termine com movimentos de flexão e extensão do pé.</p>
+        <div class="movement-benefit"><strong>Benefício:</strong> melhora a circulação e desperta a propriocepção — a base do equilíbrio.</div>
+      </div>
+    </li>
+
+    <li class="movement">
+      <div class="movement-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="9" r="2"/><circle cx="17" cy="15" r="2"/><path d="M9 9c2 0 4 1 6 3s4 3 6 3"/><path d="M9 9c0-1 0-2-1-3M15 15c1 1 2 1 3 1"/></svg>
+      </div>
+      <div class="movement-body">
+        <div class="movement-head">
+          <span class="movement-name">4. Mãos como nuvens, sentada</span>
+          <span class="movement-time">3 min</span>
+        </div>
+        <p class="movement-desc">Com os braços relaxados, desenhe círculos suaves no ar à sua frente, como se passasse as mãos por uma nuvem. Alterne o lado da mão que sobe e desce, sempre respirando devagar.</p>
+        <div class="movement-benefit"><strong>Benefício:</strong> o movimento central do Tai Chi — treina coordenação, suavidade e presença.</div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="page-footer">
+    <span class="brand-mini"><span class="brand-mini-dot"></span>FirmMe · Tai Chi em Cadeira</span>
+    <span class="pg">07 / 12</span>
+  </div>
+</section>
+
+<!-- ═══════════════ SEMANA 1 — PAGE 2 ═══════════════ -->
+<section class="sheet">
+  <div class="section-num">04 · Semana 1 (continuação)</div>
+  <h2 class="section-title">O coração do Tai Chi.</h2>
+  <p class="section-lead">Da metade para o fim da primeira semana, os movimentos começam a se parecer com Tai Chi de verdade. Vá no seu ritmo — não existe forma perfeita, existe a sua forma.</p>
+
+  <ul class="movement-list">
+    <li class="movement">
+      <div class="movement-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><circle cx="8" cy="8" r="1.5"/><circle cx="16" cy="8" r="1.5"/><circle cx="8" cy="16" r="1.5"/><circle cx="16" cy="16" r="1.5"/><path d="M7 12h10"/></svg>
+      </div>
+      <div class="movement-body">
+        <div class="movement-head">
+          <span class="movement-name">5. Abraçar a árvore, sentada</span>
+          <span class="movement-time">3 min</span>
+        </div>
+        <p class="movement-desc">Abra os braços em arco à frente do corpo como se abraçasse uma árvore, palmas voltadas para você. Mantenha a postura por 5 respirações, depois descanse. Repita 2 a 3 vezes.</p>
+        <div class="movement-benefit"><strong>Benefício:</strong> trabalha estabilidade do tronco, respiração profunda e enraizamento.</div>
+      </div>
+    </li>
+
+    <li class="movement">
+      <div class="movement-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 18l3-8 4 8 3-8 4 8"/><circle cx="5" cy="18" r="1.2"/><circle cx="20" cy="18" r="1.2"/></svg>
+      </div>
+      <div class="movement-body">
+        <div class="movement-head">
+          <span class="movement-name">6. Marcha sentada</span>
+          <span class="movement-time">2 min</span>
+        </div>
+        <p class="movement-desc">Sentada, eleve um joelho de cada vez em ritmo confortável, como se estivesse marchando no lugar. Mantenha a coluna ereta e os braços soltos ou com balanço natural.</p>
+        <div class="movement-benefit"><strong>Benefício:</strong> ativa a musculatura do quadril e melhora a circulação das pernas.</div>
+      </div>
+    </li>
+
+    <li class="movement">
+      <div class="movement-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c2 0 3-1 5-1s3 1 5 1 3-1 5-1 3 1 4 1"/><path d="M3 17c2 0 3-1 5-1s3 1 5 1 3-1 5-1 3 1 4 1"/></svg>
+      </div>
+      <div class="movement-body">
+        <div class="movement-head">
+          <span class="movement-name">7. Relaxamento final</span>
+          <span class="movement-time">1 min</span>
+        </div>
+        <p class="movement-desc">Pouse as mãos sobre o colo, feche os olhos se quiser. Respire três vezes de forma lenta e longa, sentindo o peso do corpo apoiado na cadeira. Termine a prática com gentileza.</p>
+        <div class="movement-benefit"><strong>Benefício:</strong> integra o que foi feito e devolve o corpo ao estado de calma.</div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="welcome-card" style="margin-top: 18px; padding: 18px 22px;">
+    <p style="font-size: 11pt;"><strong>Antes de partir para a Semana 2:</strong> observe como o seu corpo responde nos dias seguintes. Onde você sente mais conforto? Em qual momento do dia foi mais fácil praticar? Anotar essas pequenas percepções ajuda a tornar a prática sua — do seu jeito, no seu tempo.</p>
+  </div>
+
+  <div class="page-footer">
+    <span class="brand-mini"><span class="brand-mini-dot"></span>FirmMe · Tai Chi em Cadeira</span>
+    <span class="pg">08 / 12</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════ SEMANAS 2-4 — OVERVIEW ═══════════════ -->
+<section class="sheet" id="semanas-2-4">
+  <div class="section-num">05 · Semanas 2 a 4</div>
+  <h2 class="section-title">A progressão, semana a semana.</h2>
+  <p class="section-lead">A partir da segunda semana, os movimentos conhecidos ganham amplitude e um novo companheiro se junta à rotina. A estrutura se mantém — apenas cresce em riqueza.</p>
+
+  <div class="progression">
+    <div class="prog-card">
+      <div class="prog-week">Semana 2</div>
+      <div class="prog-title">Amplitude e presença</div>
+      <p class="prog-desc">Os sete movimentos da Semana 1 continuam, agora com maior amplitude nos braços e no tronco. Dois movimentos novos se juntam à rotina.</p>
+      <div class="prog-meta">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        18 min · 9 movimentos
+      </div>
+    </div>
+    <div class="prog-card is-active">
+      <div class="prog-week">Semana 3</div>
+      <div class="prog-title">Suavidade no tronco</div>
+      <p class="prog-desc">Trabalhamos mobilidade lateral e rotação suave do tronco. As posturas ficam mais longas e o foco na respiração se aprofunda.</p>
+      <div class="prog-meta">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        20 min · 10 movimentos
+      </div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-week">Semana 4</div>
+      <div class="prog-title">A rotina completa</div>
+      <p class="prog-desc">Encerramos com uma sequência que conecta todos os movimentos em um fluxo contínuo. É o seu Tai Chi em cadeira — para repetir sempre que quiser.</p>
+      <div class="prog-meta">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        22 min · 11 movimentos
+      </div>
+    </div>
+  </div>
+
+  <h3 class="subsection">Os movimentos novos que entram a cada semana</h3>
+  <div class="new-moves">
+    <ul>
+      <li><strong>Semana 2 · Empurrar a Montanha</strong> — clássico do Tai Chi sentado: as mãos estendidas conduzem uma força imaginária para frente, com peso suave.</li>
+      <li><strong>Semana 2 · Mãos como Nuvens (ampla)</strong> — variação do movimento da Semana 1, com maior amplitude e pausas mais longas.</li>
+      <li><strong>Semana 3 · Giros Suaves do Tronco</strong> — rotação lateral lenta, com os olhos acompanhando a mão que abre para o lado.</li>
+      <li><strong>Semana 3 · Ondas de Mar</strong> — movimento contínuo dos braços imitando o fluxo da água, sincronizado com a respiração.</li>
+      <li><strong>Semana 4 · Elevar os Calcanhares</strong> — fortalece tornozelos e panturrilhas, sempre com a coluna apoiada na cadeira.</li>
+      <li><strong>Semana 4 · Dança do Leque</strong> — sequência final de abertura dos braços, como quem abre um leque imaginário.</li>
+    </ul>
+  </div>
+
+  <h3 class="subsection">A lógica por trás da progressão</h3>
+  <p class="body-text">A cada semana, os movimentos da anterior continuam — apenas com mais amplitude, mais tempo de permanência e mais atenção à respiração. Os movimentos novos entram como <em>convidados</em>: você pratica os que já conhece, e aos poucos convive com o novo, sem pressão para dominá-lo no primeiro dia.</p>
+
+  <div class="page-footer">
+    <span class="brand-mini"><span class="brand-mini-dot"></span>FirmMe · Tai Chi em Cadeira</span>
+    <span class="pg">09 / 12</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════ FAQ ═══════════════ -->
+<section class="sheet" id="faq">
+  <div class="section-num">06 · Perguntas frequentes</div>
+  <h2 class="section-title">As dúvidas mais comuns<br/>antes de começar.</h2>
+  <p class="section-lead">Reunimos aqui as perguntas que mais aparecem nos primeiros dias de prática. Se a sua dúvida não estiver aqui, nosso suporte está pronto para ajudar — você encontra o contato na última página.</p>
+
+  <ul class="faq-list">
+    <li class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-mark">P</span>
+        <span class="faq-q-text">Preciso ter experiência prévia com Tai Chi?</span>
+      </div>
+      <div class="faq-a">Não. O programa foi desenhado para iniciantes completas. Cada movimento é explicado com instruções simples, e a progressão é gradual. Se você consegue sentar em uma cadeira e respirar, você consegue fazer.</div>
+    </li>
+
+    <li class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-mark">P</span>
+        <span class="faq-q-text">É seguro se eu tenho dor no joelho ou no quadril?</span>
+      </div>
+      <div class="faq-a">O Tai Chi em cadeira foi pensado para não sobrecarregar as articulações — todos os movimentos são adaptados e não exigem que você se levante ou suporte peso. Mesmo assim, se você tem uma condição específica, converse com seu médico antes de começar. Ele poderá orientar quais movimentos adaptar ao seu caso.</div>
+    </li>
+
+    <li class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-mark">P</span>
+        <span class="faq-q-text">Quanto tempo até sentir alguma diferença?</span>
+      </div>
+      <div class="faq-a">Cada corpo responde de um jeito. Muitas mulheres relatam sentir mais leveza, menos rigidez e melhor qualidade de sono já nas primeiras semanas de prática constante. Resultados mais profundos — como ganho de equilíbrio e confiança ao se mover — tendem a aparecer ao longo das quatro semanas e além, com a prática contínua.</div>
+    </li>
+
+    <li class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-mark">P</span>
+        <span class="faq-q-text">Preciso de algum equipamento além da cadeira?</span>
+      </div>
+      <div class="faq-a">Não. Você só precisa de uma cadeira firme, sem rodinhas, com os pés bem apoiados no chão, e de roupas confortáveis. Mais nada. O programa foi desenhado para ser feito em casa, sem acessórios.</div>
+    </li>
+
+    <li class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-mark">P</span>
+        <span class="faq-q-text">Posso praticar em qualquer horário do dia?</span>
+      </div>
+      <div class="faq-a">Sim. O melhor horário é aquele em que você consegue ser constante — de manhã, na pausa do almoço ou no fim do dia. Algumas mulheres preferem praticar logo ao acordar, outras gostam de se movimentar antes de dormir para relaxar. Encontre o seu momento e proteja-o.</div>
+    </li>
+
+    <li class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-mark">P</span>
+        <span class="faq-q-text">Quando vou receber acesso ao aplicativo?</span>
+      </div>
+      <div class="faq-a">Em até 24–48 horas você recebe um e-mail com o link de acesso completo ao app FirmMe. Enquanto isso, este guia já traz tudo que você precisa para começar a praticar com segurança desde hoje.</div>
+    </li>
+  </ul>
+
+  <div class="page-footer">
+    <span class="brand-mini"><span class="brand-mini-dot"></span>FirmMe · Tai Chi em Cadeira</span>
+    <span class="pg">10 / 12</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════ DEPOIMENTOS ═══════════════ -->
+<section class="sheet" id="depoimentos">
+  <div class="section-num">07 · Depoimentos</div>
+  <h2 class="section-title">O que dizem as mulheres<br/>que praticam.</h2>
+  <p class="testimonials-intro">A programação guiada do Tai Chi em cadeira tem mudado a rotina de mulheres que queriam uma forma gentil, segura e possível de se mover. Estes são alguns dos relatos compartilhados por quem já está praticando.</p>
+
+  <div class="testimonial-grid">
+    <div class="testimonial">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">Depois de quase cair duas vezes no banheiro, fiquei com medo de andar sozinha em casa. Com o Tai Chi sentado, senti que meu equilíbrio melhorou de um jeito que nem esperava — hoje ando com muito mais segurança.</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">M</div>
+        <div class="testimonial-meta">
+          <strong>Marlene, 68 anos</strong>
+          <span>Praticante desde 2025</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">Confesso que achei que não ia sentir nada fazendo exercício sentada. Na primeira semana já senti diferença na rigidez do pescoço e ombros. Hoje é a parte do meu dia que eu mais gosto.</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">C</div>
+        <div class="testimonial-meta">
+          <strong>Cristina, 49 anos</strong>
+          <span>Praticante desde 2025</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">Eu fazia tudo pra controlar a ansiedade, menos isso. Os 15 minutos de Tai Chi viraram meu momento de silêncio antes do trabalho. Saio muito mais calma pro resto do dia.</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">V</div>
+        <div class="testimonial-meta">
+          <strong>Vanessa, 45 anos</strong>
+          <span>Praticante desde 2025</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">Depois da artrose no joelho, achei que ia ficar parada pro resto da vida. Meu fisioterapeuta até comentou que minha mobilidade melhorou desde que comecei.</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">T</div>
+        <div class="testimonial-meta">
+          <strong>Terezinha, 64 anos</strong>
+          <span>Praticante desde 2025</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="testimonials-disclaimer">Depoimentos compartilhados com consentimento, refletem a experiência individual. Os resultados variam conforme constância e condições individuais. Este material não constitui promessa de resultado.</p>
+
+  <div class="page-footer">
+    <span class="brand-mini"><span class="brand-mini-dot"></span>FirmMe · Tai Chi em Cadeira</span>
+    <span class="pg">11 / 12</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════ GARANTIA & SUPORTE ═══════════════ -->
+<section class="sheet" id="garantia">
+  <div class="section-num">08 · Garantia e suporte</div>
+  <h2 class="section-title">Você está protegida.<br/>Sempre.</h2>
+  <p class="section-lead">Queremos que você entre neste programa com tranquilidade. Se em algum momento sentir que não é para você, devolveremos seu dinheiro. Sem letras miúdas.</p>
+
+  <div class="guarantee-card">
+    <div class="guarantee-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z"/></svg>
+      Garantia FirmMe
+    </div>
+    <h3 class="guarantee-title">Sua satisfação está garantida por 30 dias.</h3>
+    <p class="guarantee-text">Se em 30 dias você sentir que o programa não é para você, devolvemos 100% do seu dinheiro, sem burocracia. Sem perguntas constrangedoras, sem letras pequenas — apenas o cuidado que você merece.</p>
+
+    <div class="guarantee-points">
+      <div class="guarantee-point">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <div class="guarantee-point-text"><strong>Sem perguntas</strong>Reembolso integral, sem necessidade de justificar.</div>
+      </div>
+      <div class="guarantee-point">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <div class="guarantee-point-text"><strong>Rápido e simples</strong>Resposta em até 5 dias úteis pelo nosso suporte.</div>
+      </div>
+      <div class="guarantee-point">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <div class="guarantee-point-text"><strong>100% do valor</strong>Devolução integral do valor pago, sem taxas.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="support-card">
+    <div class="support-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
+    <div class="support-text">
+      <h4>Nosso suporte está com você</h4>
+      <p>Qualquer dúvida — sobre os movimentos, sobre a garantia ou sobre como integrar a prática na sua rotina — escreva para a nossa equipe. Respondemos com atenção e sem pressa, porque você merece esse cuidado.</p>
+    </div>
+  </div>
+
+  <div class="closing-card">
+    <div class="closing-eyebrow">Uma última coisa</div>
+    <p>Você não precisa se mover com pressa, nem se comparar com ninguém. O Tai Chi em cadeira é uma prática silenciosa, honesta, e que cabe no seu dia. <strong>O primeiro passo já foi dado — agora é só sentar e começar.</strong></p>
+  </div>
+
+  <div class="page-footer">
+    <span class="brand-mini"><span class="brand-mini-dot"></span>FirmMe · Tai Chi em Cadeira</span>
+    <span class="pg">12 / 12</span>
+  </div>
+</section>
+
+</body>
+</html>
