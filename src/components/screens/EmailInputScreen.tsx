@@ -39,7 +39,7 @@ export default function EmailInputScreenComp({ screen }: Props) {
     <div className="px-5 pt-8 pb-10 flex flex-col gap-6">
       {currentScreen > 1 && (
         <button onClick={goBack} className="back-btn">
-          ← Voltar
+          ← Volver
         </button>
       )}
 
@@ -87,7 +87,7 @@ export default function EmailInputScreenComp({ screen }: Props) {
 
       <p className="text-xs text-secondary/60 text-center flex items-center justify-center gap-1">
         <i className="ti ti-lock text-xs"></i>
-        <span>Suas informações são privadas e nunca são compartilhadas.</span>
+        <span>Tu información es privada e nunca se comparte.</span>
       </p>
     </div>
   );

@@ -21,12 +21,12 @@ export function eventPhrase(eventType: string | undefined, gender: Gender): stri
   const confident = gender === 'male' ? 'seguro' : 'segura';
   switch (eventType) {
     case 'wedding':
-      return `Você tem tempo de se sentir mais ${confident} antes do seu casamento ou celebração em família.`;
+      return `Tienes tiempo para sentirte más ${confident} antes de tu boda o celebración familiar.`;
     case 'trip':
-      return `Você tem tempo de se sentir mais ${confident} antes da sua viagem.`;
+      return `Tienes tiempo para sentirte más ${confident} antes de tu viaje.`;
     case 'family_visit':
-      return `Você tem tempo de se sentir mais ${confident} antes da chegada dos seus netos ou família.`;
+      return `Tienes tiempo para sentirte más ${confident} antes de la llegada de tus nietos o familia.`;
     default:
-      return 'Em poucas semanas, você vai notar a diferença no seu equilíbrio e na sua energia.';
+      return 'En pocas semanas, notarás la diferencia en tu equilibrio y energía.';
   }
 }

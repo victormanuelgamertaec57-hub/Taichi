@@ -1,20 +1,28 @@
+import { lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 import { useQuizStore } from '../store/quizStore';
 import { screens } from '../data/screens';
+import { trackCustomEvent } from '../utils/pixel';
 import ProgressBar from './ProgressBar';
-import IntroScreenComp from './screens/IntroScreen';
-import QuestionScreenComp from './screens/QuestionScreen';
-import InfoScreenComp from './screens/InfoScreen';
-import StatScreenComp from './screens/StatScreen';
-import NameInputScreenComp from './screens/NameInputScreen';
-import EmailInputScreenComp from './screens/EmailInputScreen';
-import DateInputScreenComp from './screens/DateInputScreen';
-import CommitmentScreenComp from './screens/CommitmentScreen';
-import ProjectionScreenComp from './screens/ProjectionScreen';
-import FadeSequenceComp from './screens/FadeSequence';
-import AnalysisScreenComp from './screens/AnalysisScreen';
-import ResultPaywallScreenComp from './screens/ResultPaywallScreen';
-import ConfirmationScreenComp from './screens/ConfirmationScreen';
+
+const PreIntroScreenComp = lazy(() => import('./screens/PreIntroScreen'));
+const GenderScreenComp = lazy(() => import('./screens/GenderScreen'));
+const IntroScreenComp = lazy(() => import('./screens/IntroScreen'));
+const QuestionScreenComp = lazy(() => import('./screens/QuestionScreen'));
+const InfoScreenComp = lazy(() => import('./screens/InfoScreen'));
+const HarvardSpotlightScreenComp = lazy(() => import('./screens/HarvardSpotlightScreen'));
+const StatScreenComp = lazy(() => import('./screens/StatScreen'));
+const NameInputScreenComp = lazy(() => import('./screens/NameInputScreen'));
+const EmailInputScreenComp = lazy(() => import('./screens/EmailInputScreen'));
+const DateInputScreenComp = lazy(() => import('./screens/DateInputScreen'));
+const CommitmentScreenComp = lazy(() => import('./screens/CommitmentScreen'));
+const ProjectionScreenComp = lazy(() => import('./screens/ProjectionScreen'));
+const FadeSequenceComp = lazy(() => import('./screens/FadeSequence'));
+const AnalysisScreenComp = lazy(() => import('./screens/AnalysisScreen'));
+const ResultPaywallScreenComp = lazy(() => import('./screens/ResultPaywallScreen'));
+const ConfirmationScreenComp = lazy(() => import('./screens/ConfirmationScreen'));
+
 import type { AnyScreen } from '../types/quiz';
 
 // ─── Framer Motion variants ───────────────────────────────────────────────────
@@ -25,11 +33,18 @@ const transition = { duration: 0.3, ease: 'easeInOut' as const };
 
 function renderScreen(screen: AnyScreen) {
   switch (screen.type) {
+    case 'pre-intro':
+      return <PreIntroScreenComp screen={screen} />;
+    case 'gender':
+      return <GenderScreenComp screen={screen} />;
     case 'intro':
       return <IntroScreenComp />;
     case 'question':
       return <QuestionScreenComp screen={screen} />;
     case 'info':
+      if (screen.trackingName === 'harvard_spotlight') {
+        return <HarvardSpotlightScreenComp screen={screen} />;
+      }
       return <InfoScreenComp screen={screen} />;
     case 'stat':
       return <StatScreenComp screen={screen} />;
@@ -59,10 +74,23 @@ function renderScreen(screen: AnyScreen) {
 // ─── Quiz Container ───────────────────────────────────────────────────────────
 
 export default function QuizContainer() {
-  const { currentScreen, totalScreens, direction } = useQuizStore();
+  const { currentScreen, direction } = useQuizStore();
 
   const screen = screens.find((s) => s.id === currentScreen);
   const hideProgress = screen?.type === 'analysis' || screen?.type === 'result-paywall' || screen?.type === 'fade-sequence';
+
+  // ─── Meta Pixel: per-step funnel tracking ────────────────────────────────────
+  // Fires once per (re)mount and every time the user navigates to a new step —
+  // including back-navigation, so the funnel in Eventos reflects every "reach"
+  // of each step. This lets you see exactly which of the 24 screens has the
+  // biggest drop-off, not just the aggregate 83% non-completion.
+  useEffect(() => {
+    if (!screen) return;
+    trackCustomEvent('QuizStep', {
+      step: screen.id,
+      step_name: screen.trackingName ?? `paso_${screen.id}`,
+    });
+  }, [currentScreen, screen]);
 
   if (!screen) return null;
 
@@ -78,7 +106,7 @@ export default function QuizContainer() {
           </span>
         </div>
         {!hideProgress && (
-          <ProgressBar current={currentScreen} total={totalScreens} />
+          <ProgressBar />
         )}
       </div>
 
@@ -91,7 +119,16 @@ export default function QuizContainer() {
           transition={transition}
           className="w-full"
         >
-          {renderScreen(screen)}
+          <Suspense fallback={
+            <div className="w-full min-h-[400px] flex items-center justify-center">
+              <div 
+                className="w-10 h-10 rounded-full border-4 border-indigo-100 border-t-indigo-500 animate-spin" 
+                style={{ borderTopColor: '#5C7AE0', willChange: 'transform' }} 
+              />
+            </div>
+          }>
+            {renderScreen(screen)}
+          </Suspense>
         </motion.div>
       </div>
 

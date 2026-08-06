@@ -79,10 +79,10 @@ export default function IntroScreen() {
         className="text-center space-y-1.5"
       >
         <h1 className="text-3xl font-bold text-main leading-tight">
-          Quantos anos você tem?
+          ¿Cuántos años tienes?
         </h1>
         <p className="text-base text-secondary leading-relaxed max-w-sm mx-auto">
-          Personalizamos seu programa de acordo com sua fase de vida.
+          Personalizamos tu programa de acuerdo con tu etapa de vida.
         </p>
       </motion.div>
 
@@ -95,7 +95,7 @@ export default function IntroScreen() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.07, duration: 0.3, ease: 'easeOut' }}
             onClick={() => handleSelect(card)}
-            aria-label={`Selecionar faixa de idade ${card.label} anos`}
+            aria-label={`Seleccionar rango de edad ${card.label} años`}
             style={{
               position: 'relative',
               borderRadius: '16px',
@@ -181,7 +181,7 @@ export default function IntroScreen() {
 
       <p className="text-xs text-secondary/60 text-center flex items-center justify-center gap-1">
         <i className="ti ti-lock text-xs"></i>
-        <span>Suas informações são confidenciais</span>
+        <span>Tu información es confidencial</span>
       </p>
     </div>
   );

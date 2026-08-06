@@ -4,9 +4,9 @@ import type { PricingPlan } from '../types/quiz';
 export const pricingPlans: PricingPlan[] = [
   {
     id: 'mensal',
-    label: 'Plan Mensal',
+    label: 'Plan Mensual',
     price: 'R$77,90',
-    dailyEquivalent: 'R$2,60/dia',
+    dailyEquivalent: 'R$2,60/día',
     hotmartUrl: 'https://pay.hotmart.com/N106896758T?checkoutMode=2&off=gj6hcxhu',
   },
   {
@@ -14,16 +14,16 @@ export const pricingPlans: PricingPlan[] = [
     label: 'Plan Trimestral',
     badge: 'RECOMENDADO',
     price: 'R$132,90',
-    dailyEquivalent: 'R$1,48/dia',
+    dailyEquivalent: 'R$1,48/día',
     hotmartUrl: 'https://pay.hotmart.com/N106896758T?checkoutMode=2&off=wrzjhjvz',
     highlighted: true,
   },
   {
     id: 'semestral',
     label: 'Plan Semestral',
-    badge: 'Melhor custo-benefício',
+    badge: 'Mejor relación calidad-precio',
     price: 'R$239,90',
-    dailyEquivalent: 'R$1,33/dia',
+    dailyEquivalent: 'R$1,33/día',
     hotmartUrl: 'https://pay.hotmart.com/N106896758T?checkoutMode=2&off=6d5ogulh',
   },
 ];

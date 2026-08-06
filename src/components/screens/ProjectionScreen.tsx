@@ -8,9 +8,9 @@ interface Props {
   screen: ProjectionScreen;
 }
 
-const SAGE = '#5B8A72';
-const SAGE_SOFT = '#7C9070';
-const SAGE_BG = '#E8F0E9';
+const SAGE = '#5C7AE0';
+const SAGE_SOFT = '#7B8FE0';
+const SAGE_BG = '#EEF1FB';
 
 // Ascending line from "AHORA" (low) to the target date (high), with a soft
 // shaded band around it — same visual language as StatScreen's SVG visuals,
@@ -26,8 +26,17 @@ function ProjectionChart({ targetLabel }: { targetLabel: string }) {
       <path d={`${bandTop} L300 32 ${bandBottom}`} fill={SAGE_BG} opacity="0.7" />
       {/* baseline */}
       <path d="M20 172 L300 172" stroke="#E4DFD0" strokeWidth="2" />
-      {/* ascending line */}
-      <path d={linePath} stroke={SAGE} strokeWidth="4" strokeLinecap="round" fill="none" />
+      {/* ascending line (progressively drawn with pathLength) */}
+      <motion.path
+        d={linePath}
+        stroke={SAGE}
+        strokeWidth="4"
+        strokeLinecap="round"
+        fill="none"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.4, ease: 'easeOut', delay: 0.2 }}
+      />
       {/* start point */}
       <circle cx="20" cy="150" r="6" fill={SAGE_SOFT} />
       <text x="20" y="188" fontSize="12" fontWeight="800" fill="#6B7A70" fontFamily="Nunito, sans-serif">
@@ -59,7 +68,7 @@ export default function ProjectionScreenComp({ screen }: Props) {
     <div className="px-5 pt-8 pb-10 flex flex-col gap-6">
       {currentScreen > 1 && (
         <button onClick={goBack} className="back-btn">
-          ← Voltar
+          ← Volver
         </button>
       )}
 
@@ -69,10 +78,17 @@ export default function ProjectionScreenComp({ screen }: Props) {
       </div>
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.96 }}
+        initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4, delay: 0.15 }}
-        className="flex justify-center"
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ 
+          type: 'spring',
+          stiffness: 350,
+          damping: 25
+        }}
+        style={{ willChange: 'transform' }}
+        className="flex justify-center cursor-pointer"
       >
         <ProjectionChart targetLabel={fechaFormatted} />
       </motion.div>

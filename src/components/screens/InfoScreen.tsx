@@ -80,7 +80,7 @@ export default function InfoScreenComp({ screen }: Props) {
           <button 
             onClick={goBack} 
             className="absolute top-4 left-4 z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white/80 border border-border text-main backdrop-blur-xs transition hover:bg-white hover:scale-105 active:scale-95 shadow-xs"
-            aria-label="Voltar"
+            aria-label="Volver"
           >
             <i className="ti ti-arrow-left text-lg"></i>
           </button>

@@ -1,6 +1,8 @@
 // ─── Screen Types ─────────────────────────────────────────────────────────────
 
 export type ScreenType =
+  | 'pre-intro'    // Pre-framing hook with animation
+  | 'gender'       // Gender selection
   | 'intro'         // Age selection (no back button)
   | 'question'      // Generic single or multi-choice question
   | 'info'          // Informational / empathy screen with CTA to continue
@@ -32,6 +34,23 @@ export interface BaseScreen {
   id: number;
   type: ScreenType;
   answerKey?: string; // key used in answers store
+  trackingName?: string; // stable slug for Meta Pixel QuizStep custom event
+  stageId?: number; // 1-8 stages model
+  stageName?: string; // stage name
+}
+
+export interface PreIntroScreen extends BaseScreen {
+  type: 'pre-intro';
+  headline: string;
+  subtext: string;
+  ctaLabel: string;
+}
+
+export interface GenderScreen extends BaseScreen {
+  type: 'gender';
+  headline: string;
+  subtext: string;
+  options: QuestionOption[];
 }
 
 export interface IntroScreen extends BaseScreen {
@@ -78,7 +97,10 @@ export type StatVisualKind =
   | 'fall-risk-bars'      // barras animadas: sin ejercicio / estiramiento / Tai Chi
   | 'fatigue-clock'       // reloj/fatiga (terracota)
   | 'impact-compare'      // huella de impacto vs. silla con ondas suaves
-  | 'joint-motion';       // articulación con flechas circulares
+  | 'joint-motion'        // articulación con flechas circulares
+  | 'fall-risk-1'         // gráfico de riesgo de caídas aumentando con la edad
+  | 'fall-risk-2'         // curva de estabilidad primeras 4 semanas
+  | 'fall-risk-3';        // comparador final de índice de estabilidad científico
 
 export interface StatScreen extends BaseScreen {
   type: 'stat';
@@ -178,6 +200,8 @@ export interface ConfirmationScreen extends BaseScreen {
 }
 
 export type AnyScreen =
+  | PreIntroScreen
+  | GenderScreen
   | IntroScreen
   | QuestionScreen
   | InfoScreen

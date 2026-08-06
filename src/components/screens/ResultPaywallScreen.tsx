@@ -96,6 +96,7 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
   const { userName, userAge, userGender, answers, selectedPlan, setSelectedPlan, goBack, currentScreen } =
     useQuizStore();
   const [hasTracked, setHasTracked] = useState(false);
+  const [hoveredCol, setHoveredCol] = useState<number | null>(null);
 
   // Cargar el script de Hotmart una sola vez
   useEffect(() => {
@@ -143,7 +144,7 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
     <div className="px-5 pt-8 pb-12 flex flex-col gap-8">
       {currentScreen > 1 && (
         <button onClick={goBack} className="back-btn self-start">
-          ← Voltar
+          ← Volver
         </button>
       )}
 
@@ -189,9 +190,8 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
                 <LevelBar filled={1} />
               </div>
               <div>
-                <p className="text-xs text-secondary">
-                  Grasa corporal: <span className="font-semibold text-main">28%</span>
-                </p>
+                <p className="text-xs text-secondary mb-1">Risco de queda</p>
+                <LevelBar filled={4} />
               </div>
             </div>
           </div>
@@ -205,9 +205,8 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
                 <LevelBar filled={4} />
               </div>
               <div>
-                <p className="text-xs text-secondary">
-                  Grasa corporal: <span className="font-semibold text-main">25-26%</span>
-                </p>
+                <p className="text-xs text-secondary mb-1">Risco de queda</p>
+                <LevelBar filled={1} />
               </div>
             </div>
           </div>
@@ -282,6 +281,184 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
         <p className="text-xs font-medium text-secondary uppercase tracking-wide">
           Estudo Stanford
         </p>
+      </div>
+
+      {/* Tabla Comparativa de Diferenciación */}
+      <div className="rounded-2xl p-5 bg-white border border-border flex flex-col gap-4">
+        <h3 className="text-base font-bold text-main text-center">Como a FirmMe se compara?</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="py-2.5 pr-2 text-secondary font-semibold">Critério</th>
+                <th 
+                  onMouseEnter={() => setHoveredCol(1)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-2 text-primary font-bold text-center transition-all duration-200 ${
+                    hoveredCol === 1 ? 'bg-[#E5EAFA] scale-[1.02]' : 'bg-[#EEF1FB]'
+                  } rounded-t-lg`}
+                  style={{ transformOrigin: 'bottom', willChange: 'transform' }}
+                >
+                  FirmMe (Cadeira)
+                </th>
+                <th 
+                  onMouseEnter={() => setHoveredCol(2)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-1 text-secondary font-semibold text-center transition-all duration-200 ${
+                    hoveredCol === 2 ? 'bg-[#EEF1FB]/60 scale-[1.02]' : ''
+                  }`}
+                  style={{ transformOrigin: 'bottom', willChange: 'transform' }}
+                >
+                  Tai Chi de Pé
+                </th>
+                <th 
+                  onMouseEnter={() => setHoveredCol(3)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-1 text-secondary font-semibold text-center transition-all duration-200 ${
+                    hoveredCol === 3 ? 'bg-[#EEF1FB]/60 scale-[1.02]' : ''
+                  }`}
+                  style={{ transformOrigin: 'bottom', willChange: 'transform' }}
+                >
+                  Academia
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border/60">
+                <td className="py-2.5 pr-2 font-semibold text-main">Risco de queda</td>
+                <td 
+                  onMouseEnter={() => setHoveredCol(1)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-2 text-center font-bold text-primary transition-all duration-200 ${
+                    hoveredCol === 1 ? 'bg-[#E5EAFA] scale-[1.02]' : 'bg-[#EEF1FB]'
+                  }`}
+                  style={{ willChange: 'transform' }}
+                >
+                  0% (Totalmente seguro)
+                </td>
+                <td 
+                  onMouseEnter={() => setHoveredCol(2)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-1 text-center text-secondary transition-all duration-200 ${
+                    hoveredCol === 2 ? 'bg-[#EEF1FB]/40 scale-[1.02]' : ''
+                  }`}
+                  style={{ willChange: 'transform' }}
+                >
+                  Médio (exige equilíbrio)
+                </td>
+                <td 
+                  onMouseEnter={() => setHoveredCol(3)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-1 text-center text-secondary transition-all duration-200 ${
+                    hoveredCol === 3 ? 'bg-[#EEF1FB]/40 scale-[1.02]' : ''
+                  }`}
+                  style={{ willChange: 'transform' }}
+                >
+                  Alto (risco de queda e lesão)
+                </td>
+              </tr>
+              <tr className="border-b border-border/60">
+                <td className="py-2.5 pr-2 font-semibold text-main">Carga Articular</td>
+                <td 
+                  onMouseEnter={() => setHoveredCol(1)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-2 text-center font-bold text-primary transition-all duration-200 ${
+                    hoveredCol === 1 ? 'bg-[#E5EAFA] scale-[1.02]' : 'bg-[#EEF1FB]'
+                  }`}
+                  style={{ willChange: 'transform' }}
+                >
+                  0% (Sem impacto)
+                </td>
+                <td 
+                  onMouseEnter={() => setHoveredCol(2)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-1 text-center text-secondary transition-all duration-200 ${
+                    hoveredCol === 2 ? 'bg-[#EEF1FB]/40 scale-[1.02]' : ''
+                  }`}
+                  style={{ willChange: 'transform' }}
+                >
+                  Média (peso do próprio corpo)
+                </td>
+                <td 
+                  onMouseEnter={() => setHoveredCol(3)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-1 text-center text-secondary transition-all duration-200 ${
+                    hoveredCol === 3 ? 'bg-[#EEF1FB]/40 scale-[1.02]' : ''
+                  }`}
+                  style={{ willChange: 'transform' }}
+                >
+                  Alta (impacto vertical alto)
+                </td>
+              </tr>
+              <tr className="border-b border-border/60">
+                <td className="py-2.5 pr-2 font-semibold text-main">Equipamento</td>
+                <td 
+                  onMouseEnter={() => setHoveredCol(1)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-2 text-center font-bold text-primary transition-all duration-200 ${
+                    hoveredCol === 1 ? 'bg-[#E5EAFA] scale-[1.02]' : 'bg-[#EEF1FB]'
+                  }`}
+                  style={{ willChange: 'transform' }}
+                >
+                  Apenas 1 cadeira comum
+                </td>
+                <td 
+                  onMouseEnter={() => setHoveredCol(2)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-1 text-center text-secondary transition-all duration-200 ${
+                    hoveredCol === 2 ? 'bg-[#EEF1FB]/40 scale-[1.02]' : ''
+                  }`}
+                  style={{ willChange: 'transform' }}
+                >
+                  Espaço amplo
+                </td>
+                <td 
+                  onMouseEnter={() => setHoveredCol(3)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-1 text-center text-secondary transition-all duration-200 ${
+                    hoveredCol === 3 ? 'bg-[#EEF1FB]/40 scale-[1.02]' : ''
+                  }`}
+                  style={{ willChange: 'transform' }}
+                >
+                  Aparelhos e pesos caros
+                </td>
+              </tr>
+              <tr>
+                <td className="py-2.5 pr-2 font-semibold text-main">Foco principal</td>
+                <td 
+                  onMouseEnter={() => setHoveredCol(1)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-2 text-center font-bold text-primary transition-all duration-200 ${
+                    hoveredCol === 1 ? 'bg-[#E5EAFA] scale-[1.02]' : 'bg-[#EEF1FB]'
+                  } rounded-b-lg`}
+                  style={{ willChange: 'transform' }}
+                >
+                  Conexão labirinto-muscular
+                </td>
+                <td 
+                  onMouseEnter={() => setHoveredCol(2)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-1 text-center text-secondary transition-all duration-200 ${
+                    hoveredCol === 2 ? 'bg-[#EEF1FB]/40 scale-[1.02]' : ''
+                  }`}
+                  style={{ willChange: 'transform' }}
+                >
+                  Postura linear
+                </td>
+                <td 
+                  onMouseEnter={() => setHoveredCol(3)}
+                  onMouseLeave={() => setHoveredCol(null)}
+                  className={`py-2.5 px-1 text-center text-secondary transition-all duration-200 ${
+                    hoveredCol === 3 ? 'bg-[#EEF1FB]/40 scale-[1.02]' : ''
+                  }`}
+                  style={{ willChange: 'transform' }}
+                >
+                  Fadiga e ganho de força
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Planes de precio */}

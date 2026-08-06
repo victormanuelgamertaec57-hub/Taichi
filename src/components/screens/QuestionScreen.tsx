@@ -66,7 +66,7 @@ export default function QuestionScreenComp({ screen }: Props) {
       {/* Back button */}
       {currentScreen > 1 && (
         <button onClick={goBack} className="back-btn">
-          ← Voltar
+          ← Volver
         </button>
       )}
 
@@ -75,7 +75,7 @@ export default function QuestionScreenComp({ screen }: Props) {
         <h2 className="text-2xl font-bold text-main leading-snug">{headline}</h2>
         {subtext && <p className="text-base text-secondary">{subtext}</p>}
         {screen.multiSelect && (
-          <p className="text-sm text-secondary/80 italic">Você pode selecionar várias opções</p>
+          <p className="text-sm text-secondary/80 italic">Puedes seleccionar varias opciones</p>
         )}
       </div>
 

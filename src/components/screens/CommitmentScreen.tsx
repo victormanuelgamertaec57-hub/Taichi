@@ -35,7 +35,7 @@ export default function CommitmentScreenComp({ screen }: Props) {
     <div className="px-5 pt-8 pb-10 flex flex-col gap-6">
       {currentScreen > 1 && (
         <button onClick={goBack} className="back-btn">
-          ← Voltar
+          ← Volver
         </button>
       )}
 

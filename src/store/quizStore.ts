@@ -17,6 +17,12 @@ interface QuizState {
 
   // Derived helpers
   totalScreens: number;
+  getStageProgress: () => {
+    currentStep: number;
+    totalSteps: number;
+    stageName: string;
+    stageId: number;
+  };
 
   // Actions
   goNext: () => void;
@@ -35,17 +41,33 @@ interface QuizState {
 // navigation clamping and the "Paso X de N" progress display.
 const TOTAL_SCREENS = screens.length;
 
-export const useQuizStore = create<QuizState>((set) => ({
+export const useQuizStore = create<QuizState>((set, get) => ({
   currentScreen: 1,
   answers: {},
   userName: '',
   userEmail: '',
   userAge: '',
-  // Funnel 100% dirigido a mujeres — no se pregunta el sexo.
+  // Por defecto 'female' pero se actualizará dinámicamente en el paso 2 del quiz
   userGender: 'female',
   selectedPlan: null,
   direction: 'forward',
   totalScreens: TOTAL_SCREENS,
+
+  getStageProgress: () => {
+    const currentId = get().currentScreen;
+    const screen = screens.find((s) => s.id === currentId);
+    if (!screen) return { currentStep: 0, totalSteps: 0, stageName: '', stageId: 0 };
+    const stageId = screen.stageId || 1;
+    const stageName = screen.stageName || '';
+    const stageScreens = screens.filter((s) => s.stageId === stageId);
+    const currentStep = stageScreens.findIndex((s) => s.id === currentId) + 1;
+    return {
+      currentStep,
+      totalSteps: stageScreens.length,
+      stageName,
+      stageId,
+    };
+  },
 
   goNext: () =>
     set((state) => ({
@@ -101,9 +123,14 @@ export const useQuizStore = create<QuizState>((set) => ({
  */
 export function interpolate(text: string, userName: string, userAge: string, userGender: Gender = 'female'): string {
   const genderNoun = userGender === 'male' ? 'hombres' : 'mujeres';
+  const defaultName = userGender === 'male' ? 'amigo' : 'amiga';
   const withTokens = text
-    .replace(/\{\{userName\}\}/g, userName || 'amiga')
+    .replace(/\{\{userName\}\}/g, userName || defaultName)
     .replace(/\{\{userAge\}\}/g, userAge || '60-65')
     .replace(/\{\{genderNoun\}\}/g, genderNoun);
   return resolveGenderedText(withTokens, userGender);
+}
+
+if (typeof window !== 'undefined') {
+  (window as any).useQuizStore = useQuizStore;
 }

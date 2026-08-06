@@ -1,438 +1,625 @@
 import type { AnyScreen } from '../types/quiz';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// FLUJO (24 pantallas) — funil 100% direcionado a mulheres 40+
-//
-//  1  intro       Idade (grade de fotos)
-//  2  info        Prova social «Você não está sozinha» (avatar-closeup-confianza)
-//  3  question    Medo de perder o equilíbrio / cair
-//  4  stat        Quedas consolidado: «58%» (Stanford + 24 estudos, barras animadas)
-//  5  question    Regiões de desconforto (multi-select)
-//  6  stat        «0% de carga de peso nas suas articulações» (pegada vs. cadeira)
-//  7  stat        «Movimento, não carga» (articulação com setas)
-//  8  question    Nível de atividade atual
-//  9  stat        «A academia te deixa exausta» (relógio/fadiga, acento terracota)
-// 10  question    História pessoal (open loop)
-// 11  info        Empatia «A gente entende como você se sente» (avatar-antes-estres)
-// 12  question    Nível de energia
-// 13  info        Mecanismo «Método FirmMe™» (avatar-hero-cloud-hands)
-// 14  question    Evento próximo
-// 15  question    Meta ideal (metaIdeal) + InfoCard «Meta realista»
-// 16  date-input  Evento/data objetivo real (fechaObjetivo)
-// 17  name-input  Nome
-// 18  email-input E-mail
-// 19  analysis    Análise animada + depoimentos
-// 20  commitment  «Você está pronta para assumir o compromisso?» (compromisoInicial)
-// 21  projection  Gráfico de projeção (estilo Simple, usa metaIdeal/fechaObjetivo)
-// 22  fade-sequence  4 linhas de boas-vindas em fade-in, auto-avança
-// 23  result-paywall Resultado + preços + garantia (spec: landing-resultados-precios-firmme.md)
-// 24  confirmation Confirmação
+// FLUJO (39 pantallas) — Modelado al 85% de "Simple" + 15% Innovación propia
+// Dividido en 8 etapas con barra de progreso que se reinicia por etapa.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const screens: AnyScreen[] = [
-  // ─────────────────────────────────────────────
-  // SCREEN 1 — INTRO (seleção de idade)
-  // NOTE: IntroScreen.tsx renderiza seus próprios cards de idade hardcoded
-  // com fotos reais e ignora este array `options`.
-  // ─────────────────────────────────────────────
+  // ───────────────────────────────────────────────────────────────────────────
+  // ETAPA 1: Segmentación/enganche (ID 1-5)
+  // ───────────────────────────────────────────────────────────────────────────
   {
     id: 1,
-    type: 'intro',
-    answerKey: 'userAge',
-    headline: 'Quantos anos você tem?',
-    subtext:
-      'Sua idade nos ajuda a criar um plano de movimento seguro e eficaz, feito exatamente para o seu corpo hoje.',
-    options: [
-      { id: '40-49', label: '40 – 49 anos', icon: 'ti ti-leaf' },
-      { id: '50-59', label: '50 – 59 anos', icon: 'ti ti-plant-2' },
-      { id: '60-69', label: '60 – 69 anos', icon: 'ti ti-flower' },
-      { id: '70+', label: '70 anos ou mais', icon: 'ti ti-mountain' },
-    ],
+    stageId: 1,
+    stageName: 'Introducción',
+    trackingName: 'pre_encuadre',
+    type: 'pre-intro',
+    headline: 'Recupera tu equilibrio y evita caídas sin salir de la silla',
+    subtext: 'Un plan seguro y de bajísimo impacto articular desarrollado específicamente para mujeres y hombres 40+.',
+    ctaLabel: 'Comenzar evaluación gratuita',
   },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 2 — INFO: Prova social (usa {{userAge}})
-  // ─────────────────────────────────────────────
   {
     id: 2,
-    type: 'info',
-    headline: 'Você não está sozinha nisso',
-    subtext:
-      'Milhares de mulheres da sua idade já estão melhorando o corpo e a disposição com a FirmMe.',
-    backgroundImage: 'avatar-closeup-confianza',
-    checklist: [
-      { icon: 'ti ti-users', text: 'Mais de 8.000 mulheres da sua idade já começaram' },
-      { icon: 'ti ti-clock-hour-4', text: 'A maioria tem entre {{userAge}} anos, igual a você' },
-      { icon: 'ti ti-star', text: '4,9/5 de satisfação das nossas alunas' },
+    stageId: 1,
+    stageName: 'Introducción',
+    trackingName: 'genero',
+    type: 'gender',
+    answerKey: 'userGender',
+    headline: '¿Cuál es tu sexo biológico?',
+    subtext: 'Esto nos ayuda a calibrar la fuerza muscular básica y los términos de tu plan.',
+    options: [
+      { id: 'female', label: 'Femenino', icon: 'ti ti-gender-female', subtext: 'Mujer 40+' },
+      { id: 'male', label: 'Masculino', icon: 'ti ti-gender-male', subtext: 'Hombre 40+' },
     ],
-    ctaLabel: 'Continuar',
   },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 3 — Medo de cair (pergunta-chave do avatar)
-  // ─────────────────────────────────────────────
   {
     id: 3,
-    type: 'question',
-    answerKey: 'balanceFear',
-    autoAdvance: true,
-    headline: 'Você se preocupa em perder o equilíbrio ou cair?',
-    subtext: 'Escolha a opção que melhor descreve você.',
+    stageId: 1,
+    stageName: 'Introducción',
+    trackingName: 'edad',
+    type: 'intro',
+    answerKey: 'userAge',
+    headline: '¿Cuántos años tienes?',
+    subtext: 'Tu edad nos ayuda a crear un plan de movimiento seguro y adaptado a tu cuerpo hoy.',
     options: [
-      { id: 'often', label: 'Sim, sempre', icon: 'ti ti-alert-triangle', subtext: 'penso nisso quase todo dia' },
-      { id: 'sometimes', label: 'Às vezes', icon: 'ti ti-cloud', subtext: 'em certas situações, como em escadas' },
-      { id: 'rarely', label: 'Quase nunca', icon: 'ti ti-shield', subtext: 'mas quero me prevenir' },
-      { id: 'no', label: 'Não, mas quero melhorar', icon: 'ti ti-target', subtext: 'quero me sentir ainda mais firme' },
+      { id: '40-49', label: '40 – 49 años', icon: 'ti ti-leaf' },
+      { id: '50-59', label: '50 – 59 años', icon: 'ti ti-plant-2' },
+      { id: '60-69', label: '60 – 69 años', icon: 'ti ti-flower' },
+      { id: '70+', label: '70 años o más', icon: 'ti ti-mountain' },
+    ],
+  },
+  {
+    id: 4,
+    stageId: 1,
+    stageName: 'Introducción',
+    trackingName: 'prueba_social',
+    type: 'info',
+    headline: 'No estás solo/a en esto',
+    subtext: 'Miles de {{genderNoun}} de tu edad ya están recuperando la firmeza corporal con FirmMe.',
+    backgroundImage: 'avatar-closeup-confianza',
+    checklist: [
+      { icon: 'ti ti-users', text: 'Más de 8.000 {{genderNoun}} ya han comenzado' },
+      { icon: 'ti ti-clock-hour-4', text: 'La mayoría tiene entre {{userAge}} años, al igual que tú' },
+      { icon: 'ti ti-star', text: '4,9/5 de satisfacción de nuestros alumnos' },
+    ],
+    ctaLabel: 'Continuar',
+  },
+  {
+    id: 5,
+    stageId: 1,
+    stageName: 'Introducción',
+    trackingName: 'balance_inicial',
+    type: 'question',
+    answerKey: 'balanceInitialFear',
+    autoAdvance: true,
+    headline: '¿Sientes que tu equilibrio ya no es el mismo de antes?',
+    subtext: 'Selecciona la opción que mejor describa tu estado físico.',
+    options: [
+      { id: 'yes_lot', label: 'Sí, siento mucha inestabilidad', icon: 'ti ti-alert-triangle' },
+      { id: 'yes_some', label: 'A veces oscilo o tropiezo', icon: 'ti ti-trending-down' },
+      { id: 'no_prevent', label: 'No, pero quiero prevenir', icon: 'ti ti-shield' },
     ],
   },
 
-  // ─────────────────────────────────────────────
-  // SCREEN 4 — STAT: Quedas consolidado (58%, Stanford + 24 estudos)
-  // Funde as antigas telas «1 em cada 3», «58%» e «24 estudos»
-  // em uma só, com um gráfico de 3 barras animado.
-  // ─────────────────────────────────────────────
+  // ───────────────────────────────────────────────────────────────────────────
+  // ETAPA 2: Mi Perfil (ID 6-11)
+  // ───────────────────────────────────────────────────────────────────────────
   {
-    id: 4,
-    type: 'stat',
-    stat: '58%',
-    headline: 'menos quedas graças ao Tai Chi',
-    subtext:
-      'É o resultado do maior estudo de Tai Chi já realizado (Stanford), comparado com alongamento tradicional — e é confirmado por outros 24 estudos clínicos em adultos mais velhos, em comparação com não fazer nenhum exercício.',
-    note:
-      'Depois dos 65 anos, 1 em cada 3 mulheres cai pelo menos uma vez por ano — mas o equilíbrio não se perde de uma vez: ele se treina (ou se negligencia) nas décadas anteriores. Começar agora, não importa a sua idade, é o que faz a diferença.',
-    visual: 'fall-risk-bars',
-    ctaLabel: 'Continuar',
-  },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 5 — Regiões de desconforto (body map)
-  // ─────────────────────────────────────────────
-  {
-    id: 5,
+    id: 6,
+    stageId: 2,
+    stageName: 'Mi Perfil',
+    trackingName: 'zonas_dolor',
     type: 'question',
     answerKey: 'painZones',
     multiSelect: true,
-    headline: 'Em quais regiões você sente mais desconforto?',
-    subtext: 'Selecione todas as opções que se aplicam. Isso nos ajuda a adaptar seu programa.',
+    headline: '¿En qué regiones sientes más molestia o dolor?',
+    subtext: 'Selecciona todas las opciones aplicables. Esto adapta la intensidad de los ejercicios.',
     options: [
-      { id: 'knees', label: 'Joelhos', icon: 'ti ti-bone' },
-      { id: 'lower_back', label: 'Lombar', icon: 'ti ti-align-justified' },
-      { id: 'hips', label: 'Quadris', icon: 'ti ti-yin-yang' },
-      { id: 'ankles', label: 'Tornozelos', icon: 'ti ti-shoe' },
-      { id: 'none', label: 'Nenhuma das anteriores', icon: 'ti ti-circle-check' },
+      { id: 'knees', label: 'Rodillas', icon: 'ti ti-bone' },
+      { id: 'lower_back', label: 'Lumbar', icon: 'ti ti-align-justified' },
+      { id: 'hips', label: 'Caderas', icon: 'ti ti-yin-yang' },
+      { id: 'ankles', label: 'Tobillos', icon: 'ti ti-shoe' },
+      { id: 'none', label: 'Ninguna de las anteriores', icon: 'ti ti-circle-check' },
     ],
-  },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 6 — STAT: 0% de carga de peso articular
-  // ─────────────────────────────────────────────
-  {
-    id: 6,
-    type: 'stat',
-    stat: '0%',
-    headline: 'de carga de peso nas suas articulações',
-    subtext:
-      'Diferente da academia ou da corrida, o Tai Chi na cadeira move suas articulações em toda a amplitude — sem carregá-las com o seu peso.',
-    visual: 'impact-compare',
     ctaLabel: 'Continuar',
   },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 7 — STAT: Movimento, não carga (lubrificação sinovial)
-  // ─────────────────────────────────────────────
   {
     id: 7,
-    type: 'stat',
-    headline: 'Suas articulações precisam de movimento, não de carga',
-    subtext:
-      'Os movimentos circulares e lentos favorecem a lubrificação natural de joelhos, quadris e ombros — o tipo de exercício recomendado pelas fundações de artrite.',
-    visual: 'joint-motion',
-    ctaLabel: 'Isso é para mim',
-  },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 8 — Frequência de atividade atual
-  // ─────────────────────────────────────────────
-  {
-    id: 8,
+    stageId: 2,
+    stageName: 'Mi Perfil',
+    trackingName: 'miedo_caer',
     type: 'question',
-    answerKey: 'activityLevel',
+    answerKey: 'balanceFear',
     autoAdvance: true,
-    headline: 'Como você descreveria sua atividade física hoje?',
+    headline: '¿Te preocupa el riesgo de caída o pérdida de estabilidad?',
+    subtext: 'Elige la opción con honestidad.',
     options: [
-      { id: 'none', label: 'Quase não me mexo', icon: 'ti ti-sofa', subtext: 'passo a maior parte do dia sentada' },
-      { id: 'light', label: 'Ando um pouco', icon: 'ti ti-walk', subtext: 'saio para caminhar de vez em quando' },
-      { id: 'moderate', label: 'Faço um pouco de exercício', icon: 'ti ti-run', subtext: 'algumas vezes por semana' },
-      { id: 'active', label: 'Sou bem ativa', icon: 'ti ti-barbell', subtext: 'me exercito, mas quero algo mais suave' },
+      { id: 'often', label: 'Sí, siempre', icon: 'ti ti-alert-triangle', subtext: 'Pienso en ello casi todos los días' },
+      { id: 'sometimes', label: 'A veces', icon: 'ti ti-cloud', subtext: 'En ciertas situaciones (escaleras, aceras)' },
+      { id: 'rarely', label: 'Casi nunca', icon: 'ti ti-shield', subtext: 'Pero me interesa fortalecer el cuerpo' },
+      { id: 'no', label: 'No, pero quiero mejorar', icon: 'ti ti-target', subtext: 'Quiero sentirme más firme y ágil' },
     ],
   },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 9 — STAT: A academia te deixa exausta (acento terracota)
-  // Compliance: «muitas mulheres sentem que…» em vez de afirmação categórica.
-  // ─────────────────────────────────────────────
+  {
+    id: 8,
+    stageId: 2,
+    stageName: 'Mi Perfil',
+    trackingName: 'stat_fall_risk_1',
+    type: 'stat',
+    headline: 'El riesgo de caída aumenta 3 veces después de los 50 años sin entrenamiento neuromuscular',
+    subtext: 'Estudios de Harvard y de la Universidad de Stanford muestran que la pérdida de equilibrio no ocurre de repente: progresa debido a la inactividad nerviosa. El Tai Chi en silla actúa restableciendo la conexión cerebro-músculo.',
+    note: 'El equilibrio es una habilidad que se entrena. Comenzar hoy reduce drásticamente esta curva de riesgo.',
+    visual: 'fall-risk-1',
+    ctaLabel: 'Entiendo el riesgo y quiero prevenir',
+  },
   {
     id: 9,
-    type: 'stat',
-    headline: 'A academia te deixa exausta, não forte',
-    subtext:
-      'Muitas mulheres sentem que, depois dos 40, o corpo demora mais para se recuperar. Não é falta de disciplina — é biologia, e o seu exercício precisa respeitar isso.',
-    visual: 'fatigue-clock',
-    accent: 'terracotta',
-    ctaLabel: 'Quero algo diferente',
+    stageId: 2,
+    stageName: 'Mi Perfil',
+    trackingName: 'rigidez_articular',
+    type: 'question',
+    answerKey: 'stiffness',
+    autoAdvance: true,
+    headline: '¿Tus articulaciones crujen o se sienten rígidas al levantarte de la silla o de la cama?',
+    subtext: 'Esta rigidez indica falta de lubricación sinovial natural.',
+    options: [
+      { id: 'yes_frequent', label: 'Sí, con frecuencia', icon: 'ti ti-bone' },
+      { id: 'sometimes', label: 'A veces, en los días más fríos', icon: 'ti ti-snowflake' },
+      { id: 'never', label: 'No, mis articulaciones se mueven bien', icon: 'ti ti-circle-check' },
+    ],
   },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 10 — História pessoal (open loop)
-  // ─────────────────────────────────────────────
   {
     id: 10,
+    stageId: 2,
+    stageName: 'Mi Perfil',
+    trackingName: 'historia_personal',
     type: 'question',
     answerKey: 'personalStory',
     autoAdvance: true,
-    headline: 'Você já deixou de fazer algo de que gostava por medo de cair ou se machucar?',
-    subtext: 'Continue lendo — vamos te contar o que isso tem a ver com o seu plano.',
+    headline: '¿Has dejado de hacer algo que te gustaba por miedo a caer o lastimarte?',
+    subtext: 'Evitar salir, subir escalones altos o jugar en el suelo con la familia...',
     options: [
-      { id: 'yes_often', label: 'Sim, várias vezes', icon: 'ti ti-door-exit' },
-      { id: 'yes_once', label: 'Sim, uma vez pensei sério', icon: 'ti ti-alert-circle' },
-      { id: 'no_but_worried', label: 'Não, mas me preocupa que aconteça', icon: 'ti ti-eye' },
-      { id: 'no', label: 'Não, de jeito nenhum', icon: 'ti ti-circle-check' },
+      { id: 'yes_often', label: 'Sí, varias veces', icon: 'ti ti-door-exit' },
+      { id: 'yes_once', label: 'Sí, a veces evito ciertas actividades', icon: 'ti ti-alert-circle' },
+      { id: 'no_but_worried', label: 'No, pero me preocupa que ocurra en el futuro', icon: 'ti ti-eye' },
+      { id: 'no', label: 'No, en absoluto', icon: 'ti ti-circle-check' },
     ],
   },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 11 — INFO: Empatia / dor (usa {{userAge}})
-  // Ponte de validação: amarra quedas + articulações + fadiga em um só
-  // lugar, logo antes da última pergunta e da revelação do Método.
-  // ─────────────────────────────────────────────
   {
     id: 11,
+    stageId: 2,
+    stageName: 'Mi Perfil',
+    trackingName: 'empatia',
     type: 'info',
-    headline: 'A gente entende como você se sente',
-    subtext:
-      'Entre o cansaço, as mudanças hormonais e cuidar de todo mundo menos de você, aos {{userAge}} seu corpo já não responde igual — e não é culpa sua. Você precisa de um movimento pensado para a sua fase de vida.',
+    headline: 'Entendemos cómo te sientes',
+    subtext: 'Con los cambios hormonales y el desgaste natural después de los 40 años, el cuerpo cambia de ritmo — y no es tu culpa. Las articulações piden un movimiento seguro.',
     backgroundImage: 'avatar-antes-estres',
     checklist: [
-      { icon: 'ti ti-heart', text: 'Movimentos suaves, pensados para o seu corpo hoje' },
-      { icon: 'ti ti-shield-check', text: 'Sem risco de quedas nem impacto nas articulações' },
-      { icon: 'ti ti-armchair', text: 'Tudo é feito sentada, na sua própria cadeira' },
+      { icon: 'ti ti-heart', text: 'Ejercicios enfocados en reactivar los reflejos de equilibrio' },
+      { icon: 'ti ti-shield-check', text: 'Sin impacto en las rodillas, caderas o columna' },
+      { icon: 'ti ti-armchair', text: 'Hecho 100% sentado/a, usando una silla común' },
     ],
-    ctaLabel: 'Continuar',
+    ctaLabel: 'Ver mi plan de actividad',
   },
 
-  // ─────────────────────────────────────────────
-  // SCREEN 12 — Nível de energia
-  // ─────────────────────────────────────────────
+  // ───────────────────────────────────────────────────────────────────────────
+  // ETAPA 3: Actividad (ID 12-17)
+  // ───────────────────────────────────────────────────────────────────────────
   {
     id: 12,
+    stageId: 3,
+    stageName: 'Nivel de Actividad',
+    trackingName: 'nivel_actividad',
     type: 'question',
-    answerKey: 'energyLevel',
+    answerKey: 'activityLevel',
     autoAdvance: true,
-    headline: 'Como você descreveria seu nível de energia em um dia normal?',
+    headline: '¿Cómo describirías tu actividad física hoy?',
     options: [
-      { id: 'low', label: 'Muito baixa, me canso rápido', icon: 'ti ti-battery-1' },
-      { id: 'medium_low', label: 'Baixa, o dia me consome', icon: 'ti ti-battery-2', subtext: 'entre trabalho, casa e cuidar dos outros' },
-      { id: 'medium', label: 'Normal, mas podia ser melhor', icon: 'ti ti-battery-3' },
-      { id: 'high', label: 'Boa, me sinto ativa', icon: 'ti ti-battery-4' },
+      { id: 'none', label: 'Casi no me muevo', icon: 'ti ti-sofa', subtext: 'Paso la mayor parte del día sentado/a' },
+      { id: 'light', label: 'Camino un poco', icon: 'ti ti-walk', subtext: 'Camino un poco en el día a día' },
+      { id: 'moderate', label: 'Hago ejercicio regular', icon: 'ti ti-run', subtext: 'Dos a tres veces por semana' },
+      { id: 'active', label: 'Soy bastante activo/a', icon: 'ti ti-barbell', subtext: 'Pero quiero algo más enfocado en movilidad suave' },
     ],
   },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 13 — INFO: Mecanismo «Método FirmMe™»
-  // ─────────────────────────────────────────────
   {
     id: 13,
-    type: 'info',
-    headline: 'O Método FirmMe™: seu equilíbrio, passo a passo',
-    subtext:
-      'Não é sobre fazer mais exercício, e sim sobre o exercício certo. Cada rotina combina posturas de Tai Chi com trabalho de equilíbrio, no seu ritmo.',
-    backgroundImage: 'avatar-hero-cloud-hands',
-    checklist: [
-      { icon: 'ti ti-target-arrow', text: 'Foco em equilíbrio e estabilidade, não em esforço' },
-      { icon: 'ti ti-clock', text: 'Rotinas curtas de 10 a 20 minutos, sem te agotar' },
-      { icon: 'ti ti-trending-up', text: 'Você avança no seu ritmo, semana a semana' },
-    ],
-    ctaLabel: 'Isso me interessa',
+    stageId: 3,
+    stageName: 'Nivel de Actividad',
+    trackingName: 'stat_gimnasio_agota',
+    type: 'stat',
+    headline: 'El exceso de esfuerzo en el gimnasio desgasta el cuerpo maduro',
+    subtext: 'Muchos programas de ejercicio convencionales exigen saltos y pesos que inflaman las articulaciones. El Tai Chi en silla trabaja con la gravedad de forma pasiva, restableciendo el tono sin dolor.',
+    visual: 'fatigue-clock',
+    accent: 'terracotta',
+    ctaLabel: 'Quiero un ejercicio suave',
   },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 14 — Evento importante próximo
-  // ─────────────────────────────────────────────
   {
     id: 14,
+    stageId: 3,
+    stageName: 'Nivel de Actividad',
+    trackingName: 'confianza_caminar',
+    type: 'question',
+    answerKey: 'walkingConfidence',
+    autoAdvance: true,
+    headline: '¿Cuál es tu nivel de confianza al subir escaleras sin pasamanos?',
+    subtext: 'Indica la fuerza refleja del tobillo y la cadera.',
+    options: [
+      { id: 'very_low', label: 'Muy bajo, necesito siempre sostenerme', icon: 'ti ti-stairs-down' },
+      { id: 'moderate', label: 'Regular, voy despacio y con atención', icon: 'ti ti-stairs' },
+      { id: 'high', label: 'Alto, subo con firmeza y sin miedo', icon: 'ti ti-arrow-up-right' },
+    ],
+  },
+  {
+    id: 15,
+    stageId: 3,
+    stageName: 'Nivel de Actividad',
+    trackingName: 'sabias_silla',
+    type: 'question',
+    answerKey: 'knowsChairBenefits',
+    autoAdvance: true,
+    headline: '¿Sabías que ejercitarse sentado elimina la carga de gravedad en las articulaciones?',
+    subtext: 'Permite que rodillas y caderas recuperen la lubricación antes de soportar peso.',
+    options: [
+      { id: 'yes', label: 'Sí, ya me he dado cuenta de eso', icon: 'ti ti-bulb' },
+      { id: 'no_makes_sense', label: 'No lo sabía, pero tiene todo el sentido', icon: 'ti ti-circle-check' },
+    ],
+  },
+  {
+    id: 16,
+    stageId: 3,
+    stageName: 'Nivel de Actividad',
+    trackingName: 'stat_0_carga',
+    type: 'stat',
+    stat: '0%',
+    headline: 'de impacto o sobrecarga articular vertical',
+    subtext: 'El Tai Chi en silla distribuye tu peso de forma estable. Fortaleces el tronco y las piernas sin desgastar los cartílagos de las rodillas o de la columna.',
+    visual: 'impact-compare',
+    ctaLabel: 'Continuar para ver los beneficios',
+  },
+  {
+    id: 17,
+    stageId: 3,
+    stageName: 'Nivel de Actividad',
+    trackingName: 'stat_movimiento_sin_carga',
+    type: 'stat',
+    headline: 'Tus articulaciones necesitan movimiento circular fluido',
+    subtext: 'La rotación suave y lenta del Tai Chi promueve la secreción de líquido sinovial. Es como poner aceite en un engranaje que ha estado atascado durante años.',
+    visual: 'joint-motion',
+    ctaLabel: 'Esto es para mí',
+  },
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // ETAPA 4: Mi Plan (ID 18-22)
+  // ───────────────────────────────────────────────────────────────────────────
+  {
+    id: 18,
+    stageId: 4,
+    stageName: 'Mi Plan',
+    trackingName: 'momento_practica',
+    type: 'question',
+    answerKey: 'practiceTime',
+    autoAdvance: true,
+    headline: '¿Cuál es el mejor momento del día para tus rutinas de 10 a 20 minutos?',
+    subtext: 'Creamos recordatorios y programamos tu cronograma personalizado.',
+    options: [
+      { id: 'morning', label: 'Por la mañana (para comenzar el día con energía)', icon: 'ti ti-brightness-up' },
+      { id: 'afternoon', label: 'Por la tarde (para relajar la tensión muscular)', icon: 'ti ti-sun' },
+      { id: 'evening', label: 'Por la noche (para descomprimir y dormir mejor)', icon: 'ti ti-moon' },
+    ],
+  },
+  {
+    id: 19,
+    stageId: 4,
+    stageName: 'Mi Plan',
+    trackingName: 'evento_proximo',
     type: 'question',
     answerKey: 'eventType',
     autoAdvance: true,
-    headline: 'Você tem algum evento importante nos próximos meses?',
+    headline: '¿Tienes algún evento importante planeado para los próximos meses?',
     options: [
-      { id: 'wedding', label: 'Um casamento ou celebração em família', icon: 'ti ti-confetti' },
-      { id: 'trip', label: 'Uma viagem', icon: 'ti ti-plane' },
-      { id: 'family_visit', label: 'A visita de netos ou família', icon: 'ti ti-users' },
-      { id: 'none', label: 'Nenhum, só quero me sentir melhor', icon: 'ti ti-heart' },
+      { id: 'wedding', label: 'Una boda o celebración familiar importante', icon: 'ti ti-confetti' },
+      { id: 'trip', label: 'Un viaje o paseo con muchas caminatas', icon: 'ti ti-plane' },
+      { id: 'family_visit', label: 'La visita de nietos o familiares queridos', icon: 'ti ti-users' },
+      { id: 'none', label: 'Ningún evento especial, solo quiero sentirme bien', icon: 'ti ti-heart' },
     ],
   },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 15 — Meta ideal (metaIdeal) + InfoCard «Meta realista»
-  // ─────────────────────────────────────────────
   {
-    id: 15,
+    id: 20,
+    stageId: 4,
+    stageName: 'Mi Plan',
+    trackingName: 'fecha_objetivo',
+    type: 'date-input',
+    answerKey: 'fechaObjetivo',
+    headline: '¿Tienes una fecha específica en mente para este objetivo?',
+    subtext: 'Calculamos los hitos de estabilidad semanales con precisión para que llegues firme a esta fecha.',
+    skipLabel: 'No tengo fecha fija, quiero evolucionar a mi propio ritmo',
+    ctaLabel: 'Confirmar fecha',
+  },
+  {
+    id: 21,
+    stageId: 4,
+    stageName: 'Mi Plan',
+    trackingName: 'meta_ideal',
     type: 'question',
     answerKey: 'metaIdeal',
-    headline: 'O que você gostaria de poder fazer sem medo de perder o equilíbrio?',
+    headline: '¿Qué te gustaría recuperar o hacer con total seguridad corporal?',
     options: [
-      { id: 'grandkids', label: 'Brincar com meus netos sem medo de cair', icon: 'ti ti-users' },
-      { id: 'travel', label: 'Viajar e caminhar tranquila por horas', icon: 'ti ti-plane' },
-      { id: 'stairs', label: 'Subir e descer escadas com confiança', icon: 'ti ti-stairs' },
-      { id: 'confidence', label: 'Simplesmente me sentir segura no meu próprio corpo', icon: 'ti ti-heart' },
+      { id: 'grandkids', label: 'Jugar con nietos o hijos en el suelo sin miedo', icon: 'ti ti-users' },
+      { id: 'travel', label: 'Caminar durante horas explorando nuevas calles o playas', icon: 'ti ti-plane' },
+      { id: 'stairs', label: 'Subir y bajar escaleras cargando bolsas sin temblar', icon: 'ti ti-stairs' },
+      { id: 'confidence', label: 'Simplemente caminar con la cabeza en alto y sin miedo', icon: 'ti ti-heart' },
     ],
     infoCard: {
       icon: 'ti ti-target',
-      headline: 'Meta realista: melhorar seu equilíbrio em 4 semanas.',
-      body: 'A FirmMe foi pensada para te acompanhar de forma segura e sustentável. Os guias de fisioterapia recomendam sessões curtas e progressivas em vez de rotinas intensas e esporádicas, que podem gerar mais cansaço ou risco para as articulações.',
+      headline: 'Meta realista: mejora visible del equilibrio en 4 semanas.',
+      body: 'Nuestra rutina fue pensada para reconstruir la estabilidad de forma segura y progresiva. Las pautas médicas sugieren sesiones constantes de 15 minutos en lugar de entrenamientos largos que provocan fatiga refleja.',
     },
   },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 16 — Data objetivo real (fechaObjetivo), com skip a +4 semanas
-  // ─────────────────────────────────────────────
-  {
-    id: 16,
-    type: 'date-input',
-    answerKey: 'fechaObjetivo',
-    headline: 'Você tem algum evento importante em breve?',
-    subtext: 'Uma viagem, um casamento, um encontro em família — qualquer momento em que você queira se sentir segura e com energia.',
-    skipLabel: 'Não tenho nenhum por enquanto',
-    ctaLabel: 'Continuar',
-  },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 17 — Nome
-  // ─────────────────────────────────────────────
-  {
-    id: 17,
-    type: 'name-input',
-    answerKey: 'userName',
-    headline: 'Como você se chama?',
-    subtext: 'Vamos usar seu nome para personalizar seu plano.',
-    placeholder: 'Seu nome...',
-    ctaLabel: 'Continuar',
-  },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 18 — E-mail
-  // ─────────────────────────────────────────────
-  {
-    id: 18,
-    type: 'email-input',
-    answerKey: 'userEmail',
-    headline: 'Para qual e-mail enviamos seu plano?',
-    subtext: 'Lá você recebe seu plano personalizado e o acesso ao programa.',
-    placeholder: 'Seu e-mail...',
-    ctaLabel: 'Ver meu plano →',
-  },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 19 — ANÁLISE (animada, usa {{userName}})
-  // ─────────────────────────────────────────────
-  {
-    id: 19,
-    type: 'analysis',
-    answerKey: undefined,
-    headline: 'Estamos preparando seu plano, {{userName}}',
-    subtext: 'Analisando suas respostas para criar um programa personalizado...',
-    steps: [
-      'Avaliando seu nível de atividade...',
-      'Adaptando os exercícios à sua idade...',
-      'Considerando as regiões de desconforto...',
-      'Selecionando as rotinas ideais...',
-      'Seu plano personalizado está pronto!',
-    ],
-    autoAdvanceMs: 1000,
-  },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 20 — COMPROMISSO: «Você está pronta para assumir o compromisso?»
-  // Não bloqueia o avanço — gera compromisso psicológico, não filtra.
-  // ─────────────────────────────────────────────
-  {
-    id: 20,
-    type: 'commitment',
-    answerKey: 'compromisoInicial',
-    badge: 'QUASE LÁ!',
-    headline: 'Você está pronta para assumir o compromisso?',
-    options: [
-      { id: 'tomorrow', label: 'Sim, amanhã faço minha primeira sessão.', icon: 'ti ti-calendar-up' },
-      { id: 'today', label: 'Sim! Hoje faço minha primeira sessão.', icon: 'ti ti-flame' },
-      { id: 'not_ready', label: 'Não estou pronta para assumir o compromisso.', icon: 'ti ti-clock-pause' },
-    ],
-  },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 21 — PROJEÇÃO: gráfico estilo "Simple", usa metaIdeal/fechaObjetivo
-  // ─────────────────────────────────────────────
-  {
-    id: 21,
-    type: 'projection',
-    headline: '{{userName}}, alcance seu objetivo: {{metaIdeal}} até {{fechaObjetivo}}',
-    subtext: 'E se sinta segura a cada passo',
-    bullets: [
-      'Melhore seu equilíbrio com movimentos suaves, mas eficazes',
-      'Exercícios feitos para fazer sentada, sem precisar de equipamento',
-      'Rotinas curtas de 10 a 20 minutos, no seu ritmo',
-      'Acompanhamento em cada passo do seu progresso',
-    ],
-    ctaLabel: 'Quero meu plano',
-  },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 22 — FADE-SEQUENCE: 4 linhas de boas-vindas, auto-avança
-  // ─────────────────────────────────────────────
   {
     id: 22,
+    stageId: 4,
+    stageName: 'Mi Plan',
+    trackingName: 'stat_fall_risk_2',
+    type: 'stat',
+    headline: 'Fase de Estabilización: Cómo cambiará tu estabilidad en las primeras 4 semanas',
+    subtext: 'Durante los primeros 7 a 14 días, las conexiones vestibulares y cerebelosas dormidas despiertan. En 28 días, el tono muscular en los tobillos y caderas crea un \"cinturón de estabilidad\" automático.',
+    note: 'Esta progresión se basa en el entrenamiento sináptico lento, la forma más eficiente de fijar patrones de equilibrio.',
+    visual: 'fall-risk-2',
+    ctaLabel: 'Continuar a Estilo de Vida',
+  },
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // ETAPA 5: Estilo de Vida (ID 23-27)
+  // ───────────────────────────────────────────────────────────────────────────
+  {
+    id: 23,
+    stageId: 5,
+    stageName: 'Estilo de Vida',
+    trackingName: 'calidad_sueno',
+    type: 'question',
+    answerKey: 'sleepQuality',
+    autoAdvance: true,
+    headline: '¿Cómo evalúas la calidad de tu sueño actualmente?',
+    subtext: 'El descanso profundo regula la hormona cortisol y la regeneración muscular.',
+    options: [
+      { id: 'poor', label: 'Mala: me despierto cansado/a y con dolores', icon: 'ti ti-battery-1' },
+      { id: 'average', label: 'Regular: me despierto algunas veces por la noche', icon: 'ti ti-battery-2' },
+      { id: 'good', label: 'Excelente: duermo bien y me despierto renovado/a', icon: 'ti ti-battery-4' },
+    ],
+  },
+  {
+    id: 24,
+    stageId: 5,
+    stageName: 'Estilo de Vida',
+    trackingName: 'bajada_energia',
+    type: 'question',
+    answerKey: 'energyCrashTime',
+    autoAdvance: true,
+    headline: '¿A qué hora sientes una caída drástica de energía?',
+    options: [
+      { id: 'late_morning', label: 'Al final de la mañana', icon: 'ti ti-coffee' },
+      { id: 'after_lunch', label: 'Justo después del almuerzo', icon: 'ti ti-sofa' },
+      { id: 'late_afternoon', label: 'Al final de la tarde', icon: 'ti ti-sunset' },
+      { id: 'always_tired', label: 'Siento cansancio constante todo el día', icon: 'ti ti-clock-pause' },
+    ],
+  },
+  {
+    id: 25,
+    stageId: 5,
+    stageName: 'Estilo de Vida',
+    trackingName: 'nivel_energia',
+    type: 'question',
+    answerKey: 'energyLevel',
+    autoAdvance: true,
+    headline: '¿Cómo describirías tu nivel de energía general en un día cualquiera?',
+    options: [
+      { id: 'low', label: 'Muy bajo, cualquier actividad me cansa', icon: 'ti ti-battery-1' },
+      { id: 'medium_low', label: 'Bajo, el estrés diario me consume', icon: 'ti ti-battery-2', subtext: 'Entre cuidar de todos y las tareas del hogar' },
+      { id: 'medium', label: 'Normal, pero siento que podría tener más vitalidad', icon: 'ti ti-battery-3' },
+      { id: 'high', label: 'Excelente, me siento con buena vitalidad', icon: 'ti ti-battery-4' },
+    ],
+  },
+  {
+    id: 26,
+    stageId: 5,
+    stageName: 'Estilo de Vida',
+    trackingName: 'ansiedad_estres',
+    type: 'question',
+    answerKey: 'stressLevel',
+    autoAdvance: true,
+    headline: '¿Sientes que el estrés o la ansiedad aumentan la rigidez en tus hombros o cuello?',
+    subtext: 'La tensión emocional bloquea los canales de relajación motora.',
+    options: [
+      { id: 'yes_always', label: 'Sí, siento mucha tensión física acumulada', icon: 'ti ti-flame' },
+      { id: 'sometimes', label: 'A veces, en los días más ajetreados', icon: 'ti ti-trending-up' },
+      { id: 'no', label: 'Rara vez o nunca acumulo tensión', icon: 'ti ti-circle-check' },
+    ],
+  },
+  {
+    id: 27,
+    stageId: 5,
+    stageName: 'Estilo de Vida',
+    trackingName: 'metodo_firmme',
+    type: 'info',
+    headline: 'El Método FirmMe™: tu equilibrio, paso a paso',
+    subtext: 'Nuestros ejercicios combinan movimientos lentos y fluidos con respiración enfocada, aliviando la ansiedad mental y soltando las articulaciones rígidas.',
+    backgroundImage: 'avatar-hero-cloud-hands',
+    checklist: [
+      { icon: 'ti ti-target-arrow', text: 'Trabajo de estabilidad profunda de bajísimo impacto' },
+      { icon: 'ti ti-clock', text: 'Sesiones cortas y fáciles de 10 a 20 minutos diarios' },
+      { icon: 'ti ti-trending-up', text: 'Progresas suavemente, sin agotamiento ni dolores' },
+    ],
+    ctaLabel: 'Verificar parámetros de seguridad',
+  },
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // ETAPA 6: Salud y Seguridad (ID 28-31)
+  // ───────────────────────────────────────────────────────────────────────────
+  {
+    id: 28,
+    stageId: 6,
+    stageName: 'Salud y Seguridad',
+    trackingName: 'restriccion_medica',
+    type: 'question',
+    answerKey: 'medicalRestriction',
+    autoAdvance: true,
+    headline: '¿Tienes alguna restricción médica grave para movimientos leves?',
+    subtext: 'La seguridad es nuestra prioridad absoluta.',
+    options: [
+      { id: 'no', label: 'No, puedo realizar estiramientos y movimientos leves', icon: 'ti ti-shield-check' },
+      { id: 'yes_careful', label: 'Sí, necesito extremo cuidado (artritis aguda, prótesis reciente)', icon: 'ti ti-alert-triangle' },
+    ],
+  },
+  {
+    id: 29,
+    stageId: 6,
+    stageName: 'Salud y Seguridad',
+    trackingName: 'harvard_spotlight',
+    type: 'info',
+    headline: 'Harvard Medical School confirma la superioridad del Tai Chi',
+    subtext: 'Los geriatras y fisioterapeutas más importantes do mundo recomiendan el Tai Chi por encima de cualquier otra práctica física para personas mayores de 40 años.',
+    backgroundImage: 'harvard-spotlight-citation',
+    checklist: [
+      { icon: 'ti ti-shield-check', text: 'Reduce el riesgo real de fracturas graves causadas por caídas' },
+      { icon: 'ti ti-heart', text: 'Aumenta la flexibilidad sinovial y relaja el sistema nervioso' },
+      { icon: 'ti ti-activity', text: 'Desarrolla la autoconfianza espacial y la firmeza de tus pasos' },
+    ],
+    ctaLabel: 'Ver mi gráfico de estabilidad esperado',
+  },
+  {
+    id: 30,
+    stageId: 6,
+    stageName: 'Salud y Seguridad',
+    trackingName: 'stat_fall_risk_3',
+    type: 'stat',
+    headline: 'Comparación Clínica: Reducción del riesgo de caídas según el tipo de ejercicio',
+    subtext: 'Estudio publicado por el Journal of the American Geriatrics Society evaluó la eficacia del Tai Chi en comparación con los entrenamientos convencionales. O Tai Chi en silla fue el único en obtener cerca del 58% de eficacia en personas mayores sedentarias.',
+    note: 'El estiramiento convencional y la musculación pesada no actúan sobre los reflejos rápidos del laberinto auditivo.',
+    visual: 'fall-risk-3',
+    ctaLabel: 'Quiero obtener este nivel de protección',
+  },
+  {
+    id: 31,
+    stageId: 6,
+    stageName: 'Salud y Seguridad',
+    trackingName: 'salud_osea',
+    type: 'question',
+    answerKey: 'boneHealthConcern',
+    autoAdvance: true,
+    headline: '¿Te preocupa el debilitamiento óseo (osteoporosis) o el desgaste articular?',
+    subtext: 'La tracción leve y pasiva de los músculos sobre los huesos durante el Tai Chi estimula la calcificación.',
+    options: [
+      { id: 'yes', label: 'Sí, tengo antecedentes o diagnóstico', icon: 'ti ti-bone' },
+      { id: 'prevent', label: 'Quiero prevenir y fortalecer mis huesos', icon: 'ti ti-shield' },
+      { id: 'no', label: 'No es una preocupación actual', icon: 'ti ti-circle-check' },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // ETAPA 7: Ya Casi Está (ID 32-34)
+  // ───────────────────────────────────────────────────────────────────────────
+  {
+    id: 32,
+    stageId: 7,
+    stageName: 'Finalizando',
+    trackingName: 'nombre',
+    type: 'name-input',
+    answerKey: 'userName',
+    headline: '¿Cómo te llamas?',
+    subtext: 'Usaremos tu nombre para personalizar los informes y las pantallas de tu plan.',
+    placeholder: 'Escribe tu nombre...',
+    ctaLabel: 'Continuar',
+  },
+  {
+    id: 33,
+    stageId: 7,
+    stageName: 'Finalizando',
+    trackingName: 'email',
+    type: 'email-input',
+    answerKey: 'userEmail',
+    headline: '¿A dónde debemos enviar tu Plan de Estabilidad?',
+    subtext: 'Recibirás el acceso al programa y tu cronograma semanal detallado por correo electrónico.',
+    placeholder: 'Escribe tu correo principal...',
+    ctaLabel: 'Ver mi plan personalizado →',
+  },
+  {
+    id: 34,
+    stageId: 7,
+    stageName: 'Finalizando',
+    trackingName: 'compromiso',
+    type: 'commitment',
+    answerKey: 'compromisoInicial',
+    badge: '¡YA CASI ESTÁ!',
+    headline: '¿Estás listo/a para asumir el compromiso de ejercitarte 15 min al día?',
+    options: [
+      { id: 'today', label: '¡Sí, quiero comenzar hoy mismo!', icon: 'ti ti-flame' },
+      { id: 'tomorrow', label: 'Sí, comienzo mañana temprano.', icon: 'ti ti-calendar-up' },
+      { id: 'try', label: 'Intentaré hacer lo mejor posible.', icon: 'ti ti-clock-pause' },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // ETAPA 8: Cierre (ID 35-39, Sin barra de progreso)
+  // ───────────────────────────────────────────────────────────────────────────
+  {
+    id: 35,
+    stageId: 8,
+    stageName: 'Resultado',
+    trackingName: 'analisis',
+    type: 'analysis',
+    headline: 'Estamos preparando tu plan personalizado, {{userName}}',
+    subtext: 'Evaluando tus respuestas para crear el mejor programa de Tai Chi en Silla...',
+    steps: [
+      'Analizando datos de edad y sexo biológico...',
+      'Adaptando ejercicios para aliviar dolor en las articulaciones ({{painZones}})...',
+      'Configurando curva de equilibrio para {{userName}}...',
+      'Generando cronograma personalizado para practicar por la {{practiceTime}}...',
+      '¡Tu Plan de Estabilidad está listo!',
+    ],
+    autoAdvanceMs: 1500,
+  },
+  {
+    id: 36,
+    stageId: 8,
+    stageName: 'Resultado',
+    trackingName: 'proyeccion',
+    type: 'projection',
+    headline: '{{userName}}, tu progreso de estabilidad esperado hasta el {{fechaObjetivo}}',
+    subtext: 'Recupera la seguridad en tus pasos con entrenamientos estructurados de 15 minutos.',
+    bullets: [
+      'Reduce el riesgo de caídas activando tus reflejos neuromusculares',
+      'Protege tus rodillas y columna ejercitándote 100% sentado/a',
+      'Sin pesas, sin cansancio extremo, respetando la biología 40+',
+      'Garantía incondicional de reembolso por 7 días',
+    ],
+    ctaLabel: 'Quiero mi plan personalizado',
+  },
+  {
+    id: 37,
+    stageId: 8,
+    stageName: 'Resultado',
+    trackingName: 'bienvenida',
     type: 'fade-sequence',
     lines: [
-      'Bem-vinda à FirmMe, {{userName}}!',
-      'Apenas 10 a 20 minutos por dia...',
-      'Em {{fechaObjetivoMenos7}}, você vai sentir',
-      'Em {{fechaObjetivo}}, todo mundo vai notar',
+      '¡Bienvenido/a a tu nueva etapa de vida, {{userName}}!',
+      'Solo 15 minutos al día...',
+      'El {{fechaObjetivoMenos7}}, sentirás más estabilidad',
+      'El {{fechaObjetivo}}, las personas a tu alrededor notarán tu confianza',
     ],
     msPerLine: 2500,
   },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 23 — RESULTADO + PREÇOS + GARANTIA
-  // Spec completo: landing-resultados-precios-firmme.md
-  // ─────────────────────────────────────────────
   {
-    id: 23,
+    id: 38,
+    stageId: 8,
+    stageName: 'Resultado',
+    trackingName: 'resultado_paywall',
     type: 'result-paywall',
-    headline: 'Seu plano de Tai Chi na Cadeira está pronto!',
+    headline: '¡Tu plan de Tai Chi en Silla está listo!',
     checklist: [
-      'Um novo plano personalizado a cada semana',
-      'Rotinas guiadas com vídeo, passo a passo',
-      'Tai Chi na cadeira, sem impacto nas suas articulações',
-      'Pensado para mulheres 40+',
-      'Acompanhamento em cada etapa do seu progresso',
+      'Acceso a la aplicación completa con rutinas en video paso a paso',
+      'Planes de entrenamiento progresivos actualizados semanalmente',
+      'Ejercicios 100% seguros hechos en silla (cero impacto)',
+      'Soporte directo por WhatsApp con equipo de especialistas',
+      'Garantía de reembolso sin burocracia por 7 días',
     ],
-    guaranteeHeadline: 'Sua satisfação está garantida',
-    guaranteeBody: 'Se por qualquer motivo você não ficar satisfeita com o programa, devolvemos seu dinheiro inteiro — sem burocracia, sem desculpas.',
-    ctaLabel: 'Quero meu plano',
+    guaranteeHeadline: 'Tu satisfacción está 100% garantizada',
+    guaranteeBody: 'Prueba el programa durante 7 días enteros. Si no te sientes más firme, seguro/a y con energía, te devolvemos todo tu dinero. Sin complicaciones.',
+    ctaLabel: 'Obtener mi plan con descuento',
   },
-
-  // ─────────────────────────────────────────────
-  // SCREEN 24 — CONFIRMAÇÃO + ENTREGA
-  // ─────────────────────────────────────────────
   {
-    id: 24,
+    id: 39,
+    stageId: 8,
+    stageName: 'Resultado',
+    trackingName: 'confirmacion',
     type: 'confirmation',
-    headline: 'Pronto, {{userName}}! Seu acesso está a caminho',
-    body: 'Confira seu e-mail nos próximos minutos — lá você encontra o link para acessar seu programa FirmMe e começar hoje mesmo.',
+    headline: '¡Listo, {{userName}}! Tu acceso está en camino',
+    body: 'Revisa tu bandeja de entrada en unos instantes. Allí encontrarás tu enlace exclusivo para acceder a tu programa FirmMe y comenzar tus sesiones.',
     badges: [
-      { icon: 'ti ti-mail', text: 'Confira sua caixa de entrada' },
-      { icon: 'ti ti-device-mobile', text: 'Acesse pelo celular ou computador' },
-      { icon: 'ti ti-headset', text: 'Suporte disponível por WhatsApp' },
+      { icon: 'ti ti-mail', text: 'Revisa tu bandeja de entrada' },
+      { icon: 'ti ti-device-mobile', text: 'Accede desde cualquier celular, tablet o computadora' },
+      { icon: 'ti ti-headset', text: 'Soporte humano disponible por WhatsApp' },
     ],
-    ctaLabel: 'Entendi',
+    ctaLabel: 'Entendido, ir al inicio',
   },
 ];

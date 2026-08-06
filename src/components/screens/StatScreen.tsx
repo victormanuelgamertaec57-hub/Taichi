@@ -235,11 +235,137 @@ function JointMotion() {
   );
 }
 
+function FallRisk1() {
+  return (
+    <svg viewBox="0 0 320 180" fill="none" className="w-full max-w-[280px]" aria-hidden="true">
+      <line x1="40" y1="20" x2="300" y2="20" stroke="#E4DFD0" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="40" y1="80" x2="300" y2="80" stroke="#E4DFD0" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="40" y1="140" x2="300" y2="140" stroke="#E4DFD0" strokeWidth="1" />
+      <line x1="40" y1="20" x2="40" y2="140" stroke="#B9C4BB" strokeWidth="2" />
+      
+      {/* Curve: Without exercise (Red/Muted ascending) */}
+      <motion.path
+        d="M 40 120 Q 150 110 300 30"
+        stroke="#D97A4E"
+        strokeWidth="3"
+        fill="none"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.2, ease: 'easeOut' }}
+      />
+      <text x="130" y="45" fontSize="10" fontWeight="bold" fill="#D97A4E" fontFamily="Nunito, sans-serif">Sem treino (3x risco)</text>
+
+      {/* Curve: With FirmMe (Green/Sage stable) */}
+      <motion.path
+        d="M 40 120 Q 150 125 300 115"
+        stroke="#5C7AE0"
+        strokeWidth="4"
+        fill="none"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.2, delay: 0.3, ease: 'easeOut' }}
+      />
+      <text x="140" y="105" fontSize="10" fontWeight="bold" fill="#5C7AE0" fontFamily="Nunito, sans-serif">Com FirmMe</text>
+
+      {/* Eje X labels */}
+      <text x="40" y="158" fontSize="9" fontWeight="bold" fill="#6B7A70" textAnchor="middle" fontFamily="Nunito, sans-serif">40 anos</text>
+      <text x="170" y="158" fontSize="9" fontWeight="bold" fill="#6B7A70" textAnchor="middle" fontFamily="Nunito, sans-serif">55 anos</text>
+      <text x="290" y="158" fontSize="9" fontWeight="bold" fill="#6B7A70" textAnchor="middle" fontFamily="Nunito, sans-serif">70+ anos</text>
+    </svg>
+  );
+}
+
+function FallRisk2() {
+  return (
+    <svg viewBox="0 0 320 180" fill="none" className="w-full max-w-[280px]" aria-hidden="true">
+      <line x1="40" y1="20" x2="300" y2="20" stroke="#E4DFD0" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="40" y1="80" x2="300" y2="80" stroke="#E4DFD0" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="40" y1="140" x2="300" y2="140" stroke="#E4DFD0" strokeWidth="1" />
+      <line x1="40" y1="20" x2="40" y2="140" stroke="#B9C4BB" strokeWidth="2" />
+
+      {/* Curve showing Stability index going up */}
+      <motion.path
+        d="M 40 130 C 100 120, 120 40, 300 30"
+        stroke="#5C7AE0"
+        strokeWidth="4"
+        fill="none"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.4, ease: 'easeOut' }}
+      />
+      <text x="120" y="45" fontSize="11" fontWeight="extrabold" fill="#5C7AE0" fontFamily="Nunito, sans-serif">Estabilidade (+85%)</text>
+      
+      <text x="40" y="158" fontSize="9" fontWeight="bold" fill="#6B7A70" textAnchor="middle" fontFamily="Nunito, sans-serif">Dia 1</text>
+      <text x="170" y="158" fontSize="9" fontWeight="bold" fill="#6B7A70" textAnchor="middle" fontFamily="Nunito, sans-serif">Semana 2</text>
+      <text x="290" y="158" fontSize="9" fontWeight="bold" fill="#6B7A70" textAnchor="middle" fontFamily="Nunito, sans-serif">Semana 4</text>
+    </svg>
+  );
+}
+
+function FallRisk3() {
+  return (
+    <svg viewBox="0 0 320 180" fill="none" className="w-full max-w-[280px]" aria-hidden="true">
+      <line x1="20" y1="140" x2="300" y2="140" stroke="#B9C4BB" strokeWidth="2" />
+      
+      {/* Bar 1: Sedentarismo */}
+      <motion.rect
+        x="50"
+        y="110"
+        width="40"
+        height="30"
+        rx="6"
+        fill="#B9C4BB"
+        style={{ originY: 1 }}
+        initial={{ scaleY: 0 }}
+        animate={{ scaleY: 1 }}
+        transition={{ duration: 0.6 }}
+      />
+      <text x="70" y="100" fontSize="10" fontWeight="bold" fill="#6B7A70" textAnchor="middle" fontFamily="Nunito, sans-serif">20%</text>
+      <text x="70" y="158" fontSize="9" fontWeight="bold" fill="#6B7A70" textAnchor="middle" fontFamily="Nunito, sans-serif">Inativo</text>
+
+      {/* Bar 2: Academia/Caminhada */}
+      <motion.rect
+        x="140"
+        y="80"
+        width="40"
+        height="60"
+        rx="6"
+        fill="#B9C4BB"
+        style={{ originY: 1 }}
+        initial={{ scaleY: 0 }}
+        animate={{ scaleY: 1 }}
+        transition={{ duration: 0.6, delay: 0.15 }}
+      />
+      <text x="160" y="70" fontSize="10" fontWeight="bold" fill="#6B7A70" textAnchor="middle" fontFamily="Nunito, sans-serif">45%</text>
+      <text x="160" y="158" fontSize="9" fontWeight="bold" fill="#6B7A70" textAnchor="middle" fontFamily="Nunito, sans-serif">Ginásio</text>
+
+      {/* Bar 3: FirmMe */}
+      <motion.rect
+        x="230"
+        y="20"
+        width="40"
+        height="120"
+        rx="6"
+        fill="#5C7AE0"
+        style={{ originY: 1 }}
+        initial={{ scaleY: 0 }}
+        animate={{ scaleY: 1 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      />
+      <text x="250" y="12" fontSize="11" fontWeight="extrabold" fill="#5C7AE0" textAnchor="middle" fontFamily="Nunito, sans-serif">90%</text>
+      <text x="250" y="158" fontSize="9" fontWeight="extrabold" fill="#5C7AE0" textAnchor="middle" fontFamily="Nunito, sans-serif">FirmMe</text>
+    </svg>
+  );
+}
+
 const VISUALS: Record<StatVisualKind, () => ReactElement> = {
   'fall-risk-bars': FallRiskBars,
   'fatigue-clock': FatigueClock,
   'impact-compare': ImpactCompare,
   'joint-motion': JointMotion,
+  'fall-risk-1': FallRisk1,
+  'fall-risk-2': FallRisk2,
+  'fall-risk-3': FallRisk3,
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -262,7 +388,7 @@ export default function StatScreenComp({ screen }: Props) {
       {/* Back button */}
       {currentScreen > 1 && (
         <button onClick={goBack} className="back-btn self-start">
-          ← Voltar
+          ← Volver
         </button>
       )}
 
@@ -287,10 +413,17 @@ export default function StatScreenComp({ screen }: Props) {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.94 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4, delay: 0.15 }}
-          className="flex justify-center w-full"
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.98 }}
+          transition={{ 
+            type: 'spring',
+            stiffness: 350,
+            damping: 25
+          }}
+          style={{ willChange: 'transform' }}
+          className="flex justify-center w-full cursor-pointer"
         >
           <Visual />
         </motion.div>

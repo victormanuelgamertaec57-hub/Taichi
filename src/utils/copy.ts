@@ -6,15 +6,15 @@
 export function metaIdealLabel(metaIdeal: string | undefined): string {
   switch (metaIdeal) {
     case 'grandkids':
-      return 'brincar com seus netos sem medo de cair';
+      return 'jugar con tus nietos sin miedo a caer';
     case 'travel':
-      return 'viajar e caminhar tranquila por horas';
+      return 'viajar y caminar tranquilo/a por horas';
     case 'stairs':
-      return 'subir e descer escadas com confiança';
+      return 'subir y bajar escaleras con confianza';
     case 'confidence':
-      return 'se sentir segura no seu próprio corpo';
+      return 'sentirte seguro/a en tu propio cuerpo';
     default:
-      return 'se sentir segura e com equilíbrio';
+      return 'sentirte seguro/a y con equilibrio';
   }
 }
 
@@ -26,8 +26,8 @@ export function activityLevelLabel(activityLevel: string | undefined): string {
   switch (activityLevel) {
     case 'moderate':
     case 'active':
-      return 'Intermediário';
+      return 'Intermedio';
     default:
-      return 'Iniciante';
+      return 'Principiante';
   }
 }
