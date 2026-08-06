@@ -77,6 +77,8 @@ export interface QuestionScreen extends BaseScreen {
   infoCard?: InfoCardData; // optional context card rendered below the options
 }
 
+export type GenderVariant<T> = T | { female: T; male: T };
+
 export interface InfoChecklistItem {
   icon: string; // Tabler icon class, e.g. "ti ti-check"
   text: string;
@@ -84,10 +86,10 @@ export interface InfoChecklistItem {
 
 export interface InfoScreen extends BaseScreen {
   type: 'info';
-  headline: string;       // supports {{userName}} {{userAge}} tokens
-  subtext?: string;       // subtítulo de apoyo
-  backgroundImage: string; // key into InfoScreen's IMAGE_MAP (e.g. "avatar-closeup-confianza")
-  checklist: InfoChecklistItem[];
+  headline: GenderVariant<string>;       // supports {{userName}} {{userAge}} tokens
+  subtext?: GenderVariant<string>;       // subtítulo de apoyo
+  backgroundImage: GenderVariant<string>; // key into InfoScreen's IMAGE_MAP (e.g. "avatar-closeup-confianza")
+  checklist: GenderVariant<InfoChecklistItem[]>;
   ctaLabel: string;
 }
 

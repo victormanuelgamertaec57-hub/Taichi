@@ -232,9 +232,9 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
 
       {/* Ventajas — título + intro, justo antes de la tabla semanal */}
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold text-main">Vantagens</h2>
+        <h2 className="text-2xl font-bold text-main">Ventajas</h2>
         <p className="text-sm text-secondary leading-relaxed max-w-sm mx-auto">
-          Nosso algoritmo inteligente monta um plano de treinos personalizado a partir dos seus dados e objetivos.
+          Nuestro algoritmo inteligente diseña un plan de entrenamiento personalizado a partir de tus datos y objetivos.
         </p>
       </div>
 

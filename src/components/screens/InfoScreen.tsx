@@ -20,6 +20,10 @@ import hero400 from '../../assets/avatars/optimized/avatar-hero-cloud-hands-bann
 import hero600 from '../../assets/avatars/optimized/avatar-hero-cloud-hands-banner-600w.webp';
 import hero800 from '../../assets/avatars/optimized/avatar-hero-cloud-hands-banner-800w.webp';
 
+import articulaciones400 from '../../assets/avatars/optimized/avatar-masculino-articulaciones-400w.webp';
+import articulaciones600 from '../../assets/avatars/optimized/avatar-masculino-articulaciones-600w.webp';
+import articulaciones800 from '../../assets/avatars/optimized/avatar-masculino-articulaciones-800w.webp';
+
 const IMAGE_MAP: Record<string, { w400: string; w600: string; w800: string; alt: string }> = {
   'avatar-closeup-confianza': {
     w400: confianza400,
@@ -39,6 +43,12 @@ const IMAGE_MAP: Record<string, { w400: string; w600: string; w800: string; alt:
     w800: estres800,
     alt: 'Mujer de 60 años con expresión de cansancio y tensión, sentada en su silla',
   },
+  'avatar-masculino-articulaciones': {
+    w400: articulaciones400,
+    w600: articulaciones600,
+    w800: articulaciones800,
+    alt: 'Hombre maduro ejercitando sus articulaciones en la silla',
+  },
   'avatar-hero-cloud-hands': {
     w400: hero400,
     w600: hero600,
@@ -53,12 +63,29 @@ interface Props {
 
 export default function InfoScreenComp({ screen }: Props) {
   const { userName, userAge, userGender, goNext, goBack, currentScreen } = useQuizStore();
+  const genderKey: 'female' | 'male' = userGender === 'male' ? 'male' : 'female';
 
-  const headline = interpolate(screen.headline, userName, userAge, userGender);
-  const subtext = screen.subtext ? interpolate(screen.subtext, userName, userAge, userGender) : '';
+  const rawHeadline = typeof screen.headline === 'object' && screen.headline !== null && 'female' in screen.headline
+    ? screen.headline[genderKey]
+    : screen.headline;
+
+  const rawSubtext = typeof screen.subtext === 'object' && screen.subtext !== null && 'female' in screen.subtext
+    ? screen.subtext[genderKey]
+    : screen.subtext;
+
+  const rawBgImage = typeof screen.backgroundImage === 'object' && screen.backgroundImage !== null && 'female' in screen.backgroundImage
+    ? screen.backgroundImage[genderKey]
+    : screen.backgroundImage;
+
+  const rawChecklist = typeof screen.checklist === 'object' && screen.checklist !== null && 'female' in screen.checklist
+    ? screen.checklist[genderKey]
+    : screen.checklist;
+
+  const headline = interpolate(rawHeadline as string, userName, userAge, userGender);
+  const subtext = rawSubtext ? interpolate(rawSubtext as string, userName, userAge, userGender) : '';
 
   // Resolve dynamic male image for the social proof screen (screen 4)
-  let imgKey = screen.backgroundImage;
+  let imgKey = rawBgImage as string;
   if (userGender === 'male' && imgKey === 'avatar-closeup-confianza') {
     imgKey = 'avatar-closeup-confianza-male';
   }
@@ -130,7 +157,7 @@ export default function InfoScreenComp({ screen }: Props) {
 
         {/* 4. Checklist (No Emojis, Tabler Icons in 28px circles) */}
         <div className="flex-grow flex flex-col gap-3">
-          {screen.checklist.map((item, idx) => {
+          {rawChecklist.map((item, idx) => {
             const { fg, bg } = accentColor(idx);
             return (
             <motion.div

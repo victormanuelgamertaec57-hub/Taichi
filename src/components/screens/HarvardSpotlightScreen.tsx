@@ -10,9 +10,22 @@ const INDIGO = '#5C7AE0';
 
 export default function HarvardSpotlightScreenComp({ screen }: Props) {
   const { userName, userAge, userGender, goNext, goBack, currentScreen } = useQuizStore();
+  const genderKey: 'female' | 'male' = userGender === 'male' ? 'male' : 'female';
 
-  const headline = interpolate(screen.headline, userName, userAge, userGender);
-  const subtext = screen.subtext ? interpolate(screen.subtext, userName, userAge, userGender) : '';
+  const rawHeadline = typeof screen.headline === 'object' && screen.headline !== null && 'female' in screen.headline
+    ? screen.headline[genderKey]
+    : screen.headline;
+
+  const rawSubtext = typeof screen.subtext === 'object' && screen.subtext !== null && 'female' in screen.subtext
+    ? screen.subtext[genderKey]
+    : screen.subtext;
+
+  const rawChecklist = typeof screen.checklist === 'object' && screen.checklist !== null && 'female' in screen.checklist
+    ? screen.checklist[genderKey]
+    : screen.checklist;
+
+  const headline = interpolate(rawHeadline as string, userName, userAge, userGender);
+  const subtext = rawSubtext ? interpolate(rawSubtext as string, userName, userAge, userGender) : '';
 
   return (
     <div className="px-5 pt-8 pb-10 flex flex-col justify-between min-h-[520px] bg-warm rounded-3xl border border-border overflow-hidden relative">
@@ -40,7 +53,7 @@ export default function HarvardSpotlightScreenComp({ screen }: Props) {
           </div>
           
           <div className="space-y-1">
-            <span className="text-[10px] font-bold text-secondary uppercase tracking-wider">Publicação de Saúde de</span>
+            <span className="text-[10px] font-bold text-secondary uppercase tracking-wider">Publicación de Salud de</span>
             <h3 className="text-base font-extrabold text-main uppercase tracking-tight" style={{ color: '#A51C30' }}>
               Harvard Medical School
             </h3>
@@ -49,7 +62,7 @@ export default function HarvardSpotlightScreenComp({ screen }: Props) {
           <div className="w-12 h-0.5 bg-border" />
 
           <p className="text-sm font-medium text-main italic leading-relaxed">
-            "O Tai Chi é uma das melhores atividades para manter o equilíbrio e prevenir quedas, sendo superior a caminhadas ou alongamentos comuns."
+            "El Tai Chi es una de las mejores actividades para mantener el equilibrio y prevenir caídas, siendo superior a las caminatas o estiramientos comunes."
           </p>
         </div>
 
@@ -61,7 +74,7 @@ export default function HarvardSpotlightScreenComp({ screen }: Props) {
 
         {/* Benefits Checklist */}
         <div className="flex flex-col gap-3.5 px-1">
-          {screen.checklist.map((item, i) => (
+          {rawChecklist.map((item, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, x: -10 }}

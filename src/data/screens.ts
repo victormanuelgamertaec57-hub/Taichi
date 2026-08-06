@@ -172,14 +172,30 @@ export const screens: AnyScreen[] = [
     stageName: 'Mi Perfil',
     trackingName: 'empatia',
     type: 'info',
-    headline: 'Entendemos cómo te sientes',
-    subtext: 'Con los cambios hormonales y el desgaste natural después de los 40 años, el cuerpo cambia de ritmo — y no es tu culpa. Las articulações piden un movimiento seguro.',
-    backgroundImage: 'avatar-antes-estres',
-    checklist: [
-      { icon: 'ti ti-heart', text: 'Ejercicios enfocados en reactivar los reflejos de equilibrio' },
-      { icon: 'ti ti-shield-check', text: 'Sin impacto en las rodillas, caderas o columna' },
-      { icon: 'ti ti-armchair', text: 'Hecho 100% sentado/a, usando una silla común' },
-    ],
+    headline: {
+      female: 'Entendemos cómo te sientes',
+      male: 'Esto no es falta de fuerza',
+    },
+    subtext: {
+      female: 'Con los cambios hormonales y el desgaste natural después de los 40 años, el cuerpo cambia de ritmo — y no es tu culpa. Las articulaciones piden un movimiento seguro.',
+      male: 'Después de los 40, las articulaciones se vuelven más rígidas y el cuerpo compensa con tensión — por eso el gimnasio cansa más de lo que fortalece. No es tu culpa, es cómo responde tu cuerpo cuando el movimiento no es el adecuado.',
+    },
+    backgroundImage: {
+      female: 'avatar-antes-estres',
+      male: 'avatar-masculino-articulaciones',
+    },
+    checklist: {
+      female: [
+        { icon: 'ti ti-heart', text: 'Ejercicios enfocados en reactivar los reflejos de equilibrio' },
+        { icon: 'ti ti-shield-check', text: 'Sin impacto en las rodillas, caderas o columna' },
+        { icon: 'ti ti-armchair', text: 'Hecho 100% sentado/a, usando una silla común' },
+      ],
+      male: [
+        { icon: 'ti ti-heart', text: 'Ejercicios diseñados para liberar la rigidez articular, no forzarla' },
+        { icon: 'ti ti-shield-check', text: 'Cero impacto en rodillas, caderas o columna' },
+        { icon: 'ti ti-armchair', text: 'Hecho 100% sentado, sin levantarte de una silla común' },
+      ],
+    },
     ctaLabel: 'Ver mi plan de actividad',
   },
 
