@@ -1,12 +1,17 @@
 import { motion } from 'framer-motion';
 import { useQuizStore } from '../../store/quizStore';
 import { trackPixelEvent } from '../../utils/pixel';
+import type { Gender } from '../../utils/gender';
 
-// ─── Age photos (WebP optimizados — ~10-28 KB vs 10-12 MB original) ────────
-import img4049 from '../../assets/avatars/optimized/avatar-edad-40-49-400w.webp';
-import img5059 from '../../assets/avatars/optimized/avatar-edad-50-59-400w.webp';
-import img6069 from '../../assets/avatars/optimized/avatar-edad-60-69-400w.webp';
-import img70 from '../../assets/avatars/optimized/avatar-edad-70mas-400w.webp';
+// ─── Age photos (WebP optimizados) ──────────────────────────────────────────
+import imgFemale4049 from '../../assets/avatars/optimized/avatar-edad-40-49-400w.webp';
+import imgFemale5059 from '../../assets/avatars/optimized/avatar-edad-50-59-400w.webp';
+import imgFemale6069 from '../../assets/avatars/optimized/avatar-edad-60-69-400w.webp';
+import imgFemale70 from '../../assets/avatars/optimized/avatar-edad-70mas-400w.webp';
+import imgMale4049 from '../../assets/avatars/optimized/avatar-masculino-40-49-400w.webp';
+import imgMale5059 from '../../assets/avatars/optimized/avatar-masculino-50-59-400w.webp';
+import imgMale6069 from '../../assets/avatars/optimized/avatar-masculino-60-69-400w.webp';
+import imgMale70 from '../../assets/avatars/optimized/avatar-masculino-70+-400w.webp';
 
 // ─── Color token: periwinkle indigo vívido ─────────────────────────────────
 const INDIGO = '#5C7AE0';
@@ -22,45 +27,83 @@ interface AgeCard {
   alt: string;
 }
 
-const AGE_CARDS: AgeCard[] = [
-  {
-    id: '40-49',
-    label: '40 – 49',
-    storeLabel: '40-49',
-    src: img4049,
-    loading: 'lazy',
-    alt: 'Mulher ativa de 40 a 49 anos praticando tai chi na cadeira',
-  },
-  {
-    id: '50-59',
-    label: '50 – 59',
-    storeLabel: '50-59',
-    src: img5059,
-    loading: 'lazy',
-    alt: 'Mulher ativa de 50 a 59 anos praticando tai chi na cadeira',
-  },
-  {
-    id: '60-69',
-    label: '60 – 69',
-    storeLabel: '60-69',
-    src: img6069,
-    loading: 'lazy',
-    alt: 'Mulher ativa de 60 a 69 anos praticando tai chi na cadeira',
-  },
-  {
-    id: '70+',
-    label: '70 +',
-    storeLabel: '70+',
-    src: img70,
-    loading: 'lazy',
-    alt: 'Mulher ativa com mais de 70 anos praticando tai chi na cadeira',
-  },
-];
+const AGE_CARDS_BY_GENDER: Record<'female' | 'male', AgeCard[]> = {
+  female: [
+    {
+      id: '40-49',
+      label: '40 – 49',
+      storeLabel: '40-49',
+      src: imgFemale4049,
+      loading: 'lazy',
+      alt: 'Mujer activa de 40 a 49 años practicando tai chi en la silla',
+    },
+    {
+      id: '50-59',
+      label: '50 – 59',
+      storeLabel: '50-59',
+      src: imgFemale5059,
+      loading: 'lazy',
+      alt: 'Mujer activa de 50 a 59 años practicando tai chi en la silla',
+    },
+    {
+      id: '60-69',
+      label: '60 – 69',
+      storeLabel: '60-69',
+      src: imgFemale6069,
+      loading: 'lazy',
+      alt: 'Mujer activa de 60 a 69 años practicando tai chi en la silla',
+    },
+    {
+      id: '70+',
+      label: '70 +',
+      storeLabel: '70+',
+      src: imgFemale70,
+      loading: 'lazy',
+      alt: 'Mujer activa con más de 70 años practicando tai chi en la silla',
+    },
+  ],
+  male: [
+    {
+      id: '40-49',
+      label: '40 – 49',
+      storeLabel: '40-49',
+      src: imgMale4049,
+      loading: 'lazy',
+      alt: 'Hombre activo de 40 a 49 años practicando tai chi en la silla',
+    },
+    {
+      id: '50-59',
+      label: '50 – 59',
+      storeLabel: '50-59',
+      src: imgMale5059,
+      loading: 'lazy',
+      alt: 'Hombre activo de 50 a 59 años practicando tai chi en la silla',
+    },
+    {
+      id: '60-69',
+      label: '60 – 69',
+      storeLabel: '60-69',
+      src: imgMale6069,
+      loading: 'lazy',
+      alt: 'Hombre activo de 60 a 69 años practicando tai chi en la silla',
+    },
+    {
+      id: '70+',
+      label: '70 +',
+      storeLabel: '70+',
+      src: imgMale70,
+      loading: 'lazy',
+      alt: 'Hombre activo con más de 70 años practicando tai chi en la silla',
+    },
+  ],
+};
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function IntroScreen() {
-  const { setAnswer, setUserAge, goNext } = useQuizStore();
+  const { setAnswer, setUserAge, userGender, goNext, goBack, currentScreen } = useQuizStore();
+  const genderKey: 'female' | 'male' = (userGender as Gender) === 'male' ? 'male' : 'female';
+  const AGE_CARDS = AGE_CARDS_BY_GENDER[genderKey];
 
   function handleSelect(card: AgeCard) {
     setAnswer('userAge', card.id);
@@ -71,6 +114,13 @@ export default function IntroScreen() {
 
   return (
     <div className="px-4 pt-6 pb-10 flex flex-col gap-5" style={{ backgroundColor: '#FFFFFF' }}>
+      {/* Back button */}
+      {currentScreen > 1 && (
+        <button onClick={goBack} className="back-btn self-start">
+          ← Volver
+        </button>
+      )}
+
       {/* Header copy */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
