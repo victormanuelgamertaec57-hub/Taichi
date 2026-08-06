@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useQuizStore, interpolate } from '../../store/quizStore';
 import type { InfoScreen } from '../../types/quiz';
+import harvardLogo from '../../assets/logos/harvard-logo.png';
 
 interface Props {
   screen: InfoScreen;
@@ -45,12 +46,12 @@ export default function HarvardSpotlightScreenComp({ screen }: Props) {
         
         {/* Harvard Medical School Citation Visual */}
         <div className="w-full bg-white rounded-2xl p-5 border border-border shadow-xs flex flex-col items-center gap-4 text-center">
-          <div 
-            className="w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold"
-            style={{ backgroundColor: '#A51C30' }} // Harvard Red
-          >
-            H
-          </div>
+          <img 
+            src={harvardLogo} 
+            alt="Escudo de Harvard Medical School" 
+            className="h-16 w-auto object-contain"
+            style={{ maxHeight: '64px' }}
+          />
           
           <div className="space-y-1">
             <span className="text-[10px] font-bold text-secondary uppercase tracking-wider">Publicación de Salud de</span>

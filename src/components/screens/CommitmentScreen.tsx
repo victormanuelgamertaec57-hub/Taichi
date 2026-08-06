@@ -6,6 +6,9 @@ import type { CommitmentScreen } from '../../types/quiz';
 import heroCloudHands400 from '../../assets/avatars/optimized/avatar-hero-cloud-hands-400w.webp';
 import heroCloudHands600 from '../../assets/avatars/optimized/avatar-hero-cloud-hands-600w.webp';
 
+import maleCierre400 from '../../assets/avatars/optimized/avatar-masculino-perfil-cierre-400w.webp';
+import maleCierre600 from '../../assets/avatars/optimized/avatar-masculino-perfil-cierre-600w.webp';
+
 interface Props {
   screen: CommitmentScreen;
 }
@@ -13,16 +16,15 @@ interface Props {
 const SAGE = '#5B8A72';
 
 /**
- * Psychological-commitment screen: every option advances the funnel — this
- * exists to generate commitment, not to filter users out.
+ * Psychological-commitment screen: every option advances the funnel.
  */
 export default function CommitmentScreenComp({ screen }: Props) {
   const { userName, userAge, userGender, setAnswer, goNext, goBack, currentScreen } = useQuizStore();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const headline = interpolate(screen.headline, userName, userAge, userGender);
-  // Highlight the word "pronta" in indigo, matching the rest of the headline.
-  const parts = headline.split(/(pronta)/i);
+  // Highlight the word "pronto/a" or similar matching part in indigo.
+  const parts = headline.split(/(pronto|pronta)/i);
 
   function handleSelect(optId: string) {
     if (selectedId) return;
@@ -30,6 +32,13 @@ export default function CommitmentScreenComp({ screen }: Props) {
     setAnswer(screen.answerKey!, optId);
     setTimeout(() => goNext(), 450);
   }
+
+  const isMale = userGender === 'male';
+  const avatarSrc = isMale ? maleCierre400 : heroCloudHands400;
+  const avatarSrcSet = isMale 
+    ? `${maleCierre400} 400w, ${maleCierre600} 600w` 
+    : `${heroCloudHands400} 400w, ${heroCloudHands600} 600w`;
+  const avatarAlt = isMale ? "Tu instructor de FirmMe" : "Tu instructora de FirmMe";
 
   return (
     <div className="px-5 pt-8 pb-10 flex flex-col gap-6">
@@ -40,21 +49,20 @@ export default function CommitmentScreenComp({ screen }: Props) {
       )}
 
       <div className="flex flex-col items-center gap-3 text-center">
-        {/* The instructor's photo — makes the question feel like it's coming
-            from her directly, not a generic form. */}
+        {/* The instructor's photo — enlarged for better visibility */}
         <motion.img
-          src={heroCloudHands400}
-          srcSet={`${heroCloudHands400} 400w, ${heroCloudHands600} 600w`}
-          sizes="88px"
-          width={88}
-          height={88}
+          src={avatarSrc}
+          srcSet={avatarSrcSet}
+          sizes="120px"
+          width={120}
+          height={120}
           loading="lazy"
           decoding="async"
-          alt="Sua instrutora da FirmMe"
+          alt={avatarAlt}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.35 }}
-          className="w-[88px] h-[88px] rounded-full object-cover object-top shadow-md"
+          className="w-[120px] h-[120px] rounded-full object-cover object-top shadow-md"
           style={{ border: `3px solid ${SAGE}` }}
         />
 
@@ -70,7 +78,7 @@ export default function CommitmentScreenComp({ screen }: Props) {
 
         <h2 className="text-2xl font-bold text-main leading-snug">
           {parts.map((part, i) =>
-            /^pronta$/i.test(part) ? (
+            /^(pronto|pronta)$/i.test(part) ? (
               <span key={i} style={{ color: 'var(--color-primary)' }}>
                 {part}
               </span>

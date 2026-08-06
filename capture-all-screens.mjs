@@ -136,6 +136,32 @@ try {
       await delay(300);
     }
 
+    if (id === 34) {
+      // Capture female first
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('female');
+      });
+      await delay(300);
+      const filepathFemale = path.join(dir, 'screen-34-female.png');
+      await page.screenshot({ path: filepathFemale });
+      console.log(`Saved screenshot: ${filepathFemale}`);
+
+      // Capture male second
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('male');
+      });
+      await delay(300);
+      const filepathMale = path.join(dir, 'screen-34-male.png');
+      await page.screenshot({ path: filepathMale });
+      console.log(`Saved screenshot: ${filepathMale}`);
+
+      // Revert to female to continue flow normally
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('female');
+      });
+      await delay(300);
+    }
+
     await page.screenshot({ path: filepath, fullPage: id === 38 }); // Full page for paywall
     console.log(`Saved screenshot: ${filepath}`);
   }
