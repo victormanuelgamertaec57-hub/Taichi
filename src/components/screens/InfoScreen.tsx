@@ -8,6 +8,10 @@ import confianza400 from '../../assets/avatars/optimized/avatar-closeup-confianz
 import confianza600 from '../../assets/avatars/optimized/avatar-closeup-confianza-600w.webp';
 import confianza800 from '../../assets/avatars/optimized/avatar-closeup-confianza-800w.webp';
 
+import noSolo400 from '../../assets/avatars/optimized/avatar-masculino-no-solo-400w.webp';
+import noSolo600 from '../../assets/avatars/optimized/avatar-masculino-no-solo-600w.webp';
+import noSolo800 from '../../assets/avatars/optimized/avatar-masculino-no-solo-800w.webp';
+
 import estres400 from '../../assets/avatars/optimized/avatar-antes-estres-banner-400w.webp';
 import estres600 from '../../assets/avatars/optimized/avatar-antes-estres-banner-600w.webp';
 import estres800 from '../../assets/avatars/optimized/avatar-antes-estres-banner-800w.webp';
@@ -21,19 +25,25 @@ const IMAGE_MAP: Record<string, { w400: string; w600: string; w800: string; alt:
     w400: confianza400,
     w600: confianza600,
     w800: confianza800,
-    alt: 'Mulher de 60 anos sorrindo com confiança para a câmera',
+    alt: 'Mujer de 60 años sonriendo con confianza para la cámara',
+  },
+  'avatar-closeup-confianza-male': {
+    w400: noSolo400,
+    w600: noSolo600,
+    w800: noSolo800,
+    alt: 'Hombre de 60 años sonriendo con confianza para la cámara',
   },
   'avatar-antes-estres': {
     w400: estres400,
     w600: estres600,
     w800: estres800,
-    alt: 'Mulher de 60 anos com expressão de cansaço e tensão, sentada na sua cadeira',
+    alt: 'Mujer de 60 años con expresión de cansancio y tensión, sentada en su silla',
   },
   'avatar-hero-cloud-hands': {
     w400: hero400,
     w600: hero600,
     w800: hero800,
-    alt: 'Mulher praticando Tai Chi na cadeira com os braços à frente',
+    alt: 'Mujer practicando Tai Chi en la silla con los brazos al frente',
   },
 };
 
@@ -46,7 +56,13 @@ export default function InfoScreenComp({ screen }: Props) {
 
   const headline = interpolate(screen.headline, userName, userAge, userGender);
   const subtext = screen.subtext ? interpolate(screen.subtext, userName, userAge, userGender) : '';
-  const imgData = IMAGE_MAP[screen.backgroundImage];
+
+  // Resolve dynamic male image for the social proof screen (screen 4)
+  let imgKey = screen.backgroundImage;
+  if (userGender === 'male' && imgKey === 'avatar-closeup-confianza') {
+    imgKey = 'avatar-closeup-confianza-male';
+  }
+  const imgData = IMAGE_MAP[imgKey];
 
   return (
     <div className="relative flex flex-col min-h-[580px] bg-warm overflow-hidden rounded-3xl border border-border">
