@@ -62,8 +62,8 @@ export default function CommitmentScreenComp({ screen }: Props) {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.35 }}
-          className="w-[120px] h-[120px] rounded-full object-cover object-top shadow-md"
-          style={{ border: `3px solid ${SAGE}` }}
+          className="w-[120px] h-[120px] rounded-full object-cover shadow-md"
+          style={{ border: `3px solid ${SAGE}`, objectPosition: isMale ? 'center 20%' : 'center top' }}
         />
 
         <motion.span
