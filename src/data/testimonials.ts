@@ -1,13 +1,11 @@
 import type { Testimonial } from '../types/quiz';
 
-// Todas mulheres 40+ (público do funil). Depoimentos em primeira pessoa e sem
-// promessas médicas: nada de «cura», receitas ou resultados clínicos garantidos.
 export const testimonials: Testimonial[] = [
   {
     name: 'Carmen',
     age: 68,
     location: 'Bogotá',
-    text: 'Eu já evitava escadas fazia anos por causa dos joelhos. Em duas semanas de programa, eu já me sentia bem mais segura ao caminhar. Meus filhos não acreditavam!',
+    text: 'Llevaba años evitando las escaleras por las rodillas. En dos semanas de programa, ya me sentía mucho más segura al caminar. ¡Mis hijos no lo podían creer!',
     rating: 5,
     icon: 'ti ti-user',
     gender: 'female',
@@ -16,7 +14,7 @@ export const testimonials: Testimonial[] = [
     name: 'María Eugenia',
     age: 57,
     location: 'Medellín',
-    text: 'Eu tentei academia e ficava exausta por dias. Isso é diferente: 15 minutos na minha cadeira e termino com mais energia do que comecei.',
+    text: 'Intenté ir al gimnasio y quedaba agotada por días. Esto es diferente: 15 minutos en mi silla y termino con más energía de la que empecé.',
     rating: 5,
     icon: 'ti ti-user',
     gender: 'female',
@@ -25,7 +23,7 @@ export const testimonials: Testimonial[] = [
     name: 'Rosa María',
     age: 65,
     location: 'Cali',
-    text: 'No início, fiquei em dúvida, mas minha neta me ajudou a começar. Hoje sou eu quem ensina as minhas amigas do grupo da igreja. Mudou a nossa vida.',
+    text: 'Al principio dudé, pero mi nieta me ayudó a empezar. Hoy soy yo quien le enseña a mis amigas del grupo de la iglesia. Nos cambió la vida.',
     rating: 5,
     icon: 'ti ti-user',
     gender: 'female',
@@ -34,7 +32,7 @@ export const testimonials: Testimonial[] = [
     name: 'Gloria',
     age: 71,
     location: 'Barranquilla',
-    text: 'Tenho artrite e achei que exercício não era mais pra mim. Os movimentos são tão suaves que eu consigo fazer todo dia, e me sinto cada vez mais ágil.',
+    text: 'Tengo artritis y creí que el ejercicio ya no era para mí. Los movimientos son tan suaves que puedo hacerlos todos los días, y me siento cada vez más ágil.',
     rating: 5,
     icon: 'ti ti-user',
     gender: 'female',
@@ -43,7 +41,7 @@ export const testimonials: Testimonial[] = [
     name: 'Lucía',
     age: 63,
     location: 'Bucaramanga',
-    text: 'Durmo melhor, me sinto com mais energia e, finalmente, tenho um momento do dia que é só meu. Super recomendado para mulheres da nossa idade.',
+    text: 'Duermo mejor, tengo más energía y por fin un momento del día solo para mí. Súper recomendado para todas las personas de nuestra edad.',
     rating: 5,
     icon: 'ti ti-user',
     gender: 'female',
@@ -51,8 +49,8 @@ export const testimonials: Testimonial[] = [
   {
     name: 'Patricia',
     age: 49,
-    location: 'Cidade do México',
-    text: 'Entre o trabalho e cuidar da minha mãe, não tinha tempo nem energia pra mim. Essas rotinas curtas são a única coisa que consegui manter — e dá pra ver o resultado.',
+    location: 'Ciudad de México',
+    text: 'Entre el trabajo y cuidar a mi madre, no tenía tiempo ni energía para mí. Estas rutinas cortas son lo único que he logrado mantener — y se nota el resultado.',
     rating: 5,
     icon: 'ti ti-user',
     gender: 'female',

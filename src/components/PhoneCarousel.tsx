@@ -7,7 +7,6 @@ import heroCloudHands400 from '../assets/avatars/optimized/avatar-hero-cloud-han
 import heroCloudHands600 from '../assets/avatars/optimized/avatar-hero-cloud-hands-600w.webp';
 import closeupConfianza400 from '../assets/avatars/optimized/avatar-closeup-confianza-400w.webp';
 
-const SAGE = '#5B8A72';
 const BEZEL = '#2C3532';
 
 function PhoneFrame({
@@ -49,9 +48,9 @@ function CenterPhoneContent() {
       <StatusBar />
       <div className="flex-1 overflow-hidden px-4 pb-4 pt-1 flex flex-col gap-2.5">
         <div className="text-center">
-          <p className="text-[15px] font-bold text-main leading-tight">Seu plano está pronto</p>
+          <p className="text-[15px] font-bold text-main leading-tight">Tu plan está listo</p>
           <p className="text-[10px] text-secondary mt-1 leading-snug">
-            Comece com algo simples. Volte toda semana para continuar avançando!
+            Comienza con algo simple. ¡Vuelve cada semana para seguir avanzando!
           </p>
         </div>
         <div className="rounded-xl overflow-hidden flex-shrink-0">
@@ -63,21 +62,21 @@ function CenterPhoneContent() {
             height={128}
             loading="lazy"
             decoding="async"
-            alt="Prévia do módulo: Equilíbrio na sua cadeira"
+            alt="Vista previa del módulo: Equilibrio en tu silla"
             className="w-full aspect-[4/3] object-cover"
           />
         </div>
         <div>
-          <p className="text-[13px] font-bold text-main">Equilíbrio na sua cadeira</p>
+          <p className="text-[13px] font-bold text-main">Equilibrio en tu silla</p>
           <p className="text-[10px] text-secondary leading-snug mt-0.5">
-            Melhore seu equilíbrio e força com uma rotina sentada para iniciantes.
+            Mejora tu equilibrio y fuerza con una rutina sentada para principiantes.
           </p>
         </div>
         <div
           className="mt-auto w-full rounded-full py-2 text-center text-[12px] font-bold text-white"
-          style={{ backgroundColor: SAGE }}
+          style={{ backgroundColor: 'var(--color-primary)' }}
         >
-          Começar meu plano
+          Comenzar mi plan
         </div>
       </div>
     </div>
@@ -87,7 +86,7 @@ function CenterPhoneContent() {
 function LeftPhoneContent() {
   return (
     <div className="flex flex-col h-full px-3.5 pt-4 pb-4 gap-3">
-      <p className="text-[13px] font-bold text-main">Sua sessão</p>
+      <p className="text-[13px] font-bold text-main">Tu sesión</p>
       <div className="flex gap-2">
         <span
           className="text-[10px] px-2.5 py-1 rounded-full border font-medium text-secondary"
@@ -97,17 +96,17 @@ function LeftPhoneContent() {
         </span>
         <span
           className="text-[10px] px-2.5 py-1 rounded-full font-semibold text-white"
-          style={{ backgroundColor: SAGE }}
+          style={{ backgroundColor: 'var(--color-primary)' }}
         >
           Media
         </span>
       </div>
-      <p className="text-[11px] text-secondary">8 min · Equilíbrio</p>
+      <p className="text-[11px] text-secondary">8 min · Equilibrio</p>
       <div
         className="mt-auto w-full rounded-full py-2 text-center text-[11px] font-bold text-white"
-        style={{ backgroundColor: SAGE }}
+        style={{ backgroundColor: 'var(--color-primary)' }}
       >
-        Salvar
+        Guardar
       </div>
     </div>
   );
@@ -186,13 +185,13 @@ export default function PhoneCarousel() {
       </div>
 
       <div className="flex items-center justify-center gap-2 mt-5">
-        <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: SAGE }} />
+        <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--color-primary)' }} />
         <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-border)' }} />
         <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-border)' }} />
       </div>
 
       <h3 className="text-xl font-bold text-main text-center mt-5 leading-snug max-w-xs">
-        Mexa-se com confiança, recupere sua independência
+        Muévete con confianza, recupera tu independencia
       </h3>
 
       {/* Rating ilustrativo — actualizar con datos reales cuando existan */}

@@ -183,36 +183,36 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
         </div>
         <div className="grid grid-cols-2 gap-4 mt-3">
           <div className="flex flex-col items-center gap-2 text-center">
-            <p className="text-xs font-bold uppercase tracking-wide text-secondary">Agora</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-secondary">Ahora</p>
             <div className="w-full space-y-2">
               <div>
-                <p className="text-xs text-secondary mb-1">Nível de equilíbrio</p>
+                <p className="text-xs text-secondary mb-1">Nivel de equilibrio</p>
                 <LevelBar filled={1} />
               </div>
               <div>
-                <p className="text-xs text-secondary mb-1">Risco de queda</p>
+                <p className="text-xs text-secondary mb-1">Riesgo de caídas</p>
                 <LevelBar filled={4} />
               </div>
             </div>
           </div>
           <div className="flex flex-col items-center gap-2 text-center">
-            <p className="text-xs font-bold uppercase tracking-wide" style={{ color: SAGE }}>
-              Seu objetivo
+            <p className="text-xs font-bold uppercase tracking-wide text-primary" style={{ color: 'var(--color-primary)' }}>
+              Tu objetivo
             </p>
             <div className="w-full space-y-2">
               <div>
-                <p className="text-xs text-secondary mb-1">Nível de equilíbrio</p>
+                <p className="text-xs text-secondary mb-1">Nivel de equilibrio</p>
                 <LevelBar filled={4} />
               </div>
               <div>
-                <p className="text-xs text-secondary mb-1">Risco de queda</p>
+                <p className="text-xs text-secondary mb-1">Riesgo de caídas</p>
                 <LevelBar filled={1} />
               </div>
             </div>
           </div>
         </div>
         <p className="text-[11px] text-secondary/70 text-center mt-4">
-          Os resultados variam de pessoa para pessoa e da constância na prática.
+          Los resultados pueden variar según la persona y la constancia en la práctica.
         </p>
       </motion.div>
 

@@ -13,8 +13,6 @@ interface Props {
   screen: CommitmentScreen;
 }
 
-const SAGE = '#5B8A72';
-
 /**
  * Psychological-commitment screen: every option advances the funnel.
  */
@@ -63,7 +61,7 @@ export default function CommitmentScreenComp({ screen }: Props) {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.35 }}
           className="w-[120px] h-[120px] rounded-full object-cover shadow-md"
-          style={{ border: `3px solid ${SAGE}`, objectPosition: isMale ? 'center 20%' : 'center top' }}
+          style={{ border: '3px solid var(--color-primary)', objectPosition: isMale ? 'center 20%' : 'center top' }}
         />
 
         <motion.span
@@ -114,7 +112,7 @@ export default function CommitmentScreenComp({ screen }: Props) {
               className={`quiz-option-btn ${isSelected ? 'selected' : ''}`}
             >
               {opt.icon && (
-                <span className="flex-shrink-0 w-10 h-10 rounded-full bg-[#E8F0E9] flex items-center justify-center text-primary">
+                <span className="flex-shrink-0 w-10 h-10 rounded-full bg-primary-bg flex items-center justify-center text-primary" style={{ backgroundColor: 'var(--color-primary-bg)', color: 'var(--color-primary)' }}>
                   <i className={`${opt.icon} text-lg`}></i>
                 </span>
               )}
@@ -126,7 +124,7 @@ export default function CommitmentScreenComp({ screen }: Props) {
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ type: 'spring', stiffness: 500, damping: 20 }}
                     className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-white"
-                    style={{ backgroundColor: SAGE }}
+                    style={{ backgroundColor: 'var(--color-primary)' }}
                   >
                     <i className="ti ti-check text-base"></i>
                   </motion.span>

@@ -240,6 +240,64 @@ try {
       await delay(300);
     }
 
+    if (id === 36) {
+      // Capture female first
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('female');
+      });
+      await delay(300);
+      const filepathFemale = path.join(dir, 'screen-36-female.png');
+      await page.screenshot({ path: filepathFemale });
+      console.log(`Saved screenshot: ${filepathFemale}`);
+
+      // Capture male second
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('male');
+      });
+      await delay(300);
+      const filepathMale = path.join(dir, 'screen-36-male.png');
+      await page.screenshot({ path: filepathMale });
+      console.log(`Saved screenshot: ${filepathMale}`);
+
+      // Revert to female to continue flow normally
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('female');
+      });
+      await delay(300);
+    }
+
+    if (id === 37) {
+      // Navigate to screen 37 fresh and wait for the highlighted date line (index 2)
+      await page.evaluate(() => {
+        const store = window.useQuizStore.getState();
+        store.setUserGender('female');
+        store.setUserName('Maria');
+        store.goTo(37);
+      });
+      await delay(5200);
+      const filepathFemale = path.join(dir, 'screen-37-female.png');
+      await page.screenshot({ path: filepathFemale });
+      console.log(`Saved screenshot: ${filepathFemale}`);
+
+      // Re-trigger screen 37 for male
+      await page.evaluate(() => {
+        const store = window.useQuizStore.getState();
+        store.setUserGender('male');
+        store.setUserName('Carlos');
+        store.goTo(37);
+      });
+      await delay(5200);
+      const filepathMale = path.join(dir, 'screen-37-male.png');
+      await page.screenshot({ path: filepathMale });
+      console.log(`Saved screenshot: ${filepathMale}`);
+
+      // Revert to female to continue flow normally
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('female');
+      });
+      await delay(300);
+    }
+
     await page.screenshot({ path: filepath, fullPage: id === 38 }); // Full page for paywall
     console.log(`Saved screenshot: ${filepath}`);
   }

@@ -8,7 +8,7 @@ interface Props {
   screen: AnalysisScreen;
 }
 
-const SAGE = '#5B8A72';
+const SAGE = '#5A6FD6';
 const GOLD = '#D4A24C';
 const TRACK = '#B9C4BB';
 
@@ -163,7 +163,7 @@ export default function AnalysisScreenComp({ screen }: Props) {
       {/* Testimonial carousel */}
       <div className="flex-1 flex flex-col justify-center">
         <p className="text-xs uppercase tracking-widest text-secondary/60 text-center mb-4">
-          O que dizem nossas alunas
+          Lo que dicen nuestros alumnos
         </p>
 
         <AnimatePresence mode="wait">
@@ -187,12 +187,12 @@ export default function AnalysisScreenComp({ screen }: Props) {
             </p>
 
             <div className="flex items-center gap-3">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#E8F0E9] flex items-center justify-center text-primary">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--color-primary-bg)] flex items-center justify-center text-primary">
                 <i className="ti ti-user text-lg"></i>
               </div>
               <div>
                 <p className="font-semibold text-main text-sm">
-                  {currentTestimonial.name}, {currentTestimonial.age} anos
+                  {currentTestimonial.name}, {currentTestimonial.age} años
                 </p>
                 <p className="text-xs text-secondary">{currentTestimonial.location}</p>
               </div>

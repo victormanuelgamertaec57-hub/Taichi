@@ -8,7 +8,6 @@ interface Props {
   screen: FadeSequenceScreen;
 }
 
-const SAGE = '#5B8A72';
 const DATE_TOKEN_RE = /(\{\{fechaObjetivoMenos7\}\}|\{\{fechaObjetivo\}\})/g;
 
 export default function FadeSequenceComp({ screen }: Props) {
@@ -35,14 +34,14 @@ export default function FadeSequenceComp({ screen }: Props) {
     return parts.map((part, i) => {
       if (part === '{{fechaObjetivoMenos7}}') {
         return (
-          <span key={i} style={{ color: SAGE }}>
+          <span key={i} style={{ color: 'var(--color-primary)' }} className="text-primary font-extrabold">
             {fechaMenos7Formatted}
           </span>
         );
       }
       if (part === '{{fechaObjetivo}}') {
         return (
-          <span key={i} style={{ color: SAGE }}>
+          <span key={i} style={{ color: 'var(--color-primary)' }} className="text-primary font-extrabold">
             {fechaFormatted}
           </span>
         );

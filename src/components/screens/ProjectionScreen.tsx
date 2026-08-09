@@ -40,11 +40,11 @@ function ProjectionChart({ targetLabel }: { targetLabel: string }) {
       {/* start point */}
       <circle cx="20" cy="150" r="6" fill={SAGE_SOFT} />
       <text x="20" y="188" fontSize="12" fontWeight="800" fill="#6B7A70" fontFamily="Nunito, sans-serif">
-        AGORA
+        AHORA
       </text>
       {/* end point */}
       <circle cx="300" cy="15" r="7" fill={SAGE} />
-      <text x="223" y="188" fontSize="12" fontWeight="800" fill={SAGE} fontFamily="Nunito, sans-serif">
+      <text x="300" y="188" fontSize="11" fontWeight="800" fill={SAGE} textAnchor="end" fontFamily="Nunito, sans-serif">
         {targetLabel.toUpperCase()}
       </text>
     </svg>
@@ -104,7 +104,7 @@ export default function ProjectionScreenComp({ screen }: Props) {
           >
             <span
               className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center"
-              style={{ backgroundColor: SAGE_BG, color: SAGE }}
+              style={{ backgroundColor: 'var(--color-primary-bg)', color: 'var(--color-primary)' }}
             >
               <i className="ti ti-check text-sm"></i>
             </span>
