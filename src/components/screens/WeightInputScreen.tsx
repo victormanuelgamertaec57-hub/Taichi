@@ -8,11 +8,34 @@ interface Props {
 }
 
 export default function WeightInputScreenComp({ screen }: Props) {
-  const { setAnswer, goNext, goBack, currentScreen } = useQuizStore();
+  const { answers, setAnswer, goNext, goBack, currentScreen } = useQuizStore();
   const [unit, setUnit] = useState<'kg' | 'lb'>('kg');
-  const [value, setValue] = useState('');
   const [touched, setTouched] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // For target weight: suggest current weight - 5 kg (or 10 lb) as default
+  const currentWeightKg = (answers['userWeightKg'] as number | undefined) ?? null;
+  const suggestedKg = currentWeightKg !== null ? Math.max(40, currentWeightKg - 5) : null;
+  const suggestedLb = suggestedKg !== null ? Math.round(suggestedKg * 2.205) : null;
+
+  const getInitialValue = () => {
+    if (!screen.isTargetWeight) return '';
+    if (unit === 'kg' && suggestedKg !== null) return String(suggestedKg);
+    if (unit === 'lb' && suggestedLb !== null) return String(suggestedLb);
+    return '';
+  };
+
+  const [value, setValue] = useState(() => getInitialValue());
+
+  const handleUnitSwitch = (u: 'kg' | 'lb') => {
+    setUnit(u);
+    setTouched(false);
+    if (screen.isTargetWeight) {
+      setValue(u === 'kg' ? (suggestedKg !== null ? String(suggestedKg) : '') : (suggestedLb !== null ? String(suggestedLb) : ''));
+    } else {
+      setValue('');
+    }
+  };
 
   const getKgValue = (): number | null => {
     const n = parseFloat(value);
@@ -34,10 +57,26 @@ export default function WeightInputScreenComp({ screen }: Props) {
       return;
     }
     const kg = getKgValue()!;
-    setAnswer('userWeightKg', kg);
-    setAnswer(screen.answerKey!, unit === 'kg' ? `${value} kg` : `${value} lb (${kg} kg)`);
+
+    if (screen.isTargetWeight) {
+      // Save as target weight
+      setAnswer('userTargetWeightKg', kg);
+      setAnswer(screen.answerKey!, unit === 'kg' ? `${value} kg` : `${value} lb (${kg} kg)`);
+    } else {
+      // Save as current weight
+      setAnswer('userWeightKg', kg);
+      setAnswer(screen.answerKey!, unit === 'kg' ? `${value} kg` : `${value} lb (${kg} kg)`);
+    }
     goNext();
-  }, [value, unit, screen.answerKey, setAnswer, goNext]);
+  }, [value, unit, screen.answerKey, screen.isTargetWeight, setAnswer, goNext]);
+
+  // Compute deficit hint for target weight mode
+  const deficitKg = (() => {
+    if (!screen.isTargetWeight || !currentWeightKg) return null;
+    const target = getKgValue();
+    if (target === null) return null;
+    return Math.round((currentWeightKg - target) * 10) / 10;
+  })();
 
   return (
     <div className="px-5 pt-8 pb-10 flex flex-col gap-6">
@@ -61,7 +100,7 @@ export default function WeightInputScreenComp({ screen }: Props) {
         {(['kg', 'lb'] as const).map((u) => (
           <button
             key={u}
-            onClick={() => { setUnit(u); setTouched(false); setValue(''); }}
+            onClick={() => handleUnitSwitch(u)}
             className="flex-1 py-2.5 text-sm font-semibold transition-colors"
             style={{
               background: unit === u ? 'var(--color-primary)' : 'transparent',
@@ -98,6 +137,19 @@ export default function WeightInputScreenComp({ screen }: Props) {
         {touched && !isValid() && (
           <p className="text-sm text-red-500">Por favor ingresa un peso válido.</p>
         )}
+
+        {/* Deficit hint for target weight */}
+        {screen.isTargetWeight && deficitKg !== null && deficitKg > 0 && (
+          <motion.p
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-sm rounded-lg px-3 py-2 flex items-center gap-2"
+            style={{ background: 'var(--color-primary)12', color: 'var(--color-primary)' }}
+          >
+            <i className="ti ti-trending-down text-sm" />
+            Meta: bajar {deficitKg} kg — un objetivo alcanzable con tu plan
+          </motion.p>
+        )}
       </motion.div>
 
       {/* CTA */}
@@ -112,7 +164,7 @@ export default function WeightInputScreenComp({ screen }: Props) {
       </motion.button>
 
       <p className="text-xs text-secondary/60 text-center flex items-center justify-center gap-1">
-        <i className="ti ti-lock text-xs"></i>
+        <i className="ti ti-lock text-xs" />
         <span>Tu información es privada y nunca se comparte.</span>
       </p>
     </div>

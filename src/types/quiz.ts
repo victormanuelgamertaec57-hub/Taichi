@@ -155,6 +155,7 @@ export interface WeightInputScreen extends BaseScreen {
   headline: string;
   subtext?: string;
   ctaLabel: string;
+  isTargetWeight?: boolean; // if true, prefill with current weight - 5 kg and save as userTargetWeightKg
 }
 
 export interface BmiFeedbackScreen extends BaseScreen {

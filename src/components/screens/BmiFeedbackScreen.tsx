@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useQuizStore } from '../../store/quizStore';
 import type { BmiFeedbackScreen } from '../../types/quiz';
-import avatarFisicoReferencia from '../../assets/avatars/avatar-masculino-fisico-referencia.jpeg';
+import avatarFisicoSinfondo from '../../assets/avatars/avatar-masculino-fisico-referencia-sinfondo.png';
 
 interface Props {
   screen: BmiFeedbackScreen;
@@ -159,7 +159,7 @@ function BmiSlider({ bmi }: { bmi: number }) {
   );
 }
 
-// ─── Profile Block ─────────────────────────────────────────────────────────────
+// ─── Profile Block — Side-by-side layout ──────────────────────────────────────
 function ProfileBlock() {
   const { answers, userAge } = useQuizStore();
 
@@ -174,7 +174,7 @@ function ProfileBlock() {
   const activityMap: Record<string, string> = {
     none: 'Sedentario',
     light: 'Actividad ligera',
-    moderate: 'Moderadamente activo',
+    moderate: 'Moderado',
     active: 'Bastante activo',
   };
   const activityLevel = activityMap[(answers['activityLevel'] as string) ?? ''] ?? 'No indicado';
@@ -195,42 +195,55 @@ function ProfileBlock() {
   const movilidad = mobilityMap[(answers['stiffness'] as string) ?? ''] ?? 'Sin datos';
 
   const fields = [
-    { icon: 'ti ti-activity', label: 'Nivel de movilidad', value: movilidad },
+    { icon: 'ti ti-activity', label: 'Movilidad', value: movilidad },
     { icon: 'ti ti-walk', label: 'Estilo de vida', value: activityLevel },
     { icon: 'ti ti-bone', label: 'Zona de tensión', value: painLabel },
-    { icon: 'ti ti-target', label: 'Objetivo principal', value: objetivo },
+    { icon: 'ti ti-target', label: 'Objetivo', value: objetivo },
   ];
 
   return (
     <div
       className="rounded-2xl overflow-hidden border"
-      style={{ borderColor: 'var(--color-border)' }}
+      style={{ borderColor: 'var(--color-border)', background: 'var(--color-surface)' }}
     >
-      {/* Photo header */}
-      <div className="relative h-36 overflow-hidden">
-        <img
-          src={avatarFisicoReferencia}
-          alt="Referencia física masculina"
-          className="w-full h-full object-cover object-top"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-        <div className="absolute bottom-3 left-4 text-white">
-          <p className="text-sm font-semibold">Hombre, {userAge || '50-59'} años</p>
-          <p className="text-xs opacity-80">Perfil de referencia</p>
-        </div>
-      </div>
-
-      {/* Fields grid */}
-      <div className="grid grid-cols-2 gap-px bg-border">
-        {fields.map((f) => (
-          <div key={f.label} className="bg-warm p-3 flex flex-col gap-0.5">
-            <p className="text-xs text-secondary/70 flex items-center gap-1">
-              <i className={`${f.icon} text-xs`} style={{ color: 'var(--color-primary)' }}></i>
-              {f.label}
-            </p>
-            <p className="text-sm font-semibold text-main leading-tight">{f.value}</p>
+      {/* Side-by-side layout: info left | avatar right */}
+      <div className="flex items-stretch min-h-[160px]">
+        {/* Left: profile info */}
+        <div className="flex-1 p-4 flex flex-col justify-between">
+          <div>
+            <p className="text-sm font-bold text-main">Hombre, {userAge || '50-59'} años</p>
+            <p className="text-xs text-secondary/70 mt-0.5">Perfil de referencia</p>
           </div>
-        ))}
+
+          {/* 2×2 grid of stats */}
+          <div className="grid grid-cols-2 gap-x-3 gap-y-3 mt-3">
+            {fields.map((f) => (
+              <div key={f.label} className="flex flex-col gap-0.5">
+                <p className="text-[10px] text-secondary/60 flex items-center gap-1 uppercase tracking-wide font-medium">
+                  <i className={`${f.icon} text-[10px]`} style={{ color: 'var(--color-primary)' }} />
+                  {f.label}
+                </p>
+                <p className="text-xs font-semibold text-main leading-tight">{f.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right: avatar image — transparent background, no overlay */}
+        <div
+          className="relative flex-shrink-0 flex items-end justify-center overflow-hidden"
+          style={{
+            width: '42%',
+            background: 'linear-gradient(135deg, #f0f4ff 0%, #e8eef8 100%)',
+          }}
+        >
+          <img
+            src={avatarFisicoSinfondo}
+            alt="Referencia física masculina"
+            className="w-full h-auto object-contain object-bottom"
+            style={{ maxHeight: '180px' }}
+          />
+        </div>
       </div>
     </div>
   );
@@ -246,6 +259,10 @@ export default function BmiFeedbackScreenComp({ screen }: Props) {
   const bmi = weightKg / Math.pow(heightCm / 100, 2);
   const clampedBmi = Math.min(Math.max(bmi, 15), 40);
   const range = getBmiRange(clampedBmi);
+
+  // Optional: show target weight delta if user entered one
+  const targetKg = (answers['userTargetWeightKg'] as number | undefined) ?? null;
+  const deltaKg = targetKg !== null ? Math.round((weightKg - targetKg) * 10) / 10 : null;
 
   return (
     <div className="px-5 pt-8 pb-10 flex flex-col gap-6">
@@ -278,11 +295,30 @@ export default function BmiFeedbackScreenComp({ screen }: Props) {
         className="rounded-xl p-4 flex gap-3 items-start"
         style={{ background: `${range.color}18`, border: `1px solid ${range.color}40` }}
       >
-        <i className={`${range.icon} text-xl mt-0.5`} style={{ color: range.color }}></i>
+        <i className={`${range.icon} text-xl mt-0.5`} style={{ color: range.color }} />
         <p className="text-sm text-main leading-relaxed">{range.message}</p>
       </motion.div>
 
-      {/* Profile block */}
+      {/* Target weight delta badge — only if user entered target weight */}
+      {deltaKg !== null && deltaKg > 0 && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.38, type: 'spring', stiffness: 200 }}
+          className="rounded-xl p-3 flex gap-3 items-center"
+          style={{ background: 'var(--color-primary)10', border: '1px solid var(--color-primary)30' }}
+        >
+          <i className="ti ti-trending-down text-xl" style={{ color: 'var(--color-primary)' }} />
+          <div>
+            <p className="text-sm font-semibold" style={{ color: 'var(--color-primary)' }}>
+              Meta: {targetKg} kg — bajar {deltaKg} kg
+            </p>
+            <p className="text-xs text-secondary">Tu plan se ajusta a este objetivo</p>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Profile block — side-by-side */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}

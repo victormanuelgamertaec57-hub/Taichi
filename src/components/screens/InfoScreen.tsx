@@ -28,7 +28,17 @@ import movimiento2_400 from '../../assets/avatars/optimized/avatar-masculino-mov
 import movimiento2_600 from '../../assets/avatars/optimized/avatar-masculino-movimiento-2-600w.webp';
 import movimiento2_800 from '../../assets/avatars/optimized/avatar-masculino-movimiento-2-800w.webp';
 
-const IMAGE_MAP: Record<string, { w400: string; w600: string; w800: string; alt: string }> = {
+import grasaAbdominalPng from '../../assets/avatars/grasa-abdominal-transparente.png';
+
+interface ImageMapItem {
+  w400: string;
+  w600?: string;
+  w800?: string;
+  alt: string;
+  isTransparent?: boolean;
+}
+
+const IMAGE_MAP: Record<string, ImageMapItem> = {
   'avatar-closeup-confianza': {
     w400: confianza400,
     w600: confianza600,
@@ -64,6 +74,11 @@ const IMAGE_MAP: Record<string, { w400: string; w600: string; w800: string; alt:
     w600: movimiento2_600,
     w800: movimiento2_800,
     alt: 'Hombre practicando el método FirmMe de Tai Chi en silla',
+  },
+  'grasa-abdominal-transparente': {
+    w400: grasaAbdominalPng,
+    alt: 'Hombre mostrando resultados de reducción de grasa abdominal con Tai Chi',
+    isTransparent: true,
   },
 };
 
@@ -104,41 +119,69 @@ export default function InfoScreenComp({ screen }: Props) {
   return (
     <div className="relative flex flex-col min-h-[580px] bg-warm overflow-hidden rounded-3xl border border-border">
       
-      {/* 1. Background image area with smooth fade-to-cream bottom gradient */}
-      <div className="relative h-72 sm:h-80 w-full overflow-hidden flex-shrink-0">
-        {imgData && (
-          <img
-            src={imgData.w400}
-            srcSet={`${imgData.w400} 400w, ${imgData.w600} 600w, ${imgData.w800} 800w`}
-            sizes="(max-width: 480px) 100vw, 500px"
-            width={400}
-            height={320}
-            loading="eager" // Info screens are important hero assets
-            decoding="async"
-            alt={imgData.alt}
-            className="w-full h-full object-cover"
-            style={{ objectPosition: 'center 25%' }}
-          />
-        )}
-        {/* Gradient overlay - starts fading below the face (70%), fully white at bottom (100%) */}
+      {/* 1. Background image area */}
+      {imgData?.isTransparent ? (
         <div 
-          className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(to bottom, transparent 0%, transparent 70%, var(--color-warm) 100%)'
-          }}
-        />
+          className="relative h-60 sm:h-64 w-full flex-shrink-0 flex items-end justify-center pt-4 pb-1 overflow-hidden"
+          style={{ background: 'linear-gradient(135deg, #f0f4ff 0%, #e8eef8 100%)' }}
+        >
+          {imgData && (
+            <img
+              src={imgData.w400}
+              alt={imgData.alt}
+              loading="eager"
+              decoding="async"
+              className="h-full w-auto object-contain object-bottom max-h-full"
+            />
+          )}
 
-        {/* Floating Back Button */}
-        {currentScreen > 1 && (
-          <button 
-            onClick={goBack} 
-            className="absolute top-4 left-4 z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white/80 border border-border text-main backdrop-blur-xs transition hover:bg-white hover:scale-105 active:scale-95 shadow-xs"
-            aria-label="Volver"
-          >
-            <i className="ti ti-arrow-left text-lg"></i>
-          </button>
-        )}
-      </div>
+          {/* Floating Back Button */}
+          {currentScreen > 1 && (
+            <button 
+              onClick={goBack} 
+              className="absolute top-4 left-4 z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white/80 border border-border text-main backdrop-blur-xs transition hover:bg-white hover:scale-105 active:scale-95 shadow-xs cursor-pointer"
+              aria-label="Volver"
+            >
+              <i className="ti ti-arrow-left text-lg"></i>
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="relative h-72 sm:h-80 w-full overflow-hidden flex-shrink-0">
+          {imgData && (
+            <img
+              src={imgData.w400}
+              srcSet={imgData.w600 ? `${imgData.w400} 400w, ${imgData.w600} 600w, ${imgData.w800} 800w` : undefined}
+              sizes="(max-width: 480px) 100vw, 500px"
+              width={400}
+              height={320}
+              loading="eager" // Info screens are important hero assets
+              decoding="async"
+              alt={imgData.alt}
+              className="w-full h-full object-cover"
+              style={{ objectPosition: 'center 25%' }}
+            />
+          )}
+          {/* Gradient overlay - starts fading below the face (70%), fully white at bottom (100%) */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(to bottom, transparent 0%, transparent 70%, var(--color-warm) 100%)'
+            }}
+          />
+
+          {/* Floating Back Button */}
+          {currentScreen > 1 && (
+            <button 
+              onClick={goBack} 
+              className="absolute top-4 left-4 z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white/80 border border-border text-main backdrop-blur-xs transition hover:bg-white hover:scale-105 active:scale-95 shadow-xs cursor-pointer"
+              aria-label="Volver"
+            >
+              <i className="ti ti-arrow-left text-lg"></i>
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Content wrapper */}
       <div className="flex-grow px-6 pb-8 pt-2 flex flex-col gap-5 z-2">

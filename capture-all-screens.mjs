@@ -37,9 +37,10 @@ try {
     // Seed height and weight so BMI screen has data
     store.setAnswer('userHeightCm', 175);
     store.setAnswer('userWeightKg', 85);
+    store.setAnswer('userTargetWeightKg', 80);
   });
 
-  const totalScreens = 43;
+  const totalScreens = 44;
   for (let id = 1; id <= totalScreens; id++) {
     console.log(`Navigating to screen ${id}/${totalScreens}...`);
     await page.evaluate((screenId) => {
@@ -47,13 +48,13 @@ try {
     }, id);
 
     // Wait extra time for animations or transition sequences to complete
-    if (id === 40) {
+    if (id === 41) {
       // Analysis loading screen - wait
       await delay(1500);
-    } else if (id === 42) {
+    } else if (id === 43) {
       // Fade Sequence - wait
       await delay(1500);
-    } else if (id === 43) {
+    } else if (id === 44) {
       // Paywall - wait for carousel/images
       await delay(2500);
     } else {
@@ -141,8 +142,8 @@ try {
       await delay(300);
     }
 
-    // Screens 12-15 are male-only — capture with male gender set
-    if (id >= 12 && id <= 15) {
+    // Screens 12-16 are male-only — capture with male gender set
+    if (id >= 12 && id <= 16) {
       await page.evaluate(() => {
         window.useQuizStore.getState().setUserGender('male');
       });
