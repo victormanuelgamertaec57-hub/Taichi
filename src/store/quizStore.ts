@@ -3,6 +3,32 @@ import { resolveGenderedText, type Gender } from '../utils/gender';
 import type { PricingPlanId } from '../types/quiz';
 import { screens } from '../data/screens';
 
+// ─── Gender-aware screen navigation helper ─────────────────────────────────────
+// Returns true if a screen should be shown to the given gender.
+function screenMatchesGender(screenId: number, gender: Gender): boolean {
+  const s = screens.find((x) => x.id === screenId);
+  if (!s) return true;
+  if (!('genderOnly' in s) || !s.genderOnly) return true;
+  return s.genderOnly === gender;
+}
+
+// Find the next/prev visible screen for the current gender
+function nextVisibleScreen(from: number, gender: Gender, dir: 'forward' | 'backward'): number {
+  const ids = screens.map((s) => s.id).sort((a, b) => a - b);
+  const idx = ids.indexOf(from);
+  if (dir === 'forward') {
+    for (let i = idx + 1; i < ids.length; i++) {
+      if (screenMatchesGender(ids[i], gender)) return ids[i];
+    }
+    return ids[ids.length - 1]; // clamp to last
+  } else {
+    for (let i = idx - 1; i >= 0; i--) {
+      if (screenMatchesGender(ids[i], gender)) return ids[i];
+    }
+    return ids[0]; // clamp to first
+  }
+}
+
 // ─── State & Actions ──────────────────────────────────────────────────────────
 
 interface QuizState {
@@ -70,16 +96,16 @@ export const useQuizStore = create<QuizState>((set, get) => ({
   },
 
   goNext: () =>
-    set((state) => ({
-      currentScreen: Math.min(state.currentScreen + 1, TOTAL_SCREENS),
-      direction: 'forward',
-    })),
+    set((state) => {
+      const next = nextVisibleScreen(state.currentScreen, state.userGender, 'forward');
+      return { currentScreen: next, direction: 'forward' };
+    }),
 
   goBack: () =>
-    set((state) => ({
-      currentScreen: Math.max(state.currentScreen - 1, 1),
-      direction: 'backward',
-    })),
+    set((state) => {
+      const prev = nextVisibleScreen(state.currentScreen, state.userGender, 'backward');
+      return { currentScreen: prev, direction: 'backward' };
+    }),
 
   goTo: (screen: number) =>
     set((state) => ({

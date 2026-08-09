@@ -200,10 +200,66 @@ export const screens: AnyScreen[] = [
   },
 
   // ───────────────────────────────────────────────────────────────────────────
-  // ETAPA 3: Actividad (ID 12-17)
+  // ETAPA 2 continuación: Datos físicos — SOLO camino masculino (ID 12-15)
   // ───────────────────────────────────────────────────────────────────────────
   {
     id: 12,
+    stageId: 2,
+    stageName: 'Mi Perfil',
+    trackingName: 'altura',
+    type: 'height-input',
+    answerKey: 'userHeight',
+    genderOnly: 'male',
+    headline: '¿Cuánto mides?',
+    subtext: 'Esto nos permite calcular tu composición corporal de referencia.',
+    ctaLabel: 'Continuar',
+  },
+  {
+    id: 13,
+    stageId: 2,
+    stageName: 'Mi Perfil',
+    trackingName: 'peso',
+    type: 'weight-input',
+    answerKey: 'userWeight',
+    genderOnly: 'male',
+    headline: '¿Cuánto pesas?',
+    subtext: 'Junto con tu altura, calculamos tu Índice de Masa Corporal real para personalizar tu plan.',
+    ctaLabel: 'Continuar',
+  },
+  {
+    id: 14,
+    stageId: 2,
+    stageName: 'Mi Perfil',
+    trackingName: 'imc_feedback',
+    type: 'bmi-feedback',
+    genderOnly: 'male',
+    headline: 'Tu punto de partida',
+    subtext: 'Basado en los datos que acabas de ingresar.',
+    ctaLabel: 'Continuar al siguiente paso',
+  },
+  {
+    id: 15,
+    stageId: 2,
+    stageName: 'Mi Perfil',
+    trackingName: 'tai_chi_grasa',
+    type: 'info',
+    genderOnly: 'male',
+    headline: 'El Tai Chi también reduce la grasa abdominal',
+    subtext: 'Un ensayo clínico con 543 adultos mayores de 50 años encontró que el Tai Chi reduce la circunferencia de cintura de forma comparable al ejercicio convencional — con el beneficio adicional de proteger las articulaciones que el ejercicio tradicional desgasta.',
+    backgroundImage: 'avatar-masculino-articulaciones',
+    checklist: [
+      { icon: 'ti ti-trending-down', text: 'Reduce la circunferencia de cintura en adultos 50+' },
+      { icon: 'ti ti-shield-check', text: 'Sin desgaste articular, a diferencia del ejercicio convencional' },
+      { icon: 'ti ti-award', text: 'Fuente: Annals of Internal Medicine, Universidad de Hong Kong' },
+    ],
+    ctaLabel: 'Ver mi plan de actividad',
+  },
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // ETAPA 3: Actividad (ID 16-22)
+  // ───────────────────────────────────────────────────────────────────────────
+  {
+    id: 16,
     stageId: 3,
     stageName: 'Nivel de Actividad',
     trackingName: 'nivel_actividad',
@@ -219,7 +275,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 13,
+    id: 17,
     stageId: 3,
     stageName: 'Nivel de Actividad',
     trackingName: 'stat_gimnasio_agota',
@@ -231,7 +287,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Quiero un ejercicio suave',
   },
   {
-    id: 14,
+    id: 18,
     stageId: 3,
     stageName: 'Nivel de Actividad',
     trackingName: 'confianza_caminar',
@@ -247,7 +303,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 15,
+    id: 19,
     stageId: 3,
     stageName: 'Nivel de Actividad',
     trackingName: 'sabias_silla',
@@ -262,7 +318,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 16,
+    id: 20,
     stageId: 3,
     stageName: 'Nivel de Actividad',
     trackingName: 'stat_0_carga',
@@ -274,7 +330,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Continuar para ver los beneficios',
   },
   {
-    id: 17,
+    id: 21,
     stageId: 3,
     stageName: 'Nivel de Actividad',
     trackingName: 'stat_movimiento_sin_carga',
@@ -286,10 +342,10 @@ export const screens: AnyScreen[] = [
   },
 
   // ───────────────────────────────────────────────────────────────────────────
-  // ETAPA 4: Mi Plan (ID 18-22)
+  // ETAPA 4: Mi Plan (ID 23-27)
   // ───────────────────────────────────────────────────────────────────────────
   {
-    id: 18,
+    id: 22,
     stageId: 4,
     stageName: 'Mi Plan',
     trackingName: 'momento_practica',
@@ -305,7 +361,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 19,
+    id: 23,
     stageId: 4,
     stageName: 'Mi Plan',
     trackingName: 'evento_proximo',
@@ -321,7 +377,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 20,
+    id: 24,
     stageId: 4,
     stageName: 'Mi Plan',
     trackingName: 'fecha_objetivo',
@@ -333,7 +389,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Confirmar fecha',
   },
   {
-    id: 21,
+    id: 25,
     stageId: 4,
     stageName: 'Mi Plan',
     trackingName: 'meta_ideal',
@@ -353,7 +409,7 @@ export const screens: AnyScreen[] = [
     },
   },
   {
-    id: 22,
+    id: 26,
     stageId: 4,
     stageName: 'Mi Plan',
     trackingName: 'stat_fall_risk_2',
@@ -366,10 +422,10 @@ export const screens: AnyScreen[] = [
   },
 
   // ───────────────────────────────────────────────────────────────────────────
-  // ETAPA 5: Estilo de Vida (ID 23-27)
+  // ETAPA 5: Estilo de Vida (ID 28-32)
   // ───────────────────────────────────────────────────────────────────────────
   {
-    id: 23,
+    id: 27,
     stageId: 5,
     stageName: 'Estilo de Vida',
     trackingName: 'calidad_sueno',
@@ -385,7 +441,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 24,
+    id: 28,
     stageId: 5,
     stageName: 'Estilo de Vida',
     trackingName: 'bajada_energia',
@@ -401,7 +457,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 25,
+    id: 29,
     stageId: 5,
     stageName: 'Estilo de Vida',
     trackingName: 'nivel_energia',
@@ -417,7 +473,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 26,
+    id: 30,
     stageId: 5,
     stageName: 'Estilo de Vida',
     trackingName: 'ansiedad_estres',
@@ -433,7 +489,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 27,
+    id: 31,
     stageId: 5,
     stageName: 'Estilo de Vida',
     trackingName: 'metodo_firmme',
@@ -453,10 +509,10 @@ export const screens: AnyScreen[] = [
   },
 
   // ───────────────────────────────────────────────────────────────────────────
-  // ETAPA 6: Salud y Seguridad (ID 28-31)
+  // ETAPA 6: Salud y Seguridad (ID 33-36)
   // ───────────────────────────────────────────────────────────────────────────
   {
-    id: 28,
+    id: 32,
     stageId: 6,
     stageName: 'Salud y Seguridad',
     trackingName: 'restriccion_medica',
@@ -471,7 +527,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 29,
+    id: 33,
     stageId: 6,
     stageName: 'Salud y Seguridad',
     trackingName: 'harvard_spotlight',
@@ -487,7 +543,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Ver mi gráfico de estabilidad esperado',
   },
   {
-    id: 30,
+    id: 34,
     stageId: 6,
     stageName: 'Salud y Seguridad',
     trackingName: 'stat_fall_risk_3',
@@ -499,7 +555,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Quiero obtener este nivel de protección',
   },
   {
-    id: 31,
+    id: 35,
     stageId: 6,
     stageName: 'Salud y Seguridad',
     trackingName: 'salud_osea',
@@ -516,10 +572,10 @@ export const screens: AnyScreen[] = [
   },
 
   // ───────────────────────────────────────────────────────────────────────────
-  // ETAPA 7: Ya Casi Está (ID 32-34)
+  // ETAPA 7: Ya Casi Está (ID 37-39)
   // ───────────────────────────────────────────────────────────────────────────
   {
-    id: 32,
+    id: 36,
     stageId: 7,
     stageName: 'Finalizando',
     trackingName: 'nombre',
@@ -531,7 +587,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Continuar',
   },
   {
-    id: 33,
+    id: 37,
     stageId: 7,
     stageName: 'Finalizando',
     trackingName: 'email',
@@ -543,7 +599,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Ver mi plan personalizado →',
   },
   {
-    id: 34,
+    id: 38,
     stageId: 7,
     stageName: 'Finalizando',
     trackingName: 'compromiso',
@@ -559,10 +615,10 @@ export const screens: AnyScreen[] = [
   },
 
   // ───────────────────────────────────────────────────────────────────────────
-  // ETAPA 8: Cierre (ID 35-39, Sin barra de progreso)
+  // ETAPA 8: Cierre (ID 40-43, Sin barra de progreso)
   // ───────────────────────────────────────────────────────────────────────────
   {
-    id: 35,
+    id: 39,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'analisis',
@@ -579,7 +635,7 @@ export const screens: AnyScreen[] = [
     autoAdvanceMs: 1500,
   },
   {
-    id: 36,
+    id: 40,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'proyeccion',
@@ -595,7 +651,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Quiero mi plan personalizado',
   },
   {
-    id: 37,
+    id: 41,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'bienvenida',
@@ -609,7 +665,7 @@ export const screens: AnyScreen[] = [
     msPerLine: 2500,
   },
   {
-    id: 38,
+    id: 42,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'resultado_paywall',
@@ -627,7 +683,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Obtener mi plan con descuento',
   },
   {
-    id: 39,
+    id: 43,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'confirmacion',

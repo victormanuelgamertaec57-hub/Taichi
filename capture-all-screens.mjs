@@ -32,9 +32,14 @@ try {
     store.setAnswer('practiceTime', 'morning');
     store.setAnswer('metaIdeal', 'grandkids');
     store.setAnswer('fechaObjetivo', '2026-09-04');
+    store.setAnswer('stiffness', 'yes_frequent');
+    store.setAnswer('activityLevel', 'moderate');
+    // Seed height and weight so BMI screen has data
+    store.setAnswer('userHeightCm', 175);
+    store.setAnswer('userWeightKg', 85);
   });
 
-  const totalScreens = 39;
+  const totalScreens = 43;
   for (let id = 1; id <= totalScreens; id++) {
     console.log(`Navigating to screen ${id}/${totalScreens}...`);
     await page.evaluate((screenId) => {
@@ -42,13 +47,13 @@ try {
     }, id);
 
     // Wait extra time for animations or transition sequences to complete
-    if (id === 35) {
+    if (id === 40) {
       // Analysis loading screen - wait
       await delay(1500);
-    } else if (id === 37) {
+    } else if (id === 42) {
       // Fade Sequence - wait
       await delay(1500);
-    } else if (id === 38) {
+    } else if (id === 43) {
       // Paywall - wait for carousel/images
       await delay(2500);
     } else {
@@ -136,13 +141,27 @@ try {
       await delay(300);
     }
 
-    if (id === 13) {
-      // Capture female first
+    // Screens 12-15 are male-only — capture with male gender set
+    if (id >= 12 && id <= 15) {
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('male');
+      });
+      await delay(500);
+      const filepathMale = path.join(dir, `screen-${String(id).padStart(2, '0')}-male.png`);
+      await page.screenshot({ path: filepathMale });
+      console.log(`Saved screenshot: ${filepathMale}`);
+      // Revert to female so female-path screens continue normally
       await page.evaluate(() => {
         window.useQuizStore.getState().setUserGender('female');
       });
       await delay(300);
-      const filepathFemale = path.join(dir, 'screen-13-female.png');
+    }
+
+    if (id === 17) {
+      // stat_gimnasio_agota — capture both genders (male has different image)
+
+      await delay(300);
+      const filepathFemale = path.join(dir, 'screen-17-female.png');
       await page.screenshot({ path: filepathFemale });
       console.log(`Saved screenshot: ${filepathFemale}`);
 
@@ -151,7 +170,7 @@ try {
         window.useQuizStore.getState().setUserGender('male');
       });
       await delay(300);
-      const filepathMale = path.join(dir, 'screen-13-male.png');
+      const filepathMale = path.join(dir, 'screen-17-male.png');
       await page.screenshot({ path: filepathMale });
       console.log(`Saved screenshot: ${filepathMale}`);
 
@@ -162,13 +181,13 @@ try {
       await delay(300);
     }
 
-    if (id === 16) {
+    if (id === 20) {
       // Capture female first
       await page.evaluate(() => {
         window.useQuizStore.getState().setUserGender('female');
       });
       await delay(300);
-      const filepathFemale = path.join(dir, 'screen-16-female.png');
+      const filepathFemale = path.join(dir, 'screen-20-female.png');
       await page.screenshot({ path: filepathFemale });
       console.log(`Saved screenshot: ${filepathFemale}`);
 
@@ -177,7 +196,7 @@ try {
         window.useQuizStore.getState().setUserGender('male');
       });
       await delay(300);
-      const filepathMale = path.join(dir, 'screen-16-male.png');
+      const filepathMale = path.join(dir, 'screen-20-male.png');
       await page.screenshot({ path: filepathMale });
       console.log(`Saved screenshot: ${filepathMale}`);
 
@@ -188,13 +207,13 @@ try {
       await delay(300);
     }
 
-    if (id === 27) {
+    if (id === 31) {
       // Capture female first
       await page.evaluate(() => {
         window.useQuizStore.getState().setUserGender('female');
       });
       await delay(300);
-      const filepathFemale = path.join(dir, 'screen-27-female.png');
+      const filepathFemale = path.join(dir, 'screen-31-female.png');
       await page.screenshot({ path: filepathFemale });
       console.log(`Saved screenshot: ${filepathFemale}`);
 
@@ -203,7 +222,7 @@ try {
         window.useQuizStore.getState().setUserGender('male');
       });
       await delay(300);
-      const filepathMale = path.join(dir, 'screen-27-male.png');
+      const filepathMale = path.join(dir, 'screen-31-male.png');
       await page.screenshot({ path: filepathMale });
       console.log(`Saved screenshot: ${filepathMale}`);
 
@@ -214,13 +233,13 @@ try {
       await delay(300);
     }
 
-    if (id === 34) {
+    if (id === 38) {
       // Capture female first
       await page.evaluate(() => {
         window.useQuizStore.getState().setUserGender('female');
       });
       await delay(300);
-      const filepathFemale = path.join(dir, 'screen-34-female.png');
+      const filepathFemale = path.join(dir, 'screen-38-female.png');
       await page.screenshot({ path: filepathFemale });
       console.log(`Saved screenshot: ${filepathFemale}`);
 
@@ -229,7 +248,7 @@ try {
         window.useQuizStore.getState().setUserGender('male');
       });
       await delay(300);
-      const filepathMale = path.join(dir, 'screen-34-male.png');
+      const filepathMale = path.join(dir, 'screen-38-male.png');
       await page.screenshot({ path: filepathMale });
       console.log(`Saved screenshot: ${filepathMale}`);
 
@@ -240,13 +259,13 @@ try {
       await delay(300);
     }
 
-    if (id === 36) {
+    if (id === 40) {
       // Capture female first
       await page.evaluate(() => {
         window.useQuizStore.getState().setUserGender('female');
       });
       await delay(300);
-      const filepathFemale = path.join(dir, 'screen-36-female.png');
+      const filepathFemale = path.join(dir, 'screen-40-female.png');
       await page.screenshot({ path: filepathFemale });
       console.log(`Saved screenshot: ${filepathFemale}`);
 
@@ -255,7 +274,7 @@ try {
         window.useQuizStore.getState().setUserGender('male');
       });
       await delay(300);
-      const filepathMale = path.join(dir, 'screen-36-male.png');
+      const filepathMale = path.join(dir, 'screen-40-male.png');
       await page.screenshot({ path: filepathMale });
       console.log(`Saved screenshot: ${filepathMale}`);
 

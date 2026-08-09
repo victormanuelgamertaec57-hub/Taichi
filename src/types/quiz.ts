@@ -10,6 +10,9 @@ export type ScreenType =
   | 'name-input'    // Text input for name only
   | 'email-input'   // Text input for email only
   | 'date-input'    // Date picker with a "skip / no date" default
+  | 'height-input'  // Numeric height input with cm/ft toggle
+  | 'weight-input'  // Numeric weight input with kg/lb toggle
+  | 'bmi-feedback'  // Animated BMI slider + profile block
   | 'commitment'    // Psychological-commitment question (non-blocking)
   | 'projection'    // "Simple"-style projection chart before results
   | 'fade-sequence' // Auto-advancing fade-in text interstitial
@@ -37,6 +40,7 @@ export interface BaseScreen {
   trackingName?: string; // stable slug for Meta Pixel QuizStep custom event
   stageId?: number; // 1-8 stages model
   stageName?: string; // stage name
+  genderOnly?: 'male' | 'female'; // if set, screen is only shown to that gender
 }
 
 export interface PreIntroScreen extends BaseScreen {
@@ -139,6 +143,27 @@ export interface DateInputScreen extends BaseScreen {
   ctaLabel: string;
 }
 
+export interface HeightInputScreen extends BaseScreen {
+  type: 'height-input';
+  headline: string;
+  subtext?: string;
+  ctaLabel: string;
+}
+
+export interface WeightInputScreen extends BaseScreen {
+  type: 'weight-input';
+  headline: string;
+  subtext?: string;
+  ctaLabel: string;
+}
+
+export interface BmiFeedbackScreen extends BaseScreen {
+  type: 'bmi-feedback';
+  headline: string;
+  subtext?: string;
+  ctaLabel: string;
+}
+
 // ─── Commitment screen (psychological, non-blocking) ──────────────────────────
 
 export interface CommitmentScreen extends BaseScreen {
@@ -211,6 +236,9 @@ export type AnyScreen =
   | NameInputScreen
   | EmailInputScreen
   | DateInputScreen
+  | HeightInputScreen
+  | WeightInputScreen
+  | BmiFeedbackScreen
   | CommitmentScreen
   | ProjectionScreen
   | FadeSequenceScreen
