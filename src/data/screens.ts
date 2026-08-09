@@ -440,7 +440,10 @@ export const screens: AnyScreen[] = [
     type: 'info',
     headline: 'El Método FirmMe™: tu equilibrio, paso a paso',
     subtext: 'Nuestros ejercicios combinan movimientos lentos y fluidos con respiración enfocada, aliviando la ansiedad mental y soltando las articulaciones rígidas.',
-    backgroundImage: 'avatar-hero-cloud-hands',
+    backgroundImage: {
+      female: 'avatar-hero-cloud-hands',
+      male: 'avatar-masculino-movimiento-2',
+    },
     checklist: [
       { icon: 'ti ti-target-arrow', text: 'Trabajo de estabilidad profunda de bajísimo impacto' },
       { icon: 'ti ti-clock', text: 'Sesiones cortas y fáciles de 10 a 20 minutos diarios' },

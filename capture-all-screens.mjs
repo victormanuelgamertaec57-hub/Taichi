@@ -136,6 +136,84 @@ try {
       await delay(300);
     }
 
+    if (id === 13) {
+      // Capture female first
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('female');
+      });
+      await delay(300);
+      const filepathFemale = path.join(dir, 'screen-13-female.png');
+      await page.screenshot({ path: filepathFemale });
+      console.log(`Saved screenshot: ${filepathFemale}`);
+
+      // Capture male second
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('male');
+      });
+      await delay(300);
+      const filepathMale = path.join(dir, 'screen-13-male.png');
+      await page.screenshot({ path: filepathMale });
+      console.log(`Saved screenshot: ${filepathMale}`);
+
+      // Revert to female to continue flow normally
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('female');
+      });
+      await delay(300);
+    }
+
+    if (id === 16) {
+      // Capture female first
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('female');
+      });
+      await delay(300);
+      const filepathFemale = path.join(dir, 'screen-16-female.png');
+      await page.screenshot({ path: filepathFemale });
+      console.log(`Saved screenshot: ${filepathFemale}`);
+
+      // Capture male second
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('male');
+      });
+      await delay(300);
+      const filepathMale = path.join(dir, 'screen-16-male.png');
+      await page.screenshot({ path: filepathMale });
+      console.log(`Saved screenshot: ${filepathMale}`);
+
+      // Revert to female to continue flow normally
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('female');
+      });
+      await delay(300);
+    }
+
+    if (id === 27) {
+      // Capture female first
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('female');
+      });
+      await delay(300);
+      const filepathFemale = path.join(dir, 'screen-27-female.png');
+      await page.screenshot({ path: filepathFemale });
+      console.log(`Saved screenshot: ${filepathFemale}`);
+
+      // Capture male second
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('male');
+      });
+      await delay(300);
+      const filepathMale = path.join(dir, 'screen-27-male.png');
+      await page.screenshot({ path: filepathMale });
+      console.log(`Saved screenshot: ${filepathMale}`);
+
+      // Revert to female to continue flow normally
+      await page.evaluate(() => {
+        window.useQuizStore.getState().setUserGender('female');
+      });
+      await delay(300);
+    }
+
     if (id === 34) {
       // Capture female first
       await page.evaluate(() => {

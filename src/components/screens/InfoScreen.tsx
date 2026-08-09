@@ -24,6 +24,10 @@ import articulaciones400 from '../../assets/avatars/optimized/avatar-masculino-a
 import articulaciones600 from '../../assets/avatars/optimized/avatar-masculino-articulaciones-600w.webp';
 import articulaciones800 from '../../assets/avatars/optimized/avatar-masculino-articulaciones-800w.webp';
 
+import movimiento2_400 from '../../assets/avatars/optimized/avatar-masculino-movimiento-2-400w.webp';
+import movimiento2_600 from '../../assets/avatars/optimized/avatar-masculino-movimiento-2-600w.webp';
+import movimiento2_800 from '../../assets/avatars/optimized/avatar-masculino-movimiento-2-800w.webp';
+
 const IMAGE_MAP: Record<string, { w400: string; w600: string; w800: string; alt: string }> = {
   'avatar-closeup-confianza': {
     w400: confianza400,
@@ -54,6 +58,12 @@ const IMAGE_MAP: Record<string, { w400: string; w600: string; w800: string; alt:
     w600: hero600,
     w800: hero800,
     alt: 'Mujer practicando Tai Chi en la silla con los brazos al frente',
+  },
+  'avatar-masculino-movimiento-2': {
+    w400: movimiento2_400,
+    w600: movimiento2_600,
+    w800: movimiento2_800,
+    alt: 'Hombre practicando el método FirmMe de Tai Chi en silla',
   },
 };
 
