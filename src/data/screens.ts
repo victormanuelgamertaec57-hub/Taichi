@@ -506,6 +506,44 @@ export const screens: AnyScreen[] = [
     id: 32,
     stageId: 5,
     stageName: 'Estilo de Vida',
+    trackingName: 'saboteadores_masculino',
+    type: 'question',
+    answerKey: 'saboteadores_masculino',
+    genderOnly: 'male',
+    multiSelect: true,
+    headline: '¿Qué es lo que más te ha costado al intentar bajar de peso antes?',
+    subtext: 'Selecciona todas las que apliquen — nos ayuda a adaptar tu estrategia.',
+    options: [
+      { id: 'emotional_eating', label: 'Como más cuando estoy estresado o ansioso', icon: 'ti ti-cookie' },
+      { id: 'stress_overwhelm', label: 'El estrés y las obligaciones diarias no me dejan tiempo', icon: 'ti ti-clock-off' },
+      { id: 'self_criticism', label: 'Soy muy duro conmigo mismo cuando no cumplo', icon: 'ti ti-alert-triangle' },
+      { id: 'fear_of_failure', label: 'Miedo a intentarlo y fallar otra vez', icon: 'ti ti-shield-x' },
+    ],
+    ctaLabel: 'Continuar',
+  },
+  {
+    id: 33,
+    stageId: 5,
+    stageName: 'Estilo de Vida',
+    trackingName: 'saboteadores_femenino',
+    type: 'question',
+    answerKey: 'saboteadores_femenino',
+    genderOnly: 'female',
+    multiSelect: true,
+    headline: '¿Qué es lo que más te ha frenado al intentar moverte más?',
+    subtext: 'Selecciona todas las que apliquen — nos ayuda a adaptar tu estrategia.',
+    options: [
+      { id: 'fear_of_falling', label: 'Me da miedo lastimarme o caerme si me esfuerzo', icon: 'ti ti-shield-x' },
+      { id: 'lack_of_consistency', label: 'Empiezo rutinas pero no logro mantenerlas', icon: 'ti ti-refresh-off' },
+      { id: 'joint_pain', label: 'El dolor en mis articulaciones me hace parar', icon: 'ti ti-bone-off' },
+      { id: 'discouragement', label: 'Si no veo resultados rápido, me desanimo', icon: 'ti ti-heart-broken' },
+    ],
+    ctaLabel: 'Continuar',
+  },
+  {
+    id: 34,
+    stageId: 5,
+    stageName: 'Estilo de Vida',
     trackingName: 'metodo_firmme',
     type: 'info',
     headline: 'El Método FirmMe™: tu equilibrio, paso a paso',
@@ -526,7 +564,7 @@ export const screens: AnyScreen[] = [
   // ETAPA 6: Salud y Seguridad (ID 33-36)
   // ───────────────────────────────────────────────────────────────────────────
   {
-    id: 33,
+    id: 35,
     stageId: 6,
     stageName: 'Salud y Seguridad',
     trackingName: 'restriccion_medica',
@@ -541,7 +579,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 34,
+    id: 36,
     stageId: 6,
     stageName: 'Salud y Seguridad',
     trackingName: 'harvard_spotlight',
@@ -557,7 +595,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Ver mi gráfico de estabilidad esperado',
   },
   {
-    id: 35,
+    id: 37,
     stageId: 6,
     stageName: 'Salud y Seguridad',
     trackingName: 'stat_fall_risk_3',
@@ -569,7 +607,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Quiero obtener este nivel de protección',
   },
   {
-    id: 36,
+    id: 38,
     stageId: 6,
     stageName: 'Salud y Seguridad',
     trackingName: 'salud_osea',
@@ -589,7 +627,7 @@ export const screens: AnyScreen[] = [
   // ETAPA 7: Ya Casi Está (ID 37-39)
   // ───────────────────────────────────────────────────────────────────────────
   {
-    id: 37,
+    id: 39,
     stageId: 7,
     stageName: 'Finalizando',
     trackingName: 'nombre',
@@ -601,7 +639,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Continuar',
   },
   {
-    id: 38,
+    id: 40,
     stageId: 7,
     stageName: 'Finalizando',
     trackingName: 'email',
@@ -613,7 +651,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Ver mi plan personalizado →',
   },
   {
-    id: 39,
+    id: 41,
     stageId: 7,
     stageName: 'Finalizando',
     trackingName: 'compromiso',
@@ -627,12 +665,19 @@ export const screens: AnyScreen[] = [
       { id: 'try', label: 'Intentaré hacer lo mejor posible.', icon: 'ti ti-clock-pause' },
     ],
   },
+  {
+    id: 42,
+    stageId: 7,
+    stageName: 'Finalizando',
+    trackingName: 'saboteadores_resultado',
+    type: 'saboteurs',
+  },
 
   // ───────────────────────────────────────────────────────────────────────────
   // ETAPA 8: Cierre (ID 40-43, Sin barra de progreso)
   // ───────────────────────────────────────────────────────────────────────────
   {
-    id: 40,
+    id: 43,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'analisis',
@@ -649,7 +694,7 @@ export const screens: AnyScreen[] = [
     autoAdvanceMs: 1500,
   },
   {
-    id: 41,
+    id: 44,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'proyeccion',
@@ -665,7 +710,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Quiero mi plan personalizado',
   },
   {
-    id: 42,
+    id: 45,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'bienvenida',
@@ -679,7 +724,7 @@ export const screens: AnyScreen[] = [
     msPerLine: 2500,
   },
   {
-    id: 43,
+    id: 46,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'resultado_paywall',
@@ -697,7 +742,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Obtener mi plan con descuento',
   },
   {
-    id: 44,
+    id: 47,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'confirmacion',

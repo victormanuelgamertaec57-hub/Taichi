@@ -497,6 +497,82 @@ function FallRisk3() {
   );
 }
 
+interface YoyoPoint {
+  x: number;
+  y: number;
+  peak?: number; // diet ordinal (1-4) when this point is a labeled peak
+}
+
+const YOYO_POINTS: YoyoPoint[] = [
+  { x: 40, y: 100 },
+  { x: 68, y: 130 },
+  { x: 96, y: 80, peak: 1 },
+  { x: 124, y: 120 },
+  { x: 152, y: 65, peak: 2 },
+  { x: 180, y: 108 },
+  { x: 208, y: 50, peak: 3 },
+  { x: 236, y: 98 },
+  { x: 264, y: 35, peak: 4 },
+  { x: 292, y: 85 },
+];
+
+function YoyoEffect() {
+  const path = YOYO_POINTS.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+  const peaks = YOYO_POINTS.filter((p): p is Required<YoyoPoint> => p.peak !== undefined);
+
+  return (
+    <svg viewBox="0 0 320 190" fill="none" className="w-full max-w-[280px]" aria-hidden="true">
+      <line x1="40" y1="20" x2="300" y2="20" stroke="#E4DFD0" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="40" y1="80" x2="300" y2="80" stroke="#E4DFD0" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="40" y1="140" x2="300" y2="140" stroke="#B9C4BB" strokeWidth="2" />
+      <line x1="40" y1="20" x2="40" y2="140" stroke="#B9C4BB" strokeWidth="2" />
+
+      <motion.path
+        d={path}
+        stroke="#5C7AE0"
+        strokeWidth="3.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.6, ease: 'easeOut' }}
+      />
+
+      {peaks.map((p, i) => (
+        <g key={p.peak}>
+          <motion.circle
+            cx={p.x}
+            cy={p.y}
+            r="4"
+            fill="#5C7AE0"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.3 + i * 0.25, duration: 0.25 }}
+          />
+          <motion.text
+            x={p.x}
+            y={p.y - 10}
+            textAnchor="middle"
+            fontSize="9"
+            fontWeight="800"
+            fill="#5C7AE0"
+            fontFamily="Nunito, sans-serif"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.35 + i * 0.25, duration: 0.25 }}
+          >
+            {p.peak}.ª dieta
+          </motion.text>
+        </g>
+      ))}
+
+      <text x="8" y="24" fontSize="9" fontWeight="700" fill="#6B7A70" fontFamily="Nunito, sans-serif">Peso</text>
+      <text x="300" y="158" textAnchor="end" fontSize="9" fontWeight="700" fill="#6B7A70" fontFamily="Nunito, sans-serif">Tiempo</text>
+    </svg>
+  );
+}
+
 const VISUALS: Record<StatVisualKind, (props: { isMale: boolean }) => ReactElement> = {
   'fall-risk-bars': () => <FallRiskBars />,
   'fatigue-clock': () => <FatigueClock />,
@@ -505,6 +581,7 @@ const VISUALS: Record<StatVisualKind, (props: { isMale: boolean }) => ReactEleme
   'fall-risk-1': () => <FallRisk1 />,
   'fall-risk-2': () => <FallRisk2 />,
   'fall-risk-3': () => <FallRisk3 />,
+  'yoyo-effect': () => <YoyoEffect />,
 };
 
 // Hook de cuenta regresiva usando requestAnimationFrame (100% -> 0%)
@@ -583,6 +660,19 @@ export default function StatScreenComp({ screen }: Props) {
 
       {/* One message per screen: stat + headline + subtext, generous whitespace */}
       <div className="flex-1 flex flex-col items-center justify-center text-center gap-5 py-2">
+        {screen.badge && (
+          <motion.span
+            initial={{ opacity: 0, y: -6, scale: 0.85 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.4, type: 'spring', stiffness: 320, damping: 16 }}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wide"
+            style={{ backgroundColor: 'var(--color-primary-bg)', color: 'var(--color-primary)' }}
+          >
+            <i className="ti ti-alert-triangle text-sm"></i>
+            {screen.badge}
+          </motion.span>
+        )}
+
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -599,7 +689,7 @@ export default function StatScreenComp({ screen }: Props) {
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ 
+          transition={{
             type: 'spring',
             stiffness: 350,
             damping: 25
@@ -618,6 +708,28 @@ export default function StatScreenComp({ screen }: Props) {
           >
             {note}
           </motion.p>
+        )}
+
+        {screen.evidenceItems && (
+          <div className="flex flex-col gap-3 w-full max-w-sm">
+            {screen.evidenceItems.map((item, i) => (
+              <motion.div
+                key={item.text}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 + i * 0.12, duration: 0.3 }}
+                className="flex items-start gap-3 text-left bg-white rounded-2xl p-3.5 border border-border shadow-xs"
+              >
+                <div
+                  className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
+                  style={{ backgroundColor: 'var(--color-primary-bg)', color: 'var(--color-primary)' }}
+                >
+                  <i className={`${item.icon} text-base`}></i>
+                </div>
+                <span className="text-[13px] text-main leading-relaxed">{item.text}</span>
+              </motion.div>
+            ))}
+          </div>
         )}
       </div>
 

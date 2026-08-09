@@ -119,34 +119,8 @@ export default function InfoScreenComp({ screen }: Props) {
   return (
     <div className="relative flex flex-col min-h-[580px] bg-warm overflow-hidden rounded-3xl border border-border">
       
-      {/* 1. Background image area */}
-      {imgData?.isTransparent ? (
-        <div 
-          className="relative h-60 sm:h-64 w-full flex-shrink-0 flex items-end justify-center pt-4 pb-1 overflow-hidden"
-          style={{ background: 'linear-gradient(135deg, #f0f4ff 0%, #e8eef8 100%)' }}
-        >
-          {imgData && (
-            <img
-              src={imgData.w400}
-              alt={imgData.alt}
-              loading="eager"
-              decoding="async"
-              className="h-full w-auto object-contain object-bottom max-h-full"
-            />
-          )}
-
-          {/* Floating Back Button */}
-          {currentScreen > 1 && (
-            <button 
-              onClick={goBack} 
-              className="absolute top-4 left-4 z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white/80 border border-border text-main backdrop-blur-xs transition hover:bg-white hover:scale-105 active:scale-95 shadow-xs cursor-pointer"
-              aria-label="Volver"
-            >
-              <i className="ti ti-arrow-left text-lg"></i>
-            </button>
-          )}
-        </div>
-      ) : (
+      {/* ── Standard Header Banner (for regular photo screens) ── */}
+      {!imgData?.isTransparent && (
         <div className="relative h-72 sm:h-80 w-full overflow-hidden flex-shrink-0">
           {imgData && (
             <img
@@ -155,14 +129,14 @@ export default function InfoScreenComp({ screen }: Props) {
               sizes="(max-width: 480px) 100vw, 500px"
               width={400}
               height={320}
-              loading="eager" // Info screens are important hero assets
+              loading="eager"
               decoding="async"
               alt={imgData.alt}
               className="w-full h-full object-cover"
               style={{ objectPosition: 'center 25%' }}
             />
           )}
-          {/* Gradient overlay - starts fading below the face (70%), fully white at bottom (100%) */}
+          {/* Gradient overlay */}
           <div 
             className="absolute inset-0"
             style={{
@@ -183,9 +157,23 @@ export default function InfoScreenComp({ screen }: Props) {
         </div>
       )}
 
+      {/* ── Top Header Bar for transparent layout ── */}
+      {imgData?.isTransparent && currentScreen > 1 && (
+        <div className="px-6 pt-5 pb-1 flex items-center justify-between z-10">
+          <button 
+            onClick={goBack} 
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-white/80 border border-border text-main backdrop-blur-xs transition hover:bg-white hover:scale-105 active:scale-95 shadow-xs cursor-pointer"
+            aria-label="Volver"
+          >
+            <i className="ti ti-arrow-left text-lg"></i>
+          </button>
+        </div>
+      )}
+
       {/* Content wrapper */}
-      <div className="flex-grow px-6 pb-8 pt-2 flex flex-col gap-5 z-2">
-        {/* 2. Headline & 3. Subtitle */}
+      <div className={`flex-grow px-6 pb-8 flex flex-col gap-4 z-2 ${imgData?.isTransparent ? 'pt-2' : 'pt-2'}`}>
+        
+        {/* 1. Headline */}
         <div className="space-y-1 text-center sm:text-left">
           <motion.h2
             initial={{ opacity: 0, y: 8 }}
@@ -196,6 +184,8 @@ export default function InfoScreenComp({ screen }: Props) {
           >
             {headline}
           </motion.h2>
+
+          {/* 2. Subtitle / Descriptive Text */}
           {subtext && (
             <motion.p
               initial={{ opacity: 0, y: 8 }}
@@ -208,36 +198,54 @@ export default function InfoScreenComp({ screen }: Props) {
           )}
         </div>
 
-        {/* 4. Checklist (No Emojis, Tabler Icons in 28px circles) */}
+        {/* 3. Transparent Image (Centered on pure background, NO colored box, generous size) */}
+        {imgData?.isTransparent && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.35, delay: 0.1 }}
+            className="flex justify-center items-center py-1 my-1"
+          >
+            <img
+              src={imgData.w400}
+              alt={imgData.alt}
+              loading="eager"
+              decoding="async"
+              className="h-44 sm:h-52 w-auto object-contain max-w-full"
+            />
+          </motion.div>
+        )}
+
+        {/* 4. Checklist (3 bullets) */}
         <div className="flex-grow flex flex-col gap-3">
           {rawChecklist.map((item, idx) => {
             const { fg, bg } = accentColor(idx);
             return (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.25, delay: 0.1 + idx * 0.08 }}
-              className="flex items-start gap-3.5"
-            >
-              {/* Icon Circle (28px) */}
-              <div
-                className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: bg, color: fg }}
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.25, delay: 0.15 + idx * 0.08 }}
+                className="flex items-start gap-3.5"
               >
-                <i className={`${item.icon} text-[15px]`} style={{ fontSize: '15px' }}></i>
-              </div>
+                {/* Icon Circle (28px) */}
+                <div
+                  className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center"
+                  style={{ backgroundColor: bg, color: fg }}
+                >
+                  <i className={`${item.icon} text-[15px]`} style={{ fontSize: '15px' }}></i>
+                </div>
 
-              {/* Checklist text (max 2 lines) */}
-              <p className="text-[15px] text-main font-normal leading-snug pt-0.5 max-w-[85%]">
-                {interpolate(item.text, userName, userAge, userGender)}
-              </p>
-            </motion.div>
+                {/* Checklist text */}
+                <p className="text-[15px] text-main font-normal leading-snug pt-0.5 max-w-[85%]">
+                  {interpolate(item.text, userName, userAge, userGender)}
+                </p>
+              </motion.div>
             );
           })}
         </div>
 
-        {/* 5. Solid Terracota CTA Button (radius 14px, padding 15px) */}
+        {/* 5. Solid Terracotta CTA Button */}
         <motion.button
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}

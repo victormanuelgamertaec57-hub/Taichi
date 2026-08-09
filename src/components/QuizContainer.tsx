@@ -25,6 +25,7 @@ const FadeSequenceComp = lazy(() => import('./screens/FadeSequence'));
 const AnalysisScreenComp = lazy(() => import('./screens/AnalysisScreen'));
 const ResultPaywallScreenComp = lazy(() => import('./screens/ResultPaywallScreen'));
 const ConfirmationScreenComp = lazy(() => import('./screens/ConfirmationScreen'));
+const SaboteursScreenComp = lazy(() => import('./screens/SaboteursScreen'));
 
 import type { AnyScreen } from '../types/quiz';
 
@@ -75,6 +76,8 @@ function renderScreen(screen: AnyScreen) {
       return <ResultPaywallScreenComp screen={screen} />;
     case 'confirmation':
       return <ConfirmationScreenComp screen={screen} />;
+    case 'saboteurs':
+      return <SaboteursScreenComp screen={screen} />;
     default:
       return null;
   }

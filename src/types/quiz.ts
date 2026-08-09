@@ -18,7 +18,8 @@ export type ScreenType =
   | 'fade-sequence' // Auto-advancing fade-in text interstitial
   | 'analysis'      // Animated progress + testimonials
   | 'result-paywall' // Consolidated results + pricing + guarantee landing page
-  | 'confirmation'; // Post-purchase confirmation + delivery
+  | 'confirmation' // Post-purchase confirmation + delivery
+  | 'saboteurs';    // Custom saboteurs breakdown screen
 
 // ─── Question Options ─────────────────────────────────────────────────────────
 
@@ -106,15 +107,18 @@ export type StatVisualKind =
   | 'joint-motion'        // articulación con flechas circulares
   | 'fall-risk-1'         // gráfico de riesgo de caídas aumentando con la edad
   | 'fall-risk-2'         // curva de estabilidad primeras 4 semanas
-  | 'fall-risk-3';        // comparador final de índice de estabilidad científico
+  | 'fall-risk-3'         // comparador final de índice de estabilidad científico
+  | 'yoyo-effect';        // zigzag de peso subiendo/bajando con cada dieta (efecto rebote)
 
 export interface StatScreen extends BaseScreen {
   type: 'stat';
   stat?: string;          // big number shown above headline, e.g. "58%" / "1 de cada 3"
+  badge?: string;         // small pill label shown above the visual, e.g. "Dietas restrictivas"
   headline: string;
   subtext: string;
   note?: string;          // supporting note, shown in smaller text below the visual
   visual: StatVisualKind;
+  evidenceItems?: InfoChecklistItem[]; // scientific-citation cards shown below the visual
   accent?: 'terracotta';  // only screen "gym te deja agotada" uses the terracotta accent
   ctaLabel: string;
 }
@@ -227,6 +231,10 @@ export interface ConfirmationScreen extends BaseScreen {
   ctaLabel: string;
 }
 
+export interface SaboteursScreen extends BaseScreen {
+  type: 'saboteurs';
+}
+
 export type AnyScreen =
   | PreIntroScreen
   | GenderScreen
@@ -245,7 +253,8 @@ export type AnyScreen =
   | FadeSequenceScreen
   | AnalysisScreen
   | ResultPaywallScreen
-  | ConfirmationScreen;
+  | ConfirmationScreen
+  | SaboteursScreen;
 
 // ─── Testimonial ──────────────────────────────────────────────────────────────
 
