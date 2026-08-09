@@ -12,25 +12,15 @@ import movimiento1_400 from '../../assets/avatars/optimized/avatar-masculino-mov
 import movimiento1_600 from '../../assets/avatars/optimized/avatar-masculino-movimiento-1-600w.webp';
 import movimiento1_800 from '../../assets/avatars/optimized/avatar-masculino-movimiento-1-800w.webp';
 
-import antesEstres400 from '../../assets/avatars/optimized/avatar-antes-estres-400w.webp';
-import antesEstres600 from '../../assets/avatars/optimized/avatar-antes-estres-600w.webp';
-import antesEstres800 from '../../assets/avatars/optimized/avatar-antes-estres-800w.webp';
-
-import articulaciones400 from '../../assets/avatars/optimized/avatar-masculino-articulaciones-400w.webp';
-import articulaciones600 from '../../assets/avatars/optimized/avatar-masculino-articulaciones-600w.webp';
-import articulaciones800 from '../../assets/avatars/optimized/avatar-masculino-articulaciones-800w.webp';
-
 interface Props {
   screen: StatScreen;
 }
 
-// Palette: sage/cream come from the design tokens; terracotta only on the
-// "gym te deja agotada/o" screen.
 const SAGE = '#5C7AE0';
 const TERRACOTTA = '#D97A4E';
 const MUTED = '#B9C4BB';
 
-// ─── SVG visuals (one per StatVisualKind) ─────────────────────────────────────
+// ─── SVG visuals & Micro-Animations ──────────────────────────────────────────
 
 interface FallRiskDatum {
   value: number; // 0-100, relative fall-risk index
@@ -49,7 +39,7 @@ const CHART_VIEW_WIDTH = 240;
 const BAR_WIDTH = 44;
 const BAR_GAP = 36;
 
-// Counts up to `target` once mounted, easing out
+// Counts up to `target` once mounted, easing out via requestAnimationFrame (no setInterval)
 function useCountUp(target: number, delaySeconds: number, durationMs = 700): number {
   const [value, setValue] = useState(0);
 
@@ -79,6 +69,33 @@ function useCountUp(target: number, delaySeconds: number, durationMs = 700): num
   }, [target, delaySeconds, durationMs]);
 
   return value;
+}
+
+function SVGAnimatedCheck({ delay = 0 }: { delay?: number }) {
+  return (
+    <svg viewBox="0 0 24 24" className="w-5 h-5 flex-shrink-0" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" stroke="#5C7AE0" strokeWidth="2" fill="#EEF1FB" />
+      <motion.path
+        d="M7 12.5L10 15.5L17 8.5"
+        stroke="#5C7AE0"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ delay: delay + 0.15, duration: 0.4, ease: 'easeOut' }}
+      />
+    </svg>
+  );
+}
+
+function StatCountUp({ target, prefix = '', suffix = '', delay = 0 }: { target: number; prefix?: string; suffix?: string; delay?: number }) {
+  const count = useCountUp(target, delay, 750);
+  return (
+    <span className="font-extrabold tabular-nums tracking-tight">
+      {prefix}{count}{suffix}
+    </span>
+  );
 }
 
 function FallRiskBarColumn({ datum, x, index }: { datum: FallRiskDatum; x: number; index: number }) {
@@ -197,14 +214,142 @@ function AvatarPhoto({ src400, src600, src800, alt }: AvatarPhotoProps) {
   );
 }
 
-function FatigueClock({ isMale }: { isMale: boolean }) {
+// ─── 2-Column Touchable Comparator (Gimnasio vs Tai Chi) + Animated Stats ─────
+function FatigueClock() {
+  const [selectedCol, setSelectedCol] = useState<'chair' | 'gym'>('chair');
+
   return (
-    <AvatarPhoto
-      src400={isMale ? articulaciones400 : antesEstres400}
-      src600={isMale ? articulaciones600 : antesEstres600}
-      src800={isMale ? articulaciones800 : antesEstres800}
-      alt={isMale ? 'Hombre maduro con tensión y rigidez muscular' : 'Mujer con expresión de cansancio y tensión, sentada en su silla'}
-    />
+    <div className="w-full max-w-sm flex flex-col gap-4">
+      {/* 2-Column Touchable Comparator */}
+      <div className="grid grid-cols-2 gap-3 text-left">
+        {/* Column 1: Gimnasio Tradicional */}
+        <div
+          onClick={() => setSelectedCol('gym')}
+          className={`relative p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer ${
+            selectedCol === 'gym'
+              ? 'border-[#D97A4E] bg-[#FDF4F0] shadow-sm scale-[1.02]'
+              : 'border-border bg-white hover:border-border/80'
+          }`}
+          style={{ willChange: 'transform' }}
+        >
+          <div className="flex items-center gap-1.5 mb-2">
+            <div className="w-6 h-6 rounded-full bg-[#D97A4E]/10 flex items-center justify-center text-[#D97A4E] text-xs">
+              <i className="ti ti-barbell"></i>
+            </div>
+            <span className="text-xs font-bold text-main leading-tight">Gimnasio tradicional</span>
+          </div>
+          
+          <ul className="space-y-1.5 text-[11px] text-secondary leading-snug">
+            <li className="flex items-center gap-1.5">
+              <i className="ti ti-x text-red-500 text-xs flex-shrink-0"></i>
+              <span>Alto impacto</span>
+            </li>
+            <li className="flex items-center gap-1.5">
+              <i className="ti ti-x text-red-500 text-xs flex-shrink-0"></i>
+              <span>Requiere equipo</span>
+            </li>
+            <li className="flex items-center gap-1.5">
+              <i className="ti ti-x text-red-500 text-xs flex-shrink-0"></i>
+              <span>Fatiga articular</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* Column 2: Tai Chi en silla (Recomendado) */}
+        <div
+          onClick={() => setSelectedCol('chair')}
+          className={`relative p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer ${
+            selectedCol === 'chair'
+              ? 'border-primary bg-[#EEF1FB] shadow-md scale-[1.02] ring-2 ring-primary/20'
+              : 'border-border bg-white hover:border-border/80'
+          }`}
+          style={{ willChange: 'transform' }}
+        >
+          <div className="absolute -top-2.5 right-2 bg-primary text-white text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full shadow-xs tracking-wider">
+            Recomendado
+          </div>
+
+          <div className="flex items-center gap-1.5 mb-2">
+            <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs">
+              <i className="ti ti-chair"></i>
+            </div>
+            <span className="text-xs font-bold text-primary leading-tight">Tai Chi en silla</span>
+          </div>
+
+          <ul className="space-y-1.5 text-[11px] text-main font-medium leading-snug">
+            <li className="flex items-center gap-1.5">
+              <i className="ti ti-check text-primary font-bold text-xs flex-shrink-0"></i>
+              <span className="font-semibold text-primary">0% impacto</span>
+            </li>
+            <li className="flex items-center gap-1.5">
+              <i className="ti ti-check text-primary font-bold text-xs flex-shrink-0"></i>
+              <span>Solo una silla</span>
+            </li>
+            <li className="flex items-center gap-1.5">
+              <i className="ti ti-check text-primary font-bold text-xs flex-shrink-0"></i>
+              <span>Sin dolor</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* 3 Animated Evidence Metrics with SVG checkmarks */}
+      <div className="bg-white rounded-2xl p-4 border border-border shadow-xs flex flex-col gap-3">
+        <span className="text-[10px] font-extrabold uppercase tracking-wider text-secondary text-center">
+          Evidencia Clínica Respaldada
+        </span>
+
+        <div className="flex flex-col gap-2.5">
+          {/* Metric 1: 0% impacto articular */}
+          <motion.div
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1, duration: 0.3 }}
+            className="flex items-center justify-between p-2.5 rounded-xl bg-warm/60 border border-border/50"
+          >
+            <div className="flex items-center gap-2.5 text-left">
+              <SVGAnimatedCheck delay={0.1} />
+              <span className="text-xs text-main font-semibold">Impacto o sobrecarga articular</span>
+            </div>
+            <span className="text-base font-extrabold text-primary ml-2">
+              <StatCountUp target={0} suffix="%" delay={0.1} />
+            </span>
+          </motion.div>
+
+          {/* Metric 2: +85% mejora funcional */}
+          <motion.div
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.25, duration: 0.3 }}
+            className="flex items-center justify-between p-2.5 rounded-xl bg-warm/60 border border-border/50"
+          >
+            <div className="flex items-center gap-2.5 text-left">
+              <SVGAnimatedCheck delay={0.25} />
+              <span className="text-xs text-main font-semibold">Mejora funcional en estudios</span>
+            </div>
+            <span className="text-base font-extrabold text-primary ml-2">
+              <StatCountUp target={85} prefix="+" suffix="%" delay={0.25} />
+            </span>
+          </motion.div>
+
+          {/* Metric 3: -24% riesgo de caídas */}
+          <motion.div
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 0.3 }}
+            className="flex items-center justify-between p-2.5 rounded-xl bg-warm/60 border border-border/50"
+          >
+            <div className="flex items-center gap-2.5 text-left">
+              <SVGAnimatedCheck delay={0.4} />
+              <span className="text-xs text-main font-semibold">Riesgo de caídas comprobado</span>
+            </div>
+            <span className="text-base font-extrabold text-primary ml-2">
+              <StatCountUp target={24} prefix="-" suffix="%" delay={0.4} />
+            </span>
+          </motion.div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -354,13 +499,62 @@ function FallRisk3() {
 
 const VISUALS: Record<StatVisualKind, (props: { isMale: boolean }) => ReactElement> = {
   'fall-risk-bars': () => <FallRiskBars />,
-  'fatigue-clock': ({ isMale }) => <FatigueClock isMale={isMale} />,
+  'fatigue-clock': () => <FatigueClock />,
   'impact-compare': ({ isMale }) => <ImpactCompare isMale={isMale} />,
   'joint-motion': () => <JointMotion />,
   'fall-risk-1': () => <FallRisk1 />,
   'fall-risk-2': () => <FallRisk2 />,
   'fall-risk-3': () => <FallRisk3 />,
 };
+
+// Hook de cuenta regresiva usando requestAnimationFrame (100% -> 0%)
+function useCountdown(start: number, end: number, delaySeconds: number, durationMs = 1200): number {
+  const [value, setValue] = useState(start);
+
+  useEffect(() => {
+    let raf: number;
+    let cancelled = false;
+    const startAt = performance.now() + delaySeconds * 1000;
+
+    const tick = (now: number) => {
+      if (cancelled) return;
+      const elapsed = now - startAt;
+      if (elapsed < 0) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      const t = Math.min(elapsed / durationMs, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const current = Math.round(start + (end - start) * eased);
+      setValue(current);
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+    };
+  }, [start, end, delaySeconds, durationMs]);
+
+  return value;
+}
+
+function AnimatedBigStat({ stat, statColor }: { stat: string; statColor: string }) {
+  const isZeroPercent = stat === '0%';
+  const animatedZero = useCountdown(100, 0, 0.1, 1300);
+
+  const displayVal = isZeroPercent ? `${animatedZero}%` : stat;
+
+  return (
+    <p
+      className="font-extrabold leading-none tracking-tight tabular-nums"
+      style={{ color: statColor, fontSize: displayVal.length > 4 ? '2.6rem' : '3.4rem' }}
+    >
+      {displayVal}
+    </p>
+  );
+}
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -396,29 +590,21 @@ export default function StatScreenComp({ screen }: Props) {
           className="space-y-2 max-w-sm"
         >
           {screen.stat && (
-            <p
-              className="font-extrabold leading-none tracking-tight"
-              style={{ color: statColor, fontSize: screen.stat.length > 4 ? '2.6rem' : '3.4rem' }}
-            >
-              {screen.stat}
-            </p>
+            <AnimatedBigStat stat={screen.stat} statColor={statColor} />
           )}
           <h2 className="text-[22px] font-bold text-main leading-snug">{headline}</h2>
           <p className="text-[15px] text-secondary leading-relaxed">{subtext}</p>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.98 }}
           transition={{ 
             type: 'spring',
             stiffness: 350,
             damping: 25
           }}
-          style={{ willChange: 'transform' }}
-          className="flex justify-center w-full cursor-pointer"
+          className="flex justify-center w-full"
         >
           {renderVisual({ isMale })}
         </motion.div>

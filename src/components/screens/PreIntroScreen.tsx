@@ -71,7 +71,7 @@ export default function PreIntroScreenComp({ screen }: Props) {
               style={{ willChange: 'transform' }}
             >
               <i className="ti ti-yin-yang text-4xl text-primary" style={{ color: INDIGO }}></i>
-              <span className="text-[10px] font-bold text-secondary/60 tracking-wider uppercase mt-1">Estabilidade</span>
+              <span className="text-[10px] font-bold text-secondary/60 tracking-wider uppercase mt-1">Estabilidad</span>
             </motion.div>
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function PreIntroScreenComp({ screen }: Props) {
         {/* Copy Section */}
         <div className="space-y-3">
           <span className="inline-block px-3 py-1 bg-white border border-border rounded-full text-xs font-bold uppercase tracking-wider text-secondary">
-            Método Clinicamente Comprovado
+            Método Clínicamente Comprobado
           </span>
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
@@ -102,7 +102,7 @@ export default function PreIntroScreenComp({ screen }: Props) {
         {/* Harvard/Stanford support trust badge */}
         <div className="flex items-center gap-2 text-xs text-secondary/70 bg-secondary/5 px-3.5 py-2 rounded-xl border border-border/40">
           <i className="ti ti-school text-sm"></i>
-          <span>Baseado em diretrizes de Harvard e Stanford</span>
+          <span>Basado en directrices de Harvard y Stanford</span>
         </div>
       </div>
 
