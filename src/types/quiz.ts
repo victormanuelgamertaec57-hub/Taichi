@@ -16,6 +16,7 @@ export type ScreenType =
   | 'commitment'    // Psychological-commitment question (non-blocking)
   | 'projection'    // "Simple"-style projection chart before results
   | 'fade-sequence' // Auto-advancing fade-in text interstitial
+  | 'comparison'    // "Ahora / Objetivo" photo + metrics comparison card
   | 'analysis'      // Animated progress + testimonials
   | 'result-paywall' // Consolidated results + pricing + guarantee landing page
   | 'confirmation' // Post-purchase confirmation + delivery
@@ -196,6 +197,13 @@ export interface FadeSequenceScreen extends BaseScreen {
   msPerLine?: number; // default 2500
 }
 
+// ─── "Ahora / Objetivo" comparison card (own screen, precedes analysis) ───────
+
+export interface ComparisonScreen extends BaseScreen {
+  type: 'comparison';
+  ctaLabel: string;
+}
+
 export interface AnalysisScreen extends BaseScreen {
   type: 'analysis';
   headline: string;       // supports tokens
@@ -251,6 +259,7 @@ export type AnyScreen =
   | CommitmentScreen
   | ProjectionScreen
   | FadeSequenceScreen
+  | ComparisonScreen
   | AnalysisScreen
   | ResultPaywallScreen
   | ConfirmationScreen

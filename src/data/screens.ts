@@ -1,7 +1,7 @@
 import type { AnyScreen } from '../types/quiz';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// FLUJO (39 pantallas) — Modelado al 85% de "Simple" + 15% Innovación propia
+// FLUJO (48 pantallas) — Modelado al 85% de "Simple" + 15% Innovación propia
 // Dividido en 8 etapas con barra de progreso que se reinicia por etapa.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -674,10 +674,18 @@ export const screens: AnyScreen[] = [
   },
 
   // ───────────────────────────────────────────────────────────────────────────
-  // ETAPA 8: Cierre (ID 40-43, Sin barra de progreso)
+  // ETAPA 8: Cierre (ID 43-48, Sin barra de progreso)
   // ───────────────────────────────────────────────────────────────────────────
   {
     id: 43,
+    stageId: 8,
+    stageName: 'Resultado',
+    trackingName: 'ahora_objetivo',
+    type: 'comparison',
+    ctaLabel: 'Continuar',
+  },
+  {
+    id: 44,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'analisis',
@@ -694,7 +702,7 @@ export const screens: AnyScreen[] = [
     autoAdvanceMs: 1500,
   },
   {
-    id: 44,
+    id: 45,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'proyeccion',
@@ -710,7 +718,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Quiero mi plan personalizado',
   },
   {
-    id: 45,
+    id: 46,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'bienvenida',
@@ -724,7 +732,7 @@ export const screens: AnyScreen[] = [
     msPerLine: 2500,
   },
   {
-    id: 46,
+    id: 47,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'resultado_paywall',
@@ -742,7 +750,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Obtener mi plan con descuento',
   },
   {
-    id: 47,
+    id: 48,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'confirmacion',

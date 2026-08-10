@@ -47,7 +47,7 @@ const FEATURED_TESTIMONIALS: FeaturedTestimonial[] = [
     age: 54,
     rating: 5,
     quote:
-      'Já tentei academia, aplicativo de corrida, dieta, tudo. Isso foi a primeira coisa que consegui manter todos os dias, porque não exige nada além da cadeira que já tenho em casa.',
+      'Ya intenté gimnasio, aplicaciones de ejercicio, dietas, de todo. Esto fue lo único que he logrado mantener todos los días, porque no exige más que la silla que ya tengo en casa.',
     before: { src400: marliAntes400, src600: marliAntes600, src800: marliAntes800 },
     after: { src400: marliDespues400, src600: marliDespues600, src800: marliDespues800 },
   },
@@ -56,7 +56,7 @@ const FEATURED_TESTIMONIALS: FeaturedTestimonial[] = [
     age: 61,
     rating: 5,
     quote:
-      'Não esperava sentir mais disposição só com movimentos suaves. Mas depois de duas semanas, acordo com menos cansaço e consigo brincar com meus netos sem sentir o corpo pesado.',
+      'No esperaba sentir más vitalidad solo con movimientos suaves. Pero después de dos semanas, me despierto con menos cansancio y puedo jugar con mis nietos sin sentir el cuerpo pesado.',
     before: { src400: ivoneAntes400, src600: ivoneAntes600, src800: ivoneAntes800 },
     after: { src400: ivoneDespues400, src600: ivoneDespues600, src800: ivoneDespues800 },
   },
@@ -68,35 +68,35 @@ const TEXT_TESTIMONIALS: TextTestimonial[] = [
     age: 68,
     rating: 5,
     quote:
-      'Depois de quase cair duas vezes no banheiro, fiquei com medo de andar sozinha em casa. Com o Tai Chi sentado, senti que meu equilíbrio melhorou de um jeito que nem esperava — hoje ando com muito mais segurança.',
+      'Después de casi caerme dos veces en el baño, me daba miedo andar sola por la casa. Con el Tai Chi en silla, sentí que mi equilibrio mejoró de una forma que no esperaba; hoy camino con mucha más seguridad.',
   },
   {
     name: 'Cristina',
     age: 49,
     rating: 5,
     quote:
-      'Confesso que achei que não ia sentir nada fazendo exercício sentada. Na primeira semana já senti diferença na rigidez do pescoço e ombros. Hoje é a parte do meu dia que eu mais gosto.',
+      'Confieso que creí que no iba a sentir nada haciendo ejercicio sentada. En la primera semana ya noté la diferencia en la rigidez del cuello y los hombros. Hoy es la parte de mi día que más disfruto.',
   },
   {
     name: 'Vanessa',
     age: 45,
     rating: 5,
     quote:
-      'Eu fazia tudo pra controlar a ansiedade, menos isso. Os 15 minutos de Tai Chi viraram meu momento de silêncio antes do trabalho. Saio muito mais calma pro resto do dia.',
+      'Hacía de todo para controlar la ansiedad, menos esto. Los 15 minutos de Tai Chi se convirtieron en mi momento de tranquilidad antes de empezar la rutina diaria.',
   },
   {
     name: 'Adriana',
     age: 52,
     rating: 5,
     quote:
-      'Tinha o casamento da minha filha chegando e queria me sentir bem no meu corpo sem me machucar de última hora numa academia. O Tai Chi sentado foi exatamente o que eu precisava nesse tempo curto.',
+      'Tenía la boda de mi hija cerca y quería sentirme bien con mi cuerpo sin lastimarme de última hora en un gimnasio. El Tai Chi en silla fue exactamente lo que necesitaba.',
   },
   {
     name: 'Terezinha',
     age: 64,
     rating: 5,
     quote:
-      'Depois da artrose no joelho, achei que ia ficar parada pro resto da vida. Meu fisioterapeuta até comentou que minha mobilidade melhorou desde que comecei.',
+      'Después del diagnóstico de artrosis en la rodilla, creí que me quedaría inactiva. Incluso mi fisioterapeuta comentó que mi movilidad mejoró notablemente desde que empecé.',
   },
 ];
 
@@ -138,7 +138,7 @@ function FeaturedCard({ t }: { t: FeaturedTestimonial }) {
           height={400}
           loading="lazy"
           decoding="async"
-          alt={`${t.name} antes de começar`}
+          alt={`${t.name} antes de comenzar`}
           className="w-1/2 aspect-square object-cover object-top"
         />
         <div className="w-px flex-shrink-0" style={{ backgroundColor: 'var(--color-border)' }} />
@@ -150,7 +150,7 @@ function FeaturedCard({ t }: { t: FeaturedTestimonial }) {
           height={400}
           loading="lazy"
           decoding="async"
-          alt={`${t.name} depois do programa`}
+          alt={`${t.name} después del programa`}
           className="w-1/2 aspect-square object-cover object-top"
         />
       </div>
@@ -162,7 +162,7 @@ function FeaturedCard({ t }: { t: FeaturedTestimonial }) {
         </div>
         <p className="text-sm">
           <span className="font-bold text-main">{t.name}</span>
-          <span className="text-secondary">, {t.age} anos</span>
+          <span className="text-secondary">, {t.age} años</span>
         </p>
       </div>
     </CardShell>
@@ -187,7 +187,7 @@ function TextCard({ t }: { t: TextTestimonial }) {
           </span>
           <p className="text-sm">
             <span className="font-bold text-main">{t.name}</span>
-            <span className="text-secondary">, {t.age} anos</span>
+            <span className="text-secondary">, {t.age} años</span>
           </p>
         </div>
       </div>

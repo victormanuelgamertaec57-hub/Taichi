@@ -80,30 +80,91 @@ export function calculateSaboteurs(
   const categories = Object.keys(copyMap);
 
   const selected = (answers[answerKey] as string[] | undefined) ?? [];
-  
-  const validSelected = selected.filter(id => categories.includes(id));
-  const numSelected = validSelected.length;
-  const numUnselected = categories.length - numSelected;
+  const validSelected = selected.filter((id) => categories.includes(id));
 
+  // 1. Direct Selection Base Points (+40 per selected option, or +10 if none selected)
   const rawScores: Record<string, number> = {};
-  const seed = getSeed(userName || 'usuario');
-
-  categories.forEach((catId, idx) => {
-    const isSel = validSelected.includes(catId);
-    let base = 0;
-    if (numSelected > 0) {
-      base = isSel ? 75 / numSelected : (numUnselected > 0 ? 25 / numUnselected : 5);
-    } else {
-      // Default fallback distribution if no selections made
-      base = 25;
-    }
-    const varFactor = ((seed + idx * 7) % 7) - 3;
-    rawScores[catId] = Math.max(8, base + varFactor);
+  categories.forEach((catId) => {
+    rawScores[catId] = validSelected.length > 0
+      ? (validSelected.includes(catId) ? 40 : 0)
+      : 10;
   });
 
-  const total = Object.values(rawScores).reduce((a, b) => a + b, 0);
+  // Secondary signals from quiz answers
+  const stressLevel = answers.stressLevel as string | undefined;
+  const energyLevel = answers.energyLevel as string | undefined;
+  const energyCrashTime = answers.energyCrashTime as string | undefined;
+  const personalStory = answers.personalStory as string | undefined;
+  const balanceFear = answers.balanceFear as string | undefined;
+  const walkingConfidence = answers.walkingConfidence as string | undefined;
+
+  if (isMale) {
+    // ── MALE CROSS SIGNALS ──
+    // 1. Estrés y saturación (stress_overwhelm)
+    if (stressLevel === 'yes_always') rawScores.stress_overwhelm += 18;
+    else if (stressLevel === 'sometimes') rawScores.stress_overwhelm += 10;
+
+    if (energyCrashTime === 'late_morning' || energyCrashTime === 'always_tired') rawScores.stress_overwhelm += 12;
+    else if (energyCrashTime === 'after_lunch') rawScores.stress_overwhelm += 6;
+
+    // 2. Alimentación emocional (emotional_eating)
+    if (energyLevel === 'low' || energyLevel === 'medium_low') rawScores.emotional_eating += 15;
+    else if (energyLevel === 'medium') rawScores.emotional_eating += 7;
+
+    if (stressLevel === 'yes_always') rawScores.emotional_eating += 12;
+    else if (stressLevel === 'sometimes') rawScores.emotional_eating += 6;
+
+    // 3. Miedo al fracaso (fear_of_failure)
+    if (balanceFear === 'often') rawScores.fear_of_failure += 18;
+    else if (balanceFear === 'sometimes') rawScores.fear_of_failure += 10;
+
+    if (personalStory === 'yes_often') rawScores.fear_of_failure += 15;
+    else if (personalStory === 'yes_once') rawScores.fear_of_failure += 8;
+
+    // 4. Autocrítica (self_criticism)
+    if (walkingConfidence === 'very_low') rawScores.self_criticism += 16;
+    else if (walkingConfidence === 'moderate') rawScores.self_criticism += 8;
+
+    if (personalStory === 'yes_often' || personalStory === 'no_but_worried') rawScores.self_criticism += 10;
+
+  } else {
+    // ── FEMALE CROSS SIGNALS ──
+    // 1. Miedo a caer/inseguridad (fear_of_falling)
+    if (balanceFear === 'often') rawScores.fear_of_falling += 18;
+    else if (balanceFear === 'sometimes') rawScores.fear_of_falling += 10;
+
+    if (personalStory === 'yes_often') rawScores.fear_of_falling += 16;
+    else if (personalStory === 'yes_once') rawScores.fear_of_falling += 8;
+
+    // 2. Dolor articular (joint_pain)
+    if (walkingConfidence === 'very_low') rawScores.joint_pain += 16;
+    else if (walkingConfidence === 'moderate') rawScores.joint_pain += 8;
+
+    if (stressLevel === 'yes_always') rawScores.joint_pain += 10;
+
+    // 3. Falta de constancia (lack_of_consistency)
+    if (energyLevel === 'low' || energyLevel === 'medium_low') rawScores.lack_of_consistency += 15;
+
+    if (energyCrashTime === 'always_tired' || energyCrashTime === 'late_morning') rawScores.lack_of_consistency += 10;
+
+    // 4. Autoexigencia/desánimo (discouragement)
+    if (personalStory === 'yes_often' || personalStory === 'no_but_worried') rawScores.discouragement += 14;
+
+    if (walkingConfidence === 'very_low') rawScores.discouragement += 10;
+  }
+
+  // Micro-variance seed based on userName
+  const seed = getSeed(userName || 'usuario');
+  categories.forEach((catId, idx) => {
+    const microVar = ((seed + idx * 7) % 4) + 1; // 1 to 4 pts
+    rawScores[catId] = Math.max(6, rawScores[catId] + microVar);
+  });
+
+  // Calculate sum and normalize percentages with minimum floor of 6%
+  const totalPoints = Object.values(rawScores).reduce((a, b) => a + b, 0);
+
   let items: SaboteurItem[] = categories.map((catId) => {
-    const pct = Math.round((rawScores[catId] / total) * 100);
+    const pct = Math.max(6, Math.round((rawScores[catId] / totalPoints) * 100));
     return {
       id: catId,
       name: copyMap[catId].name,
@@ -114,10 +175,11 @@ export function calculateSaboteurs(
     };
   });
 
-  // Ensure total sum equals 100%
+  // Ensure total sum equals 100% exactly
   const sumPct = items.reduce((acc, it) => acc + it.percent, 0);
   if (sumPct !== 100 && items.length > 0) {
-    items[0].percent += 100 - sumPct;
+    const maxIdx = items.reduce((maxI, item, i, arr) => (item.percent > arr[maxI].percent ? i : maxI), 0);
+    items[maxIdx].percent += 100 - sumPct;
   }
 
   // Sort descending by percentage

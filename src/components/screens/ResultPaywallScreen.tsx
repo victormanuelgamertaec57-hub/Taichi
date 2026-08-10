@@ -9,12 +9,6 @@ import PhoneCarousel from '../PhoneCarousel';
 import VentajasHeader from '../VentajasHeader';
 import TestimonialsSection from '../TestimonialsSection';
 
-import ahoraComparacion400 from '../../assets/avatars/optimized/avatar-ahora-comparacion-400w.webp';
-import ahoraComparacion600 from '../../assets/avatars/optimized/avatar-ahora-comparacion-600w.webp';
-
-import objetivoComparacion400 from '../../assets/avatars/optimized/avatar-objetivo-comparacion-400w.webp';
-import objetivoComparacion600 from '../../assets/avatars/optimized/avatar-objetivo-comparacion-600w.webp';
-
 import selloGarantia from '../../assets/icons/sello-garantia-30dias.webp';
 
 // Plan prices in BRL (numeric values for Meta Pixel)
@@ -30,67 +24,6 @@ interface Props {
 
 const SAGE = '#5A6FD6';
 const SAGE_BG = '#EEF1FB';
-
-// Mismo gradiente que la barra de progreso superior (ProgressBar.tsx)
-const LEVEL_GRADIENT_STOPS: [number, string][] = [
-  [0, '#5A6FD6'],
-  [0.5, '#7B8FE0'],
-  [1, '#D4A24C'],
-];
-
-function lerpHexColor(from: string, to: string, t: number): string {
-  const a = parseInt(from.slice(1), 16);
-  const b = parseInt(to.slice(1), 16);
-  const ar = (a >> 16) & 0xff, ag = (a >> 8) & 0xff, ab = a & 0xff;
-  const br = (b >> 16) & 0xff, bg = (b >> 8) & 0xff, bb = b & 0xff;
-  const r = Math.round(ar + (br - ar) * t);
-  const g = Math.round(ag + (bg - ag) * t);
-  const bl = Math.round(ab + (bb - ab) * t);
-  return `#${((1 << 24) + (r << 16) + (g << 8) + bl).toString(16).slice(1)}`;
-}
-
-function levelGradientColorAt(t: number): string {
-  for (let i = 0; i < LEVEL_GRADIENT_STOPS.length - 1; i++) {
-    const [t0, c0] = LEVEL_GRADIENT_STOPS[i];
-    const [t1, c1] = LEVEL_GRADIENT_STOPS[i + 1];
-    if (t >= t0 && t <= t1) return lerpHexColor(c0, c1, (t - t0) / (t1 - t0));
-  }
-  return LEVEL_GRADIENT_STOPS[LEVEL_GRADIENT_STOPS.length - 1][1];
-}
-
-const CHEVRON_TRAIL_LAYERS = [
-  { left: -16, opacity: 0.22 },
-  { left: -8, opacity: 0.5 },
-  { left: 0, opacity: 1 },
-];
-
-function ChevronTrail() {
-  return (
-    <span className="relative flex-shrink-0 inline-block" style={{ width: 56, height: 40 }}>
-      {CHEVRON_TRAIL_LAYERS.map((layer, i) => (
-        <i
-          key={i}
-          className="ti ti-chevrons-right absolute top-0"
-          style={{ fontSize: 40, lineHeight: '40px', color: SAGE, opacity: layer.opacity, left: layer.left }}
-        ></i>
-      ))}
-    </span>
-  );
-}
-
-function LevelBar({ filled }: { filled: number }) {
-  return (
-    <div className="flex gap-1 w-full">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <span
-          key={i}
-          className="h-1.5 flex-1 rounded-full"
-          style={{ backgroundColor: i < filled ? levelGradientColorAt(i / 4) : '#E4DFD0' }}
-        />
-      ))}
-    </div>
-  );
-}
 
 export default function ResultPaywallScreenComp({ screen }: Props) {
   const { userName, userAge, userGender, answers, selectedPlan, setSelectedPlan, goBack, currentScreen } =
@@ -148,75 +81,10 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
         </button>
       )}
 
-      {/* 1. Comparación "Ahora vs. Tu objetivo" */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="rounded-2xl p-5"
-        style={{ backgroundColor: '#FFFFFF', border: '1px solid var(--color-border)' }}
-      >
-        <div className="flex items-center justify-center gap-2">
-          <img
-            src={ahoraComparacion400}
-            srcSet={`${ahoraComparacion400} 400w, ${ahoraComparacion600} 600w`}
-            sizes="160px"
-            width={160}
-            height={213}
-            loading="lazy"
-            decoding="async"
-            alt="Foto de corpo inteiro — estado atual"
-            className="flex-1 max-w-[160px] aspect-[3/4] object-cover object-top rounded-xl"
-          />
-          <ChevronTrail />
-          <img
-            src={objetivoComparacion400}
-            srcSet={`${objetivoComparacion400} 400w, ${objetivoComparacion600} 600w`}
-            sizes="160px"
-            width={160}
-            height={213}
-            loading="lazy"
-            decoding="async"
-            alt="Foto de corpo inteiro — objetivo"
-            className="flex-1 max-w-[160px] aspect-[3/4] object-cover object-top rounded-xl"
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-4 mt-3">
-          <div className="flex flex-col items-center gap-2 text-center">
-            <p className="text-xs font-bold uppercase tracking-wide text-secondary">Ahora</p>
-            <div className="w-full space-y-2">
-              <div>
-                <p className="text-xs text-secondary mb-1">Nivel de equilibrio</p>
-                <LevelBar filled={1} />
-              </div>
-              <div>
-                <p className="text-xs text-secondary mb-1">Riesgo de caídas</p>
-                <LevelBar filled={4} />
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col items-center gap-2 text-center">
-            <p className="text-xs font-bold uppercase tracking-wide text-primary" style={{ color: 'var(--color-primary)' }}>
-              Tu objetivo
-            </p>
-            <div className="w-full space-y-2">
-              <div>
-                <p className="text-xs text-secondary mb-1">Nivel de equilibrio</p>
-                <LevelBar filled={4} />
-              </div>
-              <div>
-                <p className="text-xs text-secondary mb-1">Riesgo de caídas</p>
-                <LevelBar filled={1} />
-              </div>
-            </div>
-          </div>
-        </div>
-        <p className="text-[11px] text-secondary/70 text-center mt-4">
-          Los resultados pueden variar según la persona y la constancia en la práctica.
-        </p>
-      </motion.div>
+      {/* Banner de testimonios — abre la landing, antes del headline */}
+      <TestimonialsSection />
 
-      {/* 2. Headline + resumen del plan */}
+      {/* 2. Headline + resumen del plan — arranca la landing propiamente dicha */}
       <div className="text-center space-y-3">
         <h2 className="text-2xl font-bold text-main leading-snug">{headline}</h2>
         <div className="flex justify-center text-sm">
@@ -263,9 +131,6 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
           ))}
         </div>
       </div>
-
-      {/* 6. Testimonios */}
-      <TestimonialsSection />
 
       {/* Cierre de confianza — dato de Stanford, en card propio para que resalte */}
       <div

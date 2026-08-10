@@ -50,7 +50,7 @@ export default function VentajasHeader() {
           height={430}
           loading="lazy"
           decoding="async"
-          alt="Mulher com as mãos unidas, em postura de calma"
+          alt="Mujer con las manos unidas, en postura de calma"
           className="h-full w-auto object-contain object-top"
         />
       </div>

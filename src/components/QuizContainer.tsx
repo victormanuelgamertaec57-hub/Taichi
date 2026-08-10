@@ -22,6 +22,7 @@ const BmiFeedbackScreenComp = lazy(() => import('./screens/BmiFeedbackScreen'));
 const CommitmentScreenComp = lazy(() => import('./screens/CommitmentScreen'));
 const ProjectionScreenComp = lazy(() => import('./screens/ProjectionScreen'));
 const FadeSequenceComp = lazy(() => import('./screens/FadeSequence'));
+const ComparisonScreenComp = lazy(() => import('./screens/ComparisonScreen'));
 const AnalysisScreenComp = lazy(() => import('./screens/AnalysisScreen'));
 const ResultPaywallScreenComp = lazy(() => import('./screens/ResultPaywallScreen'));
 const ConfirmationScreenComp = lazy(() => import('./screens/ConfirmationScreen'));
@@ -70,6 +71,8 @@ function renderScreen(screen: AnyScreen) {
       return <ProjectionScreenComp screen={screen} />;
     case 'fade-sequence':
       return <FadeSequenceComp screen={screen} />;
+    case 'comparison':
+      return <ComparisonScreenComp screen={screen} />;
     case 'analysis':
       return <AnalysisScreenComp screen={screen} />;
     case 'result-paywall':
@@ -89,7 +92,11 @@ export default function QuizContainer() {
   const { currentScreen, direction } = useQuizStore();
 
   const screen = screens.find((s) => s.id === currentScreen);
-  const hideProgress = screen?.type === 'analysis' || screen?.type === 'result-paywall' || screen?.type === 'fade-sequence';
+  const hideProgress =
+    screen?.type === 'analysis' ||
+    screen?.type === 'result-paywall' ||
+    screen?.type === 'fade-sequence' ||
+    screen?.type === 'comparison';
 
   // ─── Meta Pixel: per-step funnel tracking ────────────────────────────────────
   // Fires once per (re)mount and every time the user navigates to a new step —
