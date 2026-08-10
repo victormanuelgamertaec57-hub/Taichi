@@ -71,6 +71,16 @@ function ProgressRing({ progress, done }: { progress: number; done: boolean }) {
   );
 }
 
+// ─── Reusable filled-star SVG (inline because @tabler/icons-webfont
+// v3.44 ships only outline variants — no ti-star-filled exists) ──────────
+function FilledStar() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z" />
+    </svg>
+  );
+}
+
 export default function AnalysisScreenComp({ screen }: Props) {
   const { userName, userAge, userGender, goNext } = useQuizStore();
 
@@ -78,6 +88,8 @@ export default function AnalysisScreenComp({ screen }: Props) {
   const [progress, setProgress] = useState(0);
   const [stepIndex, setStepIndex] = useState(0);
   const [done, setDone] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const progressRef = useRef(0);
 
   // Testimonial rotator — same-gender testimonials shown first
   const orderedTestimonials = useMemo(() => {
@@ -93,26 +105,35 @@ export default function AnalysisScreenComp({ screen }: Props) {
   const subtext = interpolate(screen.subtext, userName, userAge, userGender);
 
   // ─── Progress animation ────────────────────────────────────────────────────
+  // Key fix: setDone and setStepIndex are called OUTSIDE the setProgress
+  // updater to avoid a React 18 batching edge case where nested setState
+  // calls inside an updater can silently fail under StrictMode or concurrent
+  // rendering, causing the interval to die and progress to freeze at 0%.
   useEffect(() => {
     const totalDuration = 6000; // 6 seconds to complete
     const interval = 60; // ms per tick
     const increment = (100 / totalDuration) * interval;
+    progressRef.current = 0;
 
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        const next = Math.min(prev + increment, 100);
-        if (next >= 100) {
-          clearInterval(timer);
-          setDone(true);
-        }
-        // Update step text
-        const newStep = Math.floor((next / 100) * (screen.steps.length - 1));
-        setStepIndex(newStep);
-        return next;
-      });
+    timerRef.current = setInterval(() => {
+      const next = Math.min(progressRef.current + increment, 100);
+      progressRef.current = next;
+      setProgress(next);
+      setStepIndex(Math.floor((next / 100) * (screen.steps.length - 1)));
+
+      if (next >= 100 && timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+        setDone(true);
+      }
     }, interval);
 
-    return () => clearInterval(timer);
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
   }, [screen.steps.length]);
 
   // ─── Auto-advance after done ───────────────────────────────────────────────
@@ -175,10 +196,10 @@ export default function AnalysisScreenComp({ screen }: Props) {
             transition={{ duration: 0.4 }}
             className="card"
           >
-            {/* Stars */}
+            {/* Stars — filled SVG because ti-star is outline-only */}
             <div className="flex gap-0.5 mb-3 text-yellow-500">
               {Array.from({ length: currentTestimonial.rating }).map((_, i) => (
-                <i key={i} className="ti ti-star text-base"></i>
+                <span key={i}><FilledStar /></span>
               ))}
             </div>
 
@@ -209,7 +230,7 @@ export default function AnalysisScreenComp({ screen }: Props) {
               className={`w-2 h-2 rounded-full transition-all duration-200 ${
                 i === testimonialIndex ? 'bg-primary w-5' : 'bg-border'
               }`}
-              aria-label={`Depoimento ${i + 1}`}
+              aria-label={`Testimonio ${i + 1}`}
             />
           ))}
         </div>
