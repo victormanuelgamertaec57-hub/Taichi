@@ -46,26 +46,54 @@ function recommendedDurationLabel(): string {
 
 /**
  * SVG del gráfico de proyección (movido inline desde el antiguo
- * ProjectionScreen.tsx). Línea ascendente de AHORA hasta la fecha objetivo,
- * con banda sombreada y animación de dibujo.
+ * ProjectionScreen.tsx). Soporta dos variantes:
+ *   - 'stability' (path femenino): curva ascendente AHORA → meta
+ *   - 'weight'    (path masculino): curva descendente peso actual → objetivo,
+ *     con etiqueta de peso arriba a la izquierda, badge "Objetivo X kg"
+ *     en el nodo final, y línea horizontal "Mantenimiento" después del objetivo.
  */
-function ProjectionChart({ targetLabel }: { targetLabel: string }) {
-  // S-curve orgánica con dos cubic-bezier: arranca plana, se acelera al medio, aterriza suave arriba.
-  const linePath = 'M22 158 C 80 156, 120 138, 168 102 C 220 60, 258 32, 298 18';
-  // Curva paralela arriba (para definir el area del gradiente).
+function ProjectionChart({
+  variant,
+  targetLabel,
+  startLabel,
+  endLabel,
+  maintenanceLabel,
+}: {
+  variant: 'stability' | 'weight';
+  targetLabel: string;
+  startLabel?: string;
+  endLabel?: string;
+  maintenanceLabel?: string;
+}) {
+  // Estabilidad: S-curve ascendente (sube hacia la derecha, valor crece).
+  // Peso:      S-curve descendente (baja hacia la derecha, valor decrece).
+  const linePath =
+    variant === 'stability'
+      ? 'M22 158 C 80 156, 120 138, 168 102 C 220 60, 258 32, 298 18'
+      : 'M22 18 C 80 22, 120 60, 168 102 C 220 138, 258 158, 298 168';
+  // Área bajo la curva (entre la curva y la línea base y=172).
   const areaPath = `${linePath} L 298 172 L 22 172 Z`;
 
   // Nodos intermedios + extremos — distribuidos a lo largo de la curva.
-  const nodes: { cx: number; cy: number }[] = [
-    { cx: 22, cy: 158 },
-    { cx: 95, cy: 140 },
-    { cx: 168, cy: 102 },
-    { cx: 232, cy: 56 },
-    { cx: 298, cy: 18 },
-  ];
+  const nodes: { cx: number; cy: number }[] =
+    variant === 'stability'
+      ? [
+          { cx: 22, cy: 158 },
+          { cx: 95, cy: 140 },
+          { cx: 168, cy: 102 },
+          { cx: 232, cy: 56 },
+          { cx: 298, cy: 18 },
+        ]
+      : [
+          { cx: 22, cy: 18 },
+          { cx: 95, cy: 36 },
+          { cx: 168, cy: 102 },
+          { cx: 232, cy: 148 },
+          { cx: 298, cy: 168 },
+        ];
 
   return (
-    <svg viewBox="0 0 320 190" fill="none" className="w-full max-w-[340px]" aria-hidden="true">
+    <svg viewBox="0 0 340 200" fill="none" className="w-full max-w-[360px]" aria-hidden="true">
       <defs>
         {/* Degradado azul de marca → transparente para el área bajo la curva */}
         <linearGradient id="projectionAreaGrad" x1="0" y1="0" x2="0" y2="1">
@@ -82,7 +110,34 @@ function ProjectionChart({ targetLabel }: { targetLabel: string }) {
       </defs>
 
       {/* Línea base sutil (en gris neutro, no verde) */}
-      <path d="M22 172 L298 172" stroke="#E2E8F0" strokeWidth="1.5" strokeDasharray="2 4" />
+      <path d="M22 172 L318 172" stroke="#E2E8F0" strokeWidth="1.5" strokeDasharray="2 4" />
+
+      {/* Línea horizontal de "Mantenimiento" después del objetivo (solo variante weight) */}
+      {variant === 'weight' && maintenanceLabel && (
+        <>
+          <path
+            d="M298 168 L318 168"
+            stroke={SAGE_CHART}
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeDasharray="3 3"
+            opacity="0.5"
+          />
+          <text
+            x="318"
+            y="162"
+            fontSize="9"
+            fontWeight="700"
+            fill={SAGE_CHART}
+            textAnchor="end"
+            letterSpacing="0.4"
+            fontFamily="Nunito, sans-serif"
+            opacity="0.7"
+          >
+            {maintenanceLabel}
+          </text>
+        </>
+      )}
 
       {/* Área bajo la curva con degradado */}
       <motion.path
@@ -155,10 +210,41 @@ function ProjectionChart({ targetLabel }: { targetLabel: string }) {
         transition={{ duration: 0.35, delay: 1.5, ease: 'easeOut' }}
       />
 
+      {/* Etiqueta del peso actual (solo variante weight): arriba-izquierda del primer nodo */}
+      {variant === 'weight' && startLabel && (
+        <text
+          x="22"
+          y="12"
+          fontSize="10"
+          fontWeight="800"
+          fill={SAGE_CHART}
+          letterSpacing="0.4"
+          fontFamily="Nunito, sans-serif"
+        >
+          {startLabel}
+        </text>
+      )}
+
+      {/* Badge "Objetivo X kg" al lado del nodo meta (solo variante weight) */}
+      {variant === 'weight' && endLabel && (
+        <text
+          x="298"
+          y="160"
+          fontSize="10"
+          fontWeight="800"
+          fill={SAGE_CHART}
+          textAnchor="end"
+          letterSpacing="0.4"
+          fontFamily="Nunito, sans-serif"
+        >
+          {endLabel}
+        </text>
+      )}
+
       {/* Label "AHORA" en gris neutro (no verde) */}
       <text
         x="22"
-        y="188"
+        y="190"
         fontSize="10"
         fontWeight="800"
         fill="#94A3B8"
@@ -171,7 +257,7 @@ function ProjectionChart({ targetLabel }: { targetLabel: string }) {
       {/* Label fecha objetivo */}
       <text
         x="298"
-        y="188"
+        y="190"
         fontSize="10"
         fontWeight="800"
         fill={SAGE_CHART}
@@ -299,11 +385,35 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
   const fechaObjetivo = (answers.fechaObjetivo as string | undefined) ?? defaultFechaObjetivo();
   const fechaFormatted = formatDateBr(fechaObjetivo);
 
-  const projectionHeadline = screen.projectionHeadline
+  // Path masculino: ángulo de peso (no estabilidad).
+  // El path femenino mantiene el copy de estabilidad.
+  const isMalePath = userGender === 'male';
+  const currentWeightKg = answers.userWeightKg as number | undefined;
+  const targetWeightKg = answers.userTargetWeightKg as number | undefined;
+
+  // Headline: stability por defecto; para masculino, reescrito con peso objetivo.
+  const rawHeadline = isMalePath
+    ? 'Puedes alcanzar tu peso ideal de {{pesoObjetivo}} kg de aquí al {{fechaObjetivo}}'
+    : screen.projectionHeadline;
+  const projectionHeadline = rawHeadline
     .replace(/\{\{metaIdeal\}\}/g, metaIdeal)
-    .replace(/\{\{fechaObjetivo\}\}/g, fechaFormatted);
+    .replace(/\{\{fechaObjetivo\}\}/g, fechaFormatted)
+    .replace(/\{\{pesoObjetivo\}\}/g, String(targetWeightKg ?? ''));
   const projectionHeadlineFinal = interpolate(projectionHeadline, userName, userAge, userGender);
-  const projectionSubtext = interpolate(screen.projectionSubtext, userName, userAge, userGender);
+
+  // Subtítulo: stability por defecto; para masculino, ángulo de peso.
+  const projectionSubtext = isMalePath
+    ? 'Con sesiones de 15 minutos al día, sin dietas restrictivas ni ejercicio de alto impacto.'
+    : interpolate(screen.projectionSubtext, userName, userAge, userGender);
+
+  // Bullets: stability por defecto; para masculino, ángulos de peso + grasa abdominal.
+  const effectiveBullets = isMalePath
+    ? [
+        'Reduce el riesgo de caídas activando tus reflejos neuromusculares',
+        'Quema grasa abdominal de forma progresiva con movimientos controlados y de bajo impacto',
+        'Protege tus rodillas y tu columna vertebral ejercitándote 100% sentado/a',
+      ]
+    : screen.projectionBullets;
 
   const headline = interpolate(screen.headline, userName, userAge, userGender);
   const nivel = activityLevelLabel(answers.activityLevel as string | undefined);
@@ -335,7 +445,18 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
       {/* 2. [FUSIONADO] Proyección: headline + chart + 3 bullets. Sin CTA propio. */}
       <div className="flex flex-col gap-6">
         <div className="space-y-2 text-center">
-          <h2 className="text-2xl font-bold text-main leading-snug">{projectionHeadlineFinal}</h2>
+          <h2 className="text-2xl font-bold text-main leading-snug">
+            {isMalePath ? (
+              // Headline masculino con peso objetivo y fecha resaltados en azul de marca.
+              <>
+                Puedes alcanzar tu peso ideal de{' '}
+                <span style={{ color: SAGE }}>{targetWeightKg} kg</span> de aquí al{' '}
+                <span style={{ color: SAGE }}>{fechaFormatted}</span>
+              </>
+            ) : (
+              projectionHeadlineFinal
+            )}
+          </h2>
           <p className="text-base text-secondary">{projectionSubtext}</p>
         </div>
 
@@ -346,13 +467,32 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
           whileTap={{ scale: 0.98 }}
           transition={{ type: 'spring', stiffness: 350, damping: 25 }}
           style={{ willChange: 'transform' }}
-          className="flex justify-center"
+          className="flex flex-col items-center gap-2"
         >
-          <ProjectionChart targetLabel={fechaFormatted} />
+          <ProjectionChart
+            variant={isMalePath ? 'weight' : 'stability'}
+            targetLabel={fechaFormatted}
+            startLabel={
+              isMalePath && currentWeightKg
+                ? `${String(currentWeightKg).replace('.', ',')} kg`
+                : undefined
+            }
+            endLabel={
+              isMalePath && targetWeightKg
+                ? `Objetivo ${String(targetWeightKg).replace('.', ',')} kg`
+                : undefined
+            }
+            maintenanceLabel={isMalePath ? 'Mantenimiento' : undefined}
+          />
+          {isMalePath && (
+            <p className="text-[11px] text-secondary text-center max-w-[280px] mt-1">
+              Este gráfico es solo un ejemplo ilustrativo.
+            </p>
+          )}
         </motion.div>
 
         <div className="flex flex-col gap-2.5">
-          {screen.projectionBullets.map((item, i) => (
+          {effectiveBullets.map((item, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, x: -8 }}
