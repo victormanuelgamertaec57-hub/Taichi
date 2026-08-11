@@ -47,7 +47,7 @@ const FEATURED_TESTIMONIALS: FeaturedTestimonial[] = [
     age: 54,
     rating: 5,
     quote:
-      'Ya intenté gimnasio, aplicaciones de ejercicio, dietas, de todo. Esto fue lo único que he logrado mantener todos los días, porque no exige más que la silla que ya tengo en casa.',
+      'Ya intenté gimnasio, apps de ejercicio, dietas, de todo. Esto es lo único que he logrado mantener todos los días, porque no requiere más que la silla que ya tengo en casa.',
     before: { src400: marliAntes400, src600: marliAntes600, src800: marliAntes800 },
     after: { src400: marliDespues400, src600: marliDespues600, src800: marliDespues800 },
   },

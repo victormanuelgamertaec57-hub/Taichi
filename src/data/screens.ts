@@ -735,7 +735,7 @@ export const screens: AnyScreen[] = [
       'Planes de entrenamiento progresivos actualizados semanalmente',
       'Ejercicios 100% seguros hechos en silla (cero impacto)',
       'Soporte directo por WhatsApp con equipo de especialistas',
-      'Garantía de reembolso sin burocracia por 7 días',
+      'Garantía de devolución de dinero sin trámites burocráticos durante 7 días',
     ],
     guaranteeHeadline: 'Tu satisfacción está 100% garantizada',
     guaranteeBody: 'Prueba el programa durante 7 días enteros. Si no te sientes más firme, seguro/a y con energía, te devolvemos todo tu dinero. Sin complicaciones.',
