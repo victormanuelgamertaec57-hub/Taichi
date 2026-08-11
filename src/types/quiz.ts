@@ -225,6 +225,11 @@ export interface GuaranteeBadgeItem {
 export interface ResultPaywallScreen extends BaseScreen {
   type: 'result-paywall';
   headline: string;       // section 2 headline, supports {{userName}} tokens
+  // Proyección fusionada del antiguo ProjectionScreen (ID 45 eliminado del flujo).
+  // Soporta los mismos tokens: {{userName}} {{metaIdeal}} {{fechaObjetivo}}.
+  projectionHeadline: string;
+  projectionSubtext: string;
+  projectionBullets: string[];
   checklist: string[];    // section 5 advantages
   guaranteeHeadline: string; // section 8
   guaranteeBody: string;     // section 8

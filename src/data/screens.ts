@@ -702,22 +702,6 @@ export const screens: AnyScreen[] = [
     autoAdvanceMs: 1500,
   },
   {
-    id: 45,
-    stageId: 8,
-    stageName: 'Resultado',
-    trackingName: 'proyeccion',
-    type: 'projection',
-    headline: '{{userName}}, tu progreso de estabilidad esperado hasta el {{fechaObjetivo}}',
-    subtext: 'Recupera la seguridad en tus pasos con entrenamientos estructurados de 15 minutos.',
-    bullets: [
-      'Reduce el riesgo de caídas activando tus reflejos neuromusculares',
-      'Protege tus rodillas y columna ejercitándote 100% sentado/a',
-      'Sin pesas, sin cansancio extremo, respetando la biología 40+',
-      'Garantía incondicional de reembolso por 7 días',
-    ],
-    ctaLabel: 'Quiero mi plan personalizado',
-  },
-  {
     id: 46,
     stageId: 8,
     stageName: 'Resultado',
@@ -738,6 +722,14 @@ export const screens: AnyScreen[] = [
     trackingName: 'resultado_paywall',
     type: 'result-paywall',
     headline: '¡Tu plan de Tai Chi en Silla está listo!',
+    // Proyección fusionada desde el antiguo ID 45 (projection).
+    projectionHeadline: '{{userName}}, tu progreso de estabilidad esperado hasta el {{fechaObjetivo}}',
+    projectionSubtext: 'Recupera la seguridad en tus pasos con entrenamientos estructurados de 15 minutos.',
+    projectionBullets: [
+      'Reduce el riesgo de caídas activando tus reflejos neuromusculares',
+      'Protege tus rodillas y tu columna vertebral ejercitándote 100% sentado/a',
+      'Sin pesas, sin esfuerzo agotador, respetando la biología 40+',
+    ],
     checklist: [
       'Acceso a la aplicación completa con rutinas en video paso a paso',
       'Planes de entrenamiento progresivos actualizados semanalmente',

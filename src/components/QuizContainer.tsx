@@ -20,7 +20,6 @@ const HeightInputScreenComp = lazy(() => import('./screens/HeightInputScreen'));
 const WeightInputScreenComp = lazy(() => import('./screens/WeightInputScreen'));
 const BmiFeedbackScreenComp = lazy(() => import('./screens/BmiFeedbackScreen'));
 const CommitmentScreenComp = lazy(() => import('./screens/CommitmentScreen'));
-const ProjectionScreenComp = lazy(() => import('./screens/ProjectionScreen'));
 const FadeSequenceComp = lazy(() => import('./screens/FadeSequence'));
 const ComparisonScreenComp = lazy(() => import('./screens/ComparisonScreen'));
 const AnalysisScreenComp = lazy(() => import('./screens/AnalysisScreen'));
@@ -67,8 +66,6 @@ function renderScreen(screen: AnyScreen) {
       return <BmiFeedbackScreenComp screen={screen} />;
     case 'commitment':
       return <CommitmentScreenComp screen={screen} />;
-    case 'projection':
-      return <ProjectionScreenComp screen={screen} />;
     case 'fade-sequence':
       return <FadeSequenceComp screen={screen} />;
     case 'comparison':
