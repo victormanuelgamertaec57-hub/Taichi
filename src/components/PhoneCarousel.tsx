@@ -1,4 +1,6 @@
+import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
+import { motion } from 'framer-motion';
 import { SiApple, SiGoogleplay } from 'react-icons/si';
 
 import { WEEK_1 } from '../data/weekPlan';
@@ -7,8 +9,15 @@ import heroCloudHands400 from '../assets/avatars/optimized/avatar-hero-cloud-han
 import heroCloudHands600 from '../assets/avatars/optimized/avatar-hero-cloud-hands-600w.webp';
 import closeupConfianza400 from '../assets/avatars/optimized/avatar-closeup-confianza-400w.webp';
 
-const BEZEL = '#2C3532';
-
+/**
+ * Marco de iPhone con apariencia real (iPhone 14/15 Pro style):
+ *  - Bezel oscuro casi negro con sutil gradiente
+ *  - Esquinas redondeadas grandes (~14% del ancho)
+ *  - Dynamic Island (pill negro en el centro superior)
+ *  - Botones laterales: volumen a la izquierda, power a la derecha
+ *
+ * El contenido de pantalla (children) se renderiza sin cambios — solo cambia el marco.
+ */
 function PhoneFrame({
   children,
   width,
@@ -18,20 +27,89 @@ function PhoneFrame({
   width: number;
   height: number;
 }) {
+  const bezelWidth = Math.max(2, width * 0.025);
+  const screenRadius = width * 0.105;
+  const outerRadius = screenRadius + bezelWidth;
+  // Dynamic Island: pill horizontal en la parte superior de la pantalla
+  const islandWidth = width * 0.34;
+  const islandHeight = width * 0.082;
+
   return (
-    <div className="relative rounded-[2rem] p-1.5 shadow-lg" style={{ backgroundColor: BEZEL, width, height }}>
-      <div className="w-full h-full rounded-[1.6rem] overflow-hidden bg-white flex flex-col">{children}</div>
+    <div
+      className="relative shadow-2xl"
+      style={{
+        width,
+        height,
+        borderRadius: outerRadius,
+        // Gradiente sutil en el marco (no totalmente plano — captura reflejo tipo aluminio)
+        background: 'linear-gradient(150deg, #1a1a1c 0%, #0d0d0e 50%, #1f1f22 100%)',
+        padding: bezelWidth,
+      }}
+    >
+      {/* Botones laterales — detalles oscuros que sobresalen del marco */}
+      {/* Volumen (2 botones a la izquierda) */}
       <div
-        className="absolute top-1.5 left-1/2 -translate-x-1/2 w-16 h-4 rounded-b-xl"
-        style={{ backgroundColor: BEZEL }}
+        className="absolute"
+        style={{
+          left: -2,
+          top: height * 0.18,
+          width: 3,
+          height: height * 0.06,
+          background: '#0a0a0a',
+          borderRadius: '2px 0 0 2px',
+        }}
       />
+      <div
+        className="absolute"
+        style={{
+          left: -2,
+          top: height * 0.27,
+          width: 3,
+          height: height * 0.06,
+          background: '#0a0a0a',
+          borderRadius: '2px 0 0 2px',
+        }}
+      />
+      {/* Power / Side button (a la derecha) */}
+      <div
+        className="absolute"
+        style={{
+          right: -2,
+          top: height * 0.24,
+          width: 3,
+          height: height * 0.1,
+          background: '#0a0a0a',
+          borderRadius: '0 2px 2px 0',
+        }}
+      />
+
+      {/* Pantalla */}
+      <div
+        className="relative w-full h-full overflow-hidden bg-white flex flex-col"
+        style={{ borderRadius: screenRadius }}
+      >
+        {children}
+
+        {/* Dynamic Island — pill negro flotante en el centro superior */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2 bg-black"
+          style={{
+            top: bezelWidth + width * 0.018,
+            width: islandWidth,
+            height: islandHeight,
+            borderRadius: 9999,
+            zIndex: 10,
+            boxShadow: '0 0 0 1px rgba(255,255,255,0.04) inset',
+          }}
+        />
+      </div>
     </div>
   );
 }
 
 function StatusBar() {
   return (
-    <div className="flex items-center justify-between px-3 pt-2.5 pb-0.5 text-[10px] font-semibold text-main flex-shrink-0">
+    <div className="flex items-center justify-between px-5 pt-3 pb-0.5 text-[10px] font-semibold text-main flex-shrink-0">
       <span>9:41</span>
       <span className="flex items-center gap-1 text-[11px]">
         <i className="ti ti-antenna-bars-4"></i>
@@ -145,49 +223,125 @@ function RightPhoneContent() {
   );
 }
 
+const PHONE_CONTENTS = [LeftPhoneContent, CenterPhoneContent, RightPhoneContent] as const;
+const AUTO_ADVANCE_MS = 4000;
+const RESUME_DELAY_MS = 8000;
+const SWIPE_THRESHOLD_PX = 50;
+
+type Slot = 'left' | 'center' | 'right';
+
 export default function PhoneCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const touchStartXRef = useRef(0);
+
+  // Auto-advance cada 4s, salvo que esté en pausa (tras interacción manual).
+  useEffect(() => {
+    if (isPaused) return;
+    const t = setInterval(() => {
+      setActiveIndex((i) => (i + 1) % PHONE_CONTENTS.length);
+    }, AUTO_ADVANCE_MS);
+    return () => clearInterval(t);
+  }, [isPaused]);
+
+  // Limpia el timeout de resume si el componente se desmonta.
+  useEffect(() => {
+    return () => {
+      if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+    };
+  }, []);
+
+  function handleManualNav(newIndex: number) {
+    setActiveIndex(newIndex);
+    setIsPaused(true);
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+    resumeTimeoutRef.current = setTimeout(() => setIsPaused(false), RESUME_DELAY_MS);
+  }
+
+  function handleTouchStart(e: React.TouchEvent) {
+    touchStartXRef.current = e.touches[0].clientX;
+  }
+  function handleTouchEnd(e: React.TouchEvent) {
+    const delta = e.changedTouches[0].clientX - touchStartXRef.current;
+    if (Math.abs(delta) > SWIPE_THRESHOLD_PX) {
+      // swipe right → previous, swipe left → next
+      const direction = delta > 0 ? -1 : 1;
+      const newIndex = (activeIndex + direction + PHONE_CONTENTS.length) % PHONE_CONTENTS.length;
+      handleManualNav(newIndex);
+    }
+  }
+
+  // Para cada slot (left/center/right), elige qué contenido de phone renderizar
+  // según el `activeIndex`. El slot del centro siempre es el activo.
+  function getPhoneForSlot(slot: Slot) {
+    if (slot === 'left') return PHONE_CONTENTS[(activeIndex - 1 + PHONE_CONTENTS.length) % PHONE_CONTENTS.length];
+    if (slot === 'center') return PHONE_CONTENTS[activeIndex];
+    return PHONE_CONTENTS[(activeIndex + 1) % PHONE_CONTENTS.length];
+  }
+
   return (
     <div className="flex flex-col items-center">
-      <div className="-mx-5 overflow-hidden">
+      <div
+        className="-mx-5 overflow-hidden"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         <div className="flex items-center justify-center">
-          <div
-            className="relative z-0 flex-shrink-0"
-            style={{
-              marginRight: -42,
-              transform: 'scale(0.82) translateY(10px)',
-              opacity: 0.55,
-              filter: 'blur(1.5px)',
-            }}
-          >
-            <PhoneFrame width={172} height={372}>
-              <LeftPhoneContent />
-            </PhoneFrame>
-          </div>
-          <div className="relative z-10 flex-shrink-0">
-            <PhoneFrame width={200} height={396}>
-              <CenterPhoneContent />
-            </PhoneFrame>
-          </div>
-          <div
-            className="relative z-0 flex-shrink-0"
-            style={{
-              marginLeft: -42,
-              transform: 'scale(0.82) translateY(10px)',
-              opacity: 0.55,
-              filter: 'blur(1.5px)',
-            }}
-          >
-            <PhoneFrame width={172} height={372}>
-              <RightPhoneContent />
-            </PhoneFrame>
-          </div>
+          {(['left', 'center', 'right'] as const).map((slot) => {
+            const isCenter = slot === 'center';
+            const PhoneComponent = getPhoneForSlot(slot);
+            return (
+              <motion.div
+                key={slot}
+                className="relative flex-shrink-0"
+                style={{
+                  marginRight: isCenter ? 0 : -42,
+                  marginLeft: isCenter ? 0 : -42,
+                  zIndex: isCenter ? 10 : 0,
+                }}
+                initial={false}
+                animate={{
+                  scale: isCenter ? 1 : 0.82,
+                  opacity: isCenter ? 1 : 0.55,
+                  y: isCenter ? 0 : 10,
+                  filter: isCenter ? 'blur(0px)' : 'blur(1.5px)',
+                }}
+                transition={{ duration: 0.6, ease: 'easeInOut' }}
+              >
+                <PhoneFrame width={isCenter ? 200 : 172} height={isCenter ? 396 : 372}>
+                  <PhoneComponent />
+                </PhoneFrame>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 
+      {/* Dots indicator — clickeables, pausan auto-advance */}
       <div className="flex items-center justify-center gap-2 mt-5">
-        <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--color-primary)' }} />
-        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-border)' }} />
-        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-border)' }} />
+        {PHONE_CONTENTS.map((_, i) => {
+          const isActive = i === activeIndex;
+          return (
+            <button
+              key={i}
+              type="button"
+              onClick={() => handleManualNav(i)}
+              aria-label={`Ir a la pantalla ${i + 1}`}
+              aria-pressed={isActive}
+              className="rounded-full"
+              style={{
+                width: isActive ? 22 : 8,
+                height: 8,
+                backgroundColor: isActive ? 'var(--color-primary)' : 'var(--color-border)',
+                transition: 'width 0.3s ease, background-color 0.3s ease',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+              }}
+            />
+          );
+        })}
       </div>
 
       <h3 className="text-xl font-bold text-main text-center mt-5 leading-snug max-w-xs">
