@@ -1,13 +1,15 @@
 import type { PricingPlan } from '../types/quiz';
 
-// Único lugar donde viven los precios; todo lo demás los referencia desde aquí.
+// Único lugar donde viven los precios y los links de checkout.
+// Si Hotmart cambia los links, se actualizan solo aquí y el botón del paywall
+// (en ambos pedidos del scroll) usa el URL del plan seleccionado.
 export const pricingPlans: PricingPlan[] = [
   {
     id: 'mensal',
     label: 'Plan Mensual',
     price: 'R$77,90',
     dailyEquivalent: 'R$2,60/día',
-    hotmartUrl: 'https://pay.hotmart.com/N106896758T?checkoutMode=2&off=gj6hcxhu',
+    checkoutUrl: 'https://pay.hotmart.com/N106896758T?off=gj6hcxhu&checkoutMode=10',
   },
   {
     id: 'trimestral',
@@ -15,7 +17,7 @@ export const pricingPlans: PricingPlan[] = [
     badge: 'RECOMENDADO',
     price: 'R$132,90',
     dailyEquivalent: 'R$1,48/día',
-    hotmartUrl: 'https://pay.hotmart.com/N106896758T?checkoutMode=2&off=wrzjhjvz',
+    checkoutUrl: 'https://pay.hotmart.com/N106896758T?off=wrzjhjvz&checkoutMode=10',
     highlighted: true,
   },
   {
@@ -24,6 +26,6 @@ export const pricingPlans: PricingPlan[] = [
     badge: 'Mejor relación calidad-precio',
     price: 'R$239,90',
     dailyEquivalent: 'R$1,33/día',
-    hotmartUrl: 'https://pay.hotmart.com/N106896758T?checkoutMode=2&off=6d5ogulh',
+    checkoutUrl: 'https://pay.hotmart.com/N106896758T?off=6d5ogulh&checkoutMode=10',
   },
 ];

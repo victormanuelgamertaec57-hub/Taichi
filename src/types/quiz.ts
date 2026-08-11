@@ -292,6 +292,8 @@ export interface PricingPlan {
   badge?: string;          // e.g. "EL MÁS POPULAR" / "Mejor valor"
   price: string;
   dailyEquivalent: string; // e.g. "~$0.61/día"
-  hotmartUrl: string;
+  // URL de checkout directo (Hotmart u otro proveedor).
+  // El botón del paywall redirige a este URL según el plan seleccionado.
+  checkoutUrl: string;
   highlighted?: boolean;
 }
