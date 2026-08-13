@@ -13,6 +13,7 @@ import {
   calculateBalanceScorePercent,
   BALANCE_GOAL_PERCENT,
   percentToFilled,
+  bodyFatFitnessPercent,
 } from '../../utils/comparisonMetrics';
 
 import ahoraComparacion400 from '../../assets/avatars/optimized/avatar-ahora-comparacion-400w.webp';
@@ -69,6 +70,16 @@ function LevelBar({ filled }: { filled: number }) {
   );
 }
 
+/** Barra de nivel + el valor en texto debajo (usada por "Grasa corporal"). */
+function LevelBarWithValue({ filled, value }: { filled: number; value: string }) {
+  return (
+    <div className="flex flex-col items-center gap-1.5 w-full">
+      <LevelBar filled={filled} />
+      <span>{value}</span>
+    </div>
+  );
+}
+
 interface ComparisonRow {
   label: string;
   now: ReactNode;
@@ -96,6 +107,11 @@ export default function ComparisonScreenComp({ screen }: Props) {
   const balanceFilledNow = percentToFilled(balancePercent);
   const balanceFilledGoal = percentToFilled(BALANCE_GOAL_PERCENT);
 
+  // Grasa corporal: además del rango en texto, se dibuja con la misma barra
+  // multicolor que equilibrio/energía (menos grasa = más segmentos activos).
+  const bodyFatFilledNow = percentToFilled(bodyFatFitnessPercent(bodyFatNowRange, isMale));
+  const bodyFatFilledGoal = percentToFilled(bodyFatFitnessPercent(bodyFatGoalRange, isMale));
+
   const titleText = isMale
     ? 'Conoce a tu yo del futuro. Más fuerte, con más energía y sin dolor.'
     : 'Conoce a tu yo del futuro. Más liviana, feliz y relajada.';
@@ -104,12 +120,20 @@ export default function ComparisonScreenComp({ screen }: Props) {
   const rows: ComparisonRow[] = isMale
     ? [
         { label: 'Peso', now: `${weightKg ?? '—'} kg`, goal: `${targetWeightKg ?? '—'} kg` },
-        { label: 'Grasa corporal', now: formatRange(bodyFatNowRange), goal: formatRange(bodyFatGoalRange) },
+        {
+          label: 'Grasa corporal',
+          now: <LevelBarWithValue filled={bodyFatFilledNow} value={formatRange(bodyFatNowRange)} />,
+          goal: <LevelBarWithValue filled={bodyFatFilledGoal} value={formatRange(bodyFatGoalRange)} />,
+        },
         { label: 'Nivel de energía', now: <LevelBar filled={energyFilledNow} />, goal: <LevelBar filled={energyFilledGoal} /> },
       ]
     : [
         { label: 'Nivel de equilibrio', now: <LevelBar filled={balanceFilledNow} />, goal: <LevelBar filled={balanceFilledGoal} /> },
-        { label: 'Grasa corporal', now: formatRange(bodyFatNowRange), goal: formatRange(bodyFatGoalRange) },
+        {
+          label: 'Grasa corporal',
+          now: <LevelBarWithValue filled={bodyFatFilledNow} value={formatRange(bodyFatNowRange)} />,
+          goal: <LevelBarWithValue filled={bodyFatFilledGoal} value={formatRange(bodyFatGoalRange)} />,
+        },
         { label: 'Nivel de energía', now: <LevelBar filled={energyFilledNow} />, goal: <LevelBar filled={energyFilledGoal} /> },
       ];
 

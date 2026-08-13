@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useQuizStore, interpolate } from '../../store/quizStore';
 import type { CommitmentScreen } from '../../types/quiz';
 
-import heroCloudHands400 from '../../assets/avatars/optimized/avatar-hero-cloud-hands-400w.webp';
-import heroCloudHands600 from '../../assets/avatars/optimized/avatar-hero-cloud-hands-600w.webp';
+import closeupConfianza400 from '../../assets/avatars/optimized/avatar-closeup-confianza-400w.webp';
+import closeupConfianza600 from '../../assets/avatars/optimized/avatar-closeup-confianza-600w.webp';
 
 import maleCierre400 from '../../assets/avatars/optimized/avatar-masculino-perfil-cierre-400w.webp';
 import maleCierre600 from '../../assets/avatars/optimized/avatar-masculino-perfil-cierre-600w.webp';
@@ -32,10 +32,10 @@ export default function CommitmentScreenComp({ screen }: Props) {
   }
 
   const isMale = userGender === 'male';
-  const avatarSrc = isMale ? maleCierre400 : heroCloudHands400;
-  const avatarSrcSet = isMale 
-    ? `${maleCierre400} 400w, ${maleCierre600} 600w` 
-    : `${heroCloudHands400} 400w, ${heroCloudHands600} 600w`;
+  const avatarSrc = isMale ? maleCierre400 : closeupConfianza400;
+  const avatarSrcSet = isMale
+    ? `${maleCierre400} 400w, ${maleCierre600} 600w`
+    : `${closeupConfianza400} 400w, ${closeupConfianza600} 600w`;
   const avatarAlt = isMale ? "Tu instructor de FirmMe" : "Tu instructora de FirmMe";
 
   return (
@@ -61,7 +61,7 @@ export default function CommitmentScreenComp({ screen }: Props) {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.35 }}
           className="w-[120px] h-[120px] rounded-full object-cover shadow-md"
-          style={{ border: '3px solid var(--color-primary)', objectPosition: isMale ? 'center 20%' : 'center top' }}
+          style={{ border: '3px solid var(--color-primary)', objectPosition: 'center 20%' }}
         />
 
         <motion.span

@@ -6,7 +6,7 @@
 export function metaIdealLabel(metaIdeal: string | undefined): string {
   switch (metaIdeal) {
     case 'grandkids':
-      return 'jugar con tus nietos sin miedo a caer';
+      return 'agacharte y cargar peso sin miedo a lastimarte';
     case 'travel':
       return 'viajar y caminar tranquilo/a por horas';
     case 'stairs':

@@ -43,6 +43,7 @@ export const screens: AnyScreen[] = [
     headline: '¿Cuántos años tienes?',
     subtext: 'Tu edad nos ayuda a crear un plan de movimiento seguro y adaptado a tu cuerpo hoy.',
     options: [
+      { id: '30-39', label: '30 – 39 años', icon: 'ti ti-seedling' },
       { id: '40-49', label: '40 – 49 años', icon: 'ti ti-leaf' },
       { id: '50-59', label: '50 – 59 años', icon: 'ti ti-plant-2' },
       { id: '60-69', label: '60 – 69 años', icon: 'ti ti-flower' },
@@ -411,7 +412,7 @@ export const screens: AnyScreen[] = [
     answerKey: 'metaIdeal',
     headline: '¿Qué te gustaría recuperar o hacer con total seguridad corporal?',
     options: [
-      { id: 'grandkids', label: 'Jugar con nietos o hijos en el suelo sin miedo', icon: 'ti ti-users' },
+      { id: 'grandkids', label: 'Agacharse, cargar cosas pesadas sin miedo a lastimarte', icon: 'ti ti-users' },
       { id: 'travel', label: 'Caminar durante horas explorando nuevas calles o playas', icon: 'ti ti-plane' },
       { id: 'stairs', label: 'Subir y bajar escaleras cargando bolsas sin temblar', icon: 'ti ti-stairs' },
       { id: 'confidence', label: 'Simplemente caminar con la cabeza en alto y sin miedo', icon: 'ti ti-heart' },
@@ -723,10 +724,12 @@ export const screens: AnyScreen[] = [
     type: 'result-paywall',
     headline: '¡Tu plan de Tai Chi en Silla está listo!',
     // Proyección fusionada desde el antiguo ID 45 (projection).
-    projectionHeadline: '{{userName}}, tu progreso de estabilidad esperado hasta el {{fechaObjetivo}}',
+    // El headline se compone como JSX en ResultPaywallScreen (cifra + fecha
+    // resaltadas en azul), distinto por género — por eso no vive acá.
     projectionSubtext: 'Recupera la seguridad en tus pasos con entrenamientos estructurados de 15 minutos.',
     projectionBullets: [
       'Reduce el riesgo de caídas activando tus reflejos neuromusculares',
+      'Ayuda a reducir la grasa corporal de forma progresiva con movimientos suaves y controlados',
       'Protege tus rodillas y tu columna vertebral ejercitándote 100% sentado/a',
       'Sin pesas, sin esfuerzo agotador, respetando la biología 40+',
     ],

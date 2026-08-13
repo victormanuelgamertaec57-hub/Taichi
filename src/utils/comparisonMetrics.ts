@@ -28,6 +28,7 @@ export const MALE_BODY_FAT_GOAL: [number, number] = [12, 18];
 // El path femenino no recolecta altura/peso, así que se estima por rango de
 // edad (ya recolectado en ambos paths) en vez de por IMC.
 const FEMALE_BODY_FAT_RANGES_BY_AGE: Record<string, [number, number]> = {
+  '30-39': [27, 33],
   '40-49': [28, 34],
   '50-59': [29, 35],
   '60-69': [30, 36],
@@ -42,6 +43,21 @@ export const FEMALE_BODY_FAT_GOAL: [number, number] = [22, 27];
 
 export function formatRange([from, to]: [number, number]): string {
   return `${from}-${to}%`;
+}
+
+// Grasa corporal -> percent 0-100 "en forma" (menos grasa = percent más alto),
+// para poder dibujarla con la misma <LevelBar> que energía y equilibrio.
+// Límites por género: fuera de ellos el valor se acota a 0/100.
+const BODY_FAT_BOUNDS: Record<'male' | 'female', [number, number]> = {
+  male: [10, 35],   // 10% -> 100, 35% -> 0
+  female: [18, 40], // 18% -> 100, 40% -> 0
+};
+
+export function bodyFatFitnessPercent([from, to]: [number, number], isMale: boolean): number {
+  const [best, worst] = BODY_FAT_BOUNDS[isMale ? 'male' : 'female'];
+  const midpoint = (from + to) / 2;
+  const percent = ((worst - midpoint) / (worst - best)) * 100;
+  return Math.min(100, Math.max(0, Math.round(percent)));
 }
 
 // ─── Nivel de energía (común a ambos paths, pregunta 'energyLevel') ────────

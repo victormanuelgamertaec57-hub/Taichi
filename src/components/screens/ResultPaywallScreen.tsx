@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { useQuizStore, interpolate } from '../../store/quizStore';
 import type { ResultPaywallScreen, PricingPlanId } from '../../types/quiz';
 import { pricingPlans } from '../../data/pricing';
-import { activityLevelLabel, metaIdealLabel } from '../../utils/copy';
+import { activityLevelLabel } from '../../utils/copy';
+import { calculateBalanceScorePercent, BALANCE_GOAL_PERCENT } from '../../utils/comparisonMetrics';
 import { formatDateBr, defaultFechaObjetivo } from '../../utils/date';
 import { trackPixelEvent } from '../../utils/pixel';
 import PhoneCarousel from '../PhoneCarousel';
@@ -46,51 +47,35 @@ function recommendedDurationLabel(): string {
 
 /**
  * SVG del gráfico de proyección (movido inline desde el antiguo
- * ProjectionScreen.tsx). Soporta dos variantes:
- *   - 'stability' (path femenino): curva ascendente AHORA → meta
- *   - 'weight'    (path masculino): curva descendente peso actual → objetivo,
- *     con etiqueta de peso arriba a la izquierda, badge "Objetivo X kg"
- *     en el nodo final, y línea horizontal "Mantenimiento" después del objetivo.
+ * ProjectionScreen.tsx). Curva descendente en ambos paths: el valor que baja
+ * es el peso (masculino) o la inestabilidad (femenino). Muestra la etiqueta
+ * del valor inicial arriba a la izquierda, un badge de meta en el nodo final,
+ * y una línea horizontal de mantenimiento después de la meta.
  */
 function ProjectionChart({
-  variant,
   targetLabel,
   startLabel,
   endLabel,
   maintenanceLabel,
 }: {
-  variant: 'stability' | 'weight';
   targetLabel: string;
   startLabel?: string;
   endLabel?: string;
   maintenanceLabel?: string;
 }) {
-  // Estabilidad: S-curve ascendente (sube hacia la derecha, valor crece).
-  // Peso:      S-curve descendente (baja hacia la derecha, valor decrece).
-  const linePath =
-    variant === 'stability'
-      ? 'M22 158 C 80 156, 120 138, 168 102 C 220 60, 258 32, 298 18'
-      : 'M22 18 C 80 22, 120 60, 168 102 C 220 138, 258 158, 298 168';
+  // S-curve descendente (baja hacia la derecha, el valor medido decrece).
+  const linePath = 'M22 18 C 80 22, 120 60, 168 102 C 220 138, 258 158, 298 168';
   // Área bajo la curva (entre la curva y la línea base y=172).
   const areaPath = `${linePath} L 298 172 L 22 172 Z`;
 
   // Nodos intermedios + extremos — distribuidos a lo largo de la curva.
-  const nodes: { cx: number; cy: number }[] =
-    variant === 'stability'
-      ? [
-          { cx: 22, cy: 158 },
-          { cx: 95, cy: 140 },
-          { cx: 168, cy: 102 },
-          { cx: 232, cy: 56 },
-          { cx: 298, cy: 18 },
-        ]
-      : [
-          { cx: 22, cy: 18 },
-          { cx: 95, cy: 36 },
-          { cx: 168, cy: 102 },
-          { cx: 232, cy: 148 },
-          { cx: 298, cy: 168 },
-        ];
+  const nodes: { cx: number; cy: number }[] = [
+    { cx: 22, cy: 18 },
+    { cx: 95, cy: 36 },
+    { cx: 168, cy: 102 },
+    { cx: 232, cy: 148 },
+    { cx: 298, cy: 168 },
+  ];
 
   return (
     <svg viewBox="0 0 340 200" fill="none" className="w-full max-w-[360px]" aria-hidden="true">
@@ -112,11 +97,11 @@ function ProjectionChart({
       {/* Línea base sutil (en gris neutro, no verde) */}
       <path d="M22 172 L318 172" stroke="#E2E8F0" strokeWidth="1.5" strokeDasharray="2 4" />
 
-      {/* Línea horizontal de "Mantenimiento" después del objetivo (solo variante weight) */}
-      {variant === 'weight' && maintenanceLabel && (
+      {/* Línea horizontal de mantenimiento después del objetivo */}
+      {maintenanceLabel && (
         <>
           <path
-            d="M298 168 L318 168"
+            d="M298 168 L334 168"
             stroke={SAGE_CHART}
             strokeWidth="2.5"
             strokeLinecap="round"
@@ -124,8 +109,8 @@ function ProjectionChart({
             opacity="0.5"
           />
           <text
-            x="318"
-            y="162"
+            x="334"
+            y="156"
             fontSize="9"
             fontWeight="700"
             fill={SAGE_CHART}
@@ -210,8 +195,8 @@ function ProjectionChart({
         transition={{ duration: 0.35, delay: 1.5, ease: 'easeOut' }}
       />
 
-      {/* Etiqueta del peso actual (solo variante weight): arriba-izquierda del primer nodo */}
-      {variant === 'weight' && startLabel && (
+      {/* Etiqueta del valor inicial: arriba-izquierda del primer nodo */}
+      {startLabel && (
         <text
           x="22"
           y="12"
@@ -225,11 +210,13 @@ function ProjectionChart({
         </text>
       )}
 
-      {/* Badge "Objetivo X kg" al lado del nodo meta (solo variante weight) */}
-      {variant === 'weight' && endLabel && (
+      {/* Badge de meta arriba del nodo final. Va por encima (y=146) y no al
+          lado, para no chocar con la etiqueta de la línea de mantenimiento
+          que ocupa la misma banda horizontal a la derecha. */}
+      {endLabel && (
         <text
           x="298"
-          y="160"
+          y="136"
           fontSize="10"
           fontWeight="800"
           fill={SAGE_CHART}
@@ -381,25 +368,20 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
   }, [hasTracked, selectedPlan, setSelectedPlan]);
 
   // Tokens de la proyección (mismo mecanismo que tenía el antiguo ProjectionScreen).
-  const metaIdeal = metaIdealLabel(answers.metaIdeal as string | undefined);
   const fechaObjetivo = (answers.fechaObjetivo as string | undefined) ?? defaultFechaObjetivo();
   const fechaFormatted = formatDateBr(fechaObjetivo);
 
-  // Path masculino: ángulo de peso (no estabilidad).
-  // El path femenino mantiene el copy de estabilidad.
+  // Path masculino: ángulo de peso. Path femenino: ángulo de equilibrio.
+  // Ambos headlines se componen como JSX más abajo (con la cifra clave y la
+  // fecha resaltadas en azul de marca), por eso no hay string de headline acá.
   const isMalePath = userGender === 'male';
   const currentWeightKg = answers.userWeightKg as number | undefined;
   const targetWeightKg = answers.userTargetWeightKg as number | undefined;
 
-  // Headline: stability por defecto; para masculino, reescrito con peso objetivo.
-  const rawHeadline = isMalePath
-    ? 'Puedes alcanzar tu peso ideal de {{pesoObjetivo}} kg de aquí al {{fechaObjetivo}}'
-    : screen.projectionHeadline;
-  const projectionHeadline = rawHeadline
-    .replace(/\{\{metaIdeal\}\}/g, metaIdeal)
-    .replace(/\{\{fechaObjetivo\}\}/g, fechaFormatted)
-    .replace(/\{\{pesoObjetivo\}\}/g, String(targetWeightKg ?? ''));
-  const projectionHeadlineFinal = interpolate(projectionHeadline, userName, userAge, userGender);
+  // Path femenino: la métrica que baja en la gráfica es la "inestabilidad",
+  // el inverso del score de equilibrio que ya calcula la tarjeta Ahora/Objetivo.
+  const inestabilidadNow = 100 - calculateBalanceScorePercent(answers);
+  const inestabilidadGoal = 100 - BALANCE_GOAL_PERCENT;
 
   // Subtítulo: stability por defecto; para masculino, ángulo de peso.
   const projectionSubtext = isMalePath
@@ -454,7 +436,13 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
                 <span style={{ color: SAGE }}>{fechaFormatted}</span>
               </>
             ) : (
-              projectionHeadlineFinal
+              // Headline femenino con la meta de equilibrio y la fecha resaltadas.
+              <>
+                Puedes recuperar hasta un{' '}
+                <span style={{ color: SAGE }}>{BALANCE_GOAL_PERCENT}%</span> de tu equilibrio y
+                sentirte más segura de aquí al{' '}
+                <span style={{ color: SAGE }}>{fechaFormatted}</span>
+              </>
             )}
           </h2>
           <p className="text-base text-secondary">{projectionSubtext}</p>
@@ -470,25 +458,26 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
           className="flex flex-col items-center gap-2"
         >
           <ProjectionChart
-            variant={isMalePath ? 'weight' : 'stability'}
             targetLabel={fechaFormatted}
             startLabel={
-              isMalePath && currentWeightKg
-                ? `${String(currentWeightKg).replace('.', ',')} kg`
-                : undefined
+              isMalePath
+                ? currentWeightKg
+                  ? `${String(currentWeightKg).replace('.', ',')} kg`
+                  : undefined
+                : `${inestabilidadNow}% inestabilidad`
             }
             endLabel={
-              isMalePath && targetWeightKg
-                ? `Objetivo ${String(targetWeightKg).replace('.', ',')} kg`
-                : undefined
+              isMalePath
+                ? targetWeightKg
+                  ? `Objetivo ${String(targetWeightKg).replace('.', ',')} kg`
+                  : undefined
+                : `Meta: ${inestabilidadGoal}%`
             }
-            maintenanceLabel={isMalePath ? 'Mantenimiento' : undefined}
+            maintenanceLabel={isMalePath ? 'Mantenimiento' : 'Sostenido'}
           />
-          {isMalePath && (
-            <p className="text-[11px] text-secondary text-center max-w-[280px] mt-1">
-              Este gráfico es solo un ejemplo ilustrativo.
-            </p>
-          )}
+          <p className="text-[11px] text-secondary text-center max-w-[280px] mt-1">
+            Este gráfico es solo un ejemplo ilustrativo.
+          </p>
         </motion.div>
 
         <div className="flex flex-col gap-2.5">
