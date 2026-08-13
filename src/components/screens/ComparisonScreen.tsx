@@ -16,11 +16,8 @@ import {
   bodyFatFitnessPercent,
 } from '../../utils/comparisonMetrics';
 
-import ahoraComparacion400 from '../../assets/avatars/optimized/avatar-ahora-comparacion-400w.webp';
-import ahoraComparacion600 from '../../assets/avatars/optimized/avatar-ahora-comparacion-600w.webp';
-
-import objetivoComparacion400 from '../../assets/avatars/optimized/avatar-objetivo-comparacion-400w.webp';
-import objetivoComparacion600 from '../../assets/avatars/optimized/avatar-objetivo-comparacion-600w.webp';
+import ahoraFemenino from '../../assets/avatars/avatar-ahora-femenino.png';
+import objetivoFemenino from '../../assets/avatars/avatar-objetivo-femenino.png';
 
 import ahoraMasculino from '../../assets/avatars/avatar-ahora-masculino.png';
 import objetivoMasculino from '../../assets/avatars/avatar-objetivo-masculino.png';
@@ -189,9 +186,7 @@ export default function ComparisonScreenComp({ screen }: Props) {
             />
           ) : (
             <img
-              src={ahoraComparacion400}
-              srcSet={`${ahoraComparacion400} 400w, ${ahoraComparacion600} 600w`}
-              sizes="160px"
+              src={ahoraFemenino}
               width={160}
               height={213}
               loading="lazy"
@@ -212,9 +207,7 @@ export default function ComparisonScreenComp({ screen }: Props) {
             />
           ) : (
             <img
-              src={objetivoComparacion400}
-              srcSet={`${objetivoComparacion400} 400w, ${objetivoComparacion600} 600w`}
-              sizes="160px"
+              src={objetivoFemenino}
               width={160}
               height={213}
               loading="lazy"
