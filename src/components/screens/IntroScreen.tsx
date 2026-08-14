@@ -30,20 +30,12 @@ interface AgeCard {
 const AGE_CARDS_BY_GENDER: Record<'female' | 'male', AgeCard[]> = {
   female: [
     {
-      id: '30-39',
-      label: '30 – 39',
-      storeLabel: '30-39',
-      src: imgFemale4049,
-      loading: 'lazy',
-      alt: 'Mujer activa de 30 a 39 años practicando tai chi en la silla',
-    },
-    {
       id: '40-49',
-      label: '40 – 49',
+      label: '30 – 49',
       storeLabel: '40-49',
       src: imgFemale4049,
       loading: 'lazy',
-      alt: 'Mujer activa de 40 a 49 años practicando tai chi en la silla',
+      alt: 'Mujer activa de 30 a 49 años practicando tai chi en la silla',
     },
     {
       id: '50-59',
@@ -72,20 +64,12 @@ const AGE_CARDS_BY_GENDER: Record<'female' | 'male', AgeCard[]> = {
   ],
   male: [
     {
-      id: '30-39',
-      label: '30 – 39',
-      storeLabel: '30-39',
-      src: imgMale4049,
-      loading: 'lazy',
-      alt: 'Hombre activo de 30 a 39 años practicando tai chi en la silla',
-    },
-    {
       id: '40-49',
-      label: '40 – 49',
+      label: '30 – 49',
       storeLabel: '40-49',
       src: imgMale4049,
       loading: 'lazy',
-      alt: 'Hombre activo de 40 a 49 años practicando tai chi en la silla',
+      alt: 'Hombre activo de 30 a 49 años practicando tai chi en la silla',
     },
     {
       id: '50-59',
@@ -152,13 +136,9 @@ export default function IntroScreen() {
         </p>
       </motion.div>
 
-      {/* Photo card grid — 2 columnas; con 5 tarjetas, la última ocupa el
-          ancho de fila completo pero se acota al ancho de una columna y se
-          centra, para no verse estirada. */}
+      {/* Photo card grid — 2×2 */}
       <div className="grid grid-cols-2 gap-3">
-        {AGE_CARDS.map((card, i) => {
-          const isLastOdd = AGE_CARDS.length % 2 === 1 && i === AGE_CARDS.length - 1;
-          return (
+        {AGE_CARDS.map((card, i) => (
           <motion.button
             key={card.id}
             initial={{ opacity: 0, scale: 0.94 }}
@@ -176,9 +156,6 @@ export default function IntroScreen() {
               backgroundColor: '#F5F5F5',
               transition: 'transform 120ms ease, box-shadow 150ms ease',
               minHeight: '44px',
-              ...(isLastOdd
-                ? { gridColumn: '1 / -1', justifySelf: 'center', width: 'calc(50% - 6px)' }
-                : {}),
             }}
           >
             {/* Photo */}
@@ -249,8 +226,7 @@ export default function IntroScreen() {
               </span>
             </div>
           </motion.button>
-          );
-        })}
+        ))}
       </div>
 
       <p className="text-xs text-secondary/60 text-center flex items-center justify-center gap-1">

@@ -227,7 +227,6 @@ export interface ResultPaywallScreen extends BaseScreen {
   headline: string;       // section 2 headline, supports {{userName}} tokens
   // Proyección fusionada del antiguo ProjectionScreen (ID 45 eliminado del flujo).
   // El headline se compone como JSX por género en ResultPaywallScreen.
-  projectionSubtext: string;
   projectionBullets: string[];
   checklist: string[];    // section 5 advantages
   guaranteeHeadline: string; // section 8

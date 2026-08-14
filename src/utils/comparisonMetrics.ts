@@ -28,7 +28,6 @@ export const MALE_BODY_FAT_GOAL: [number, number] = [12, 18];
 // El path femenino no recolecta altura/peso, así que se estima por rango de
 // edad (ya recolectado en ambos paths) en vez de por IMC.
 const FEMALE_BODY_FAT_RANGES_BY_AGE: Record<string, [number, number]> = {
-  '30-39': [27, 33],
   '40-49': [28, 34],
   '50-59': [29, 35],
   '60-69': [30, 36],

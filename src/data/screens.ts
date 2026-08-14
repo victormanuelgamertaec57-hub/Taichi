@@ -1,7 +1,7 @@
 import type { AnyScreen } from '../types/quiz';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// FLUJO (48 pantallas) — Modelado al 85% de "Simple" + 15% Innovación propia
+// FLUJO (49 pantallas) — Modelado al 85% de "Simple" + 15% Innovación propia
 // Dividido en 8 etapas con barra de progreso que se reinicia por etapa.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -43,8 +43,7 @@ export const screens: AnyScreen[] = [
     headline: '¿Cuántos años tienes?',
     subtext: 'Tu edad nos ayuda a crear un plan de movimiento seguro y adaptado a tu cuerpo hoy.',
     options: [
-      { id: '30-39', label: '30 – 39 años', icon: 'ti ti-seedling' },
-      { id: '40-49', label: '40 – 49 años', icon: 'ti ti-leaf' },
+      { id: '40-49', label: '30 – 49 años', icon: 'ti ti-leaf' },
       { id: '50-59', label: '50 – 59 años', icon: 'ti ti-plant-2' },
       { id: '60-69', label: '60 – 69 años', icon: 'ti ti-flower' },
       { id: '70+', label: '70 años o más', icon: 'ti ti-mountain' },
@@ -201,7 +200,8 @@ export const screens: AnyScreen[] = [
   },
 
   // ───────────────────────────────────────────────────────────────────────────
-  // ETAPA 2 continuación: Datos físicos — SOLO camino masculino (ID 12-15)
+  // ETAPA 2 continuación: Datos físicos — SOLO camino masculino (ID 12-15);
+  // luego pantallas de apoyo "grasa abdominal" por género (ID 16-17)
   // ───────────────────────────────────────────────────────────────────────────
   {
     id: 12,
@@ -269,12 +269,29 @@ export const screens: AnyScreen[] = [
     ],
     ctaLabel: 'Ver mi plan de actividad',
   },
-
-  // ───────────────────────────────────────────────────────────────────────────
-  // ETAPA 3: Actividad (ID 16-22)
-  // ───────────────────────────────────────────────────────────────────────────
   {
     id: 17,
+    stageId: 2,
+    stageName: 'Mi Perfil',
+    trackingName: 'tai_chi_grasa_femenino',
+    type: 'info',
+    genderOnly: 'female',
+    headline: 'El Tai Chi en silla también reduce la grasa abdominal.',
+    subtext: 'Un ensayo clínico con 543 adultos mayores de 50 años encontró que el Tai Chi reduce la circunferencia de cintura de forma comparable al ejercicio convencional — con el beneficio adicional de proteger las articulaciones que el ejercicio tradicional desgasta.',
+    backgroundImage: 'grasa-abdominal-femenino',
+    checklist: [
+      { icon: 'ti ti-trending-down', text: 'Reduce la circunferencia de cintura en mujeres 50+' },
+      { icon: 'ti ti-shield-check', text: 'Sin desgaste articular, a diferencia del ejercicio convencional' },
+      { icon: 'ti ti-award', text: 'Fuente: Annals of Internal Medicine, Universidad de Hong Kong' },
+    ],
+    ctaLabel: 'Ver mi plan de actividad',
+  },
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // ETAPA 3: Actividad (ID 18-23)
+  // ───────────────────────────────────────────────────────────────────────────
+  {
+    id: 18,
     stageId: 3,
     stageName: 'Nivel de Actividad',
     trackingName: 'nivel_actividad',
@@ -290,7 +307,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 18,
+    id: 19,
     stageId: 3,
     stageName: 'Nivel de Actividad',
     trackingName: 'stat_gimnasio_agota',
@@ -302,7 +319,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Quiero un ejercicio suave',
   },
   {
-    id: 19,
+    id: 20,
     stageId: 3,
     stageName: 'Nivel de Actividad',
     trackingName: 'confianza_caminar',
@@ -318,7 +335,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 20,
+    id: 21,
     stageId: 3,
     stageName: 'Nivel de Actividad',
     trackingName: 'sabias_silla',
@@ -333,7 +350,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 21,
+    id: 22,
     stageId: 3,
     stageName: 'Nivel de Actividad',
     trackingName: 'stat_0_carga',
@@ -345,7 +362,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Continuar para ver los beneficios',
   },
   {
-    id: 22,
+    id: 23,
     stageId: 3,
     stageName: 'Nivel de Actividad',
     trackingName: 'stat_movimiento_sin_carga',
@@ -357,10 +374,10 @@ export const screens: AnyScreen[] = [
   },
 
   // ───────────────────────────────────────────────────────────────────────────
-  // ETAPA 4: Mi Plan (ID 23-27)
+  // ETAPA 4: Mi Plan (ID 24-28)
   // ───────────────────────────────────────────────────────────────────────────
   {
-    id: 23,
+    id: 24,
     stageId: 4,
     stageName: 'Mi Plan',
     trackingName: 'momento_practica',
@@ -376,7 +393,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 24,
+    id: 25,
     stageId: 4,
     stageName: 'Mi Plan',
     trackingName: 'evento_proximo',
@@ -392,7 +409,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 25,
+    id: 26,
     stageId: 4,
     stageName: 'Mi Plan',
     trackingName: 'fecha_objetivo',
@@ -404,7 +421,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Confirmar fecha',
   },
   {
-    id: 26,
+    id: 27,
     stageId: 4,
     stageName: 'Mi Plan',
     trackingName: 'meta_ideal',
@@ -424,7 +441,7 @@ export const screens: AnyScreen[] = [
     },
   },
   {
-    id: 27,
+    id: 28,
     stageId: 4,
     stageName: 'Mi Plan',
     trackingName: 'stat_fall_risk_2',
@@ -437,10 +454,10 @@ export const screens: AnyScreen[] = [
   },
 
   // ───────────────────────────────────────────────────────────────────────────
-  // ETAPA 5: Estilo de Vida (ID 28-32)
+  // ETAPA 5: Estilo de Vida (ID 29-35)
   // ───────────────────────────────────────────────────────────────────────────
   {
-    id: 28,
+    id: 29,
     stageId: 5,
     stageName: 'Estilo de Vida',
     trackingName: 'calidad_sueno',
@@ -456,7 +473,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 29,
+    id: 30,
     stageId: 5,
     stageName: 'Estilo de Vida',
     trackingName: 'bajada_energia',
@@ -472,7 +489,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 30,
+    id: 31,
     stageId: 5,
     stageName: 'Estilo de Vida',
     trackingName: 'nivel_energia',
@@ -488,7 +505,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 31,
+    id: 32,
     stageId: 5,
     stageName: 'Estilo de Vida',
     trackingName: 'ansiedad_estres',
@@ -504,7 +521,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 32,
+    id: 33,
     stageId: 5,
     stageName: 'Estilo de Vida',
     trackingName: 'saboteadores_masculino',
@@ -523,7 +540,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Continuar',
   },
   {
-    id: 33,
+    id: 34,
     stageId: 5,
     stageName: 'Estilo de Vida',
     trackingName: 'saboteadores_femenino',
@@ -542,7 +559,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Continuar',
   },
   {
-    id: 34,
+    id: 35,
     stageId: 5,
     stageName: 'Estilo de Vida',
     trackingName: 'metodo_firmme',
@@ -562,10 +579,10 @@ export const screens: AnyScreen[] = [
   },
 
   // ───────────────────────────────────────────────────────────────────────────
-  // ETAPA 6: Salud y Seguridad (ID 33-36)
+  // ETAPA 6: Salud y Seguridad (ID 36-39)
   // ───────────────────────────────────────────────────────────────────────────
   {
-    id: 35,
+    id: 36,
     stageId: 6,
     stageName: 'Salud y Seguridad',
     trackingName: 'restriccion_medica',
@@ -580,7 +597,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 36,
+    id: 37,
     stageId: 6,
     stageName: 'Salud y Seguridad',
     trackingName: 'harvard_spotlight',
@@ -596,7 +613,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Ver mi gráfico de estabilidad esperado',
   },
   {
-    id: 37,
+    id: 38,
     stageId: 6,
     stageName: 'Salud y Seguridad',
     trackingName: 'stat_fall_risk_3',
@@ -608,7 +625,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Quiero obtener este nivel de protección',
   },
   {
-    id: 38,
+    id: 39,
     stageId: 6,
     stageName: 'Salud y Seguridad',
     trackingName: 'salud_osea',
@@ -625,10 +642,10 @@ export const screens: AnyScreen[] = [
   },
 
   // ───────────────────────────────────────────────────────────────────────────
-  // ETAPA 7: Ya Casi Está (ID 37-39)
+  // ETAPA 7: Ya Casi Está (ID 40-43)
   // ───────────────────────────────────────────────────────────────────────────
   {
-    id: 39,
+    id: 40,
     stageId: 7,
     stageName: 'Finalizando',
     trackingName: 'nombre',
@@ -640,7 +657,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Continuar',
   },
   {
-    id: 40,
+    id: 41,
     stageId: 7,
     stageName: 'Finalizando',
     trackingName: 'email',
@@ -652,7 +669,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Ver mi plan personalizado →',
   },
   {
-    id: 41,
+    id: 42,
     stageId: 7,
     stageName: 'Finalizando',
     trackingName: 'compromiso',
@@ -667,7 +684,7 @@ export const screens: AnyScreen[] = [
     ],
   },
   {
-    id: 42,
+    id: 43,
     stageId: 7,
     stageName: 'Finalizando',
     trackingName: 'saboteadores_resultado',
@@ -675,10 +692,10 @@ export const screens: AnyScreen[] = [
   },
 
   // ───────────────────────────────────────────────────────────────────────────
-  // ETAPA 8: Cierre (ID 43-48, Sin barra de progreso)
+  // ETAPA 8: Cierre (ID 44-49, Sin barra de progreso)
   // ───────────────────────────────────────────────────────────────────────────
   {
-    id: 43,
+    id: 44,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'ahora_objetivo',
@@ -686,7 +703,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Continuar',
   },
   {
-    id: 44,
+    id: 45,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'analisis',
@@ -703,7 +720,7 @@ export const screens: AnyScreen[] = [
     autoAdvanceMs: 1500,
   },
   {
-    id: 46,
+    id: 47,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'bienvenida',
@@ -717,16 +734,15 @@ export const screens: AnyScreen[] = [
     msPerLine: 2500,
   },
   {
-    id: 47,
+    id: 48,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'resultado_paywall',
     type: 'result-paywall',
     headline: '¡Tu plan de Tai Chi en Silla está listo!',
     // Proyección fusionada desde el antiguo ID 45 (projection).
-    // El headline se compone como JSX en ResultPaywallScreen (cifra + fecha
-    // resaltadas en azul), distinto por género — por eso no vive acá.
-    projectionSubtext: 'Recupera la seguridad en tus pasos con entrenamientos estructurados de 15 minutos.',
+    // El headline y el subtítulo se componen en ResultPaywallScreen (cifra +
+    // fecha resaltadas en azul), distintos por género — por eso no viven acá.
     projectionBullets: [
       'Reduce el riesgo de caídas activando tus reflejos neuromusculares',
       'Ayuda a reducir la grasa corporal de forma progresiva con movimientos suaves y controlados',
@@ -745,7 +761,7 @@ export const screens: AnyScreen[] = [
     ctaLabel: 'Obtener mi plan con descuento',
   },
   {
-    id: 48,
+    id: 49,
     stageId: 8,
     stageName: 'Resultado',
     trackingName: 'confirmacion',

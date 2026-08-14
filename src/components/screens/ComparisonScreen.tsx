@@ -185,15 +185,18 @@ export default function ComparisonScreenComp({ screen }: Props) {
               className="w-full aspect-[3/4] object-cover object-top rounded-2xl"
             />
           ) : (
-            <img
-              src={ahoraFemenino}
-              width={160}
-              height={213}
-              loading="lazy"
-              decoding="async"
-              alt="Foto de referencia — estado actual"
-              className="w-full aspect-[3/4] object-cover object-top rounded-2xl"
-            />
+            <div className="w-full aspect-[3/4] overflow-hidden rounded-2xl">
+              <img
+                src={ahoraFemenino}
+                width={160}
+                height={213}
+                loading="lazy"
+                decoding="async"
+                alt="Foto de referencia — estado actual"
+                className="w-full h-full object-cover"
+                style={{ objectPosition: 'top center' }}
+              />
+            </div>
           )}
           {isMale ? (
             <img
@@ -206,15 +209,28 @@ export default function ComparisonScreenComp({ screen }: Props) {
               className="w-full aspect-[3/4] object-cover object-top rounded-2xl"
             />
           ) : (
-            <img
-              src={objetivoFemenino}
-              width={160}
-              height={213}
-              loading="lazy"
-              decoding="async"
-              alt="Foto de referencia — objetivo"
-              className="w-full aspect-[3/4] object-cover object-top rounded-2xl"
-            />
+            <div className="w-full aspect-[3/4] overflow-hidden rounded-2xl">
+              <img
+                src={objetivoFemenino}
+                width={160}
+                height={213}
+                loading="lazy"
+                decoding="async"
+                alt="Foto de referencia — objetivo"
+                className="w-full h-full object-cover"
+                style={{
+                  objectPosition: 'top center',
+                  // La foto objetivo tiene un aspect ratio nativo (1792×2400)
+                  // mucho más cercano al del contenedor (3:4) que la de
+                  // "ahora" (1696×2528), así que object-fit:cover por sí
+                  // solo casi no recorta y el cuerpo se ve más chico/lejano.
+                  // Este zoom extra iguala el encuadre con "ahora" (mismo
+                  // tamaño de cabeza, mismo corte a la altura de la rodilla).
+                  transform: 'scale(1.30)',
+                  transformOrigin: 'top center',
+                }}
+              />
+            </div>
           )}
         </div>
 

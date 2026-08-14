@@ -4,7 +4,7 @@ import { useQuizStore, interpolate } from '../../store/quizStore';
 import type { ResultPaywallScreen, PricingPlanId } from '../../types/quiz';
 import { pricingPlans } from '../../data/pricing';
 import { activityLevelLabel } from '../../utils/copy';
-import { calculateBalanceScorePercent, BALANCE_GOAL_PERCENT } from '../../utils/comparisonMetrics';
+import { getFemaleBodyFatRangeNow, FEMALE_BODY_FAT_GOAL } from '../../utils/comparisonMetrics';
 import { formatDateBr, defaultFechaObjetivo } from '../../utils/date';
 import { trackPixelEvent } from '../../utils/pixel';
 import PhoneCarousel from '../PhoneCarousel';
@@ -48,7 +48,7 @@ function recommendedDurationLabel(): string {
 /**
  * SVG del gráfico de proyección (movido inline desde el antiguo
  * ProjectionScreen.tsx). Curva descendente en ambos paths: el valor que baja
- * es el peso (masculino) o la inestabilidad (femenino). Muestra la etiqueta
+ * es el peso (masculino) o la grasa corporal (femenino). Muestra la etiqueta
  * del valor inicial arriba a la izquierda, un badge de meta en el nodo final,
  * y una línea horizontal de mantenimiento después de la meta.
  */
@@ -378,15 +378,19 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
   const currentWeightKg = answers.userWeightKg as number | undefined;
   const targetWeightKg = answers.userTargetWeightKg as number | undefined;
 
-  // Path femenino: la métrica que baja en la gráfica es la "inestabilidad",
-  // el inverso del score de equilibrio que ya calcula la tarjeta Ahora/Objetivo.
-  const inestabilidadNow = 100 - calculateBalanceScorePercent(answers);
-  const inestabilidadGoal = 100 - BALANCE_GOAL_PERCENT;
+  // Path femenino: la métrica que baja en la gráfica es la grasa corporal —
+  // misma fuente de datos que la fila "Grasa corporal" de la tarjeta
+  // Ahora/Objetivo (ComparisonScreen), para que headline/tarjeta/gráfica
+  // nunca muestren cifras contradictorias entre sí.
+  const bodyFatNowRange = getFemaleBodyFatRangeNow(userAge);
+  const bodyFatNow = bodyFatNowRange[1]; // extremo superior del rango actual
+  const bodyFatGoal = FEMALE_BODY_FAT_GOAL[0]; // extremo inferior del rango objetivo
+  const bodyFatGoalRangeLabel = `${FEMALE_BODY_FAT_GOAL[0]}-${FEMALE_BODY_FAT_GOAL[1]}`;
 
-  // Subtítulo: stability por defecto; para masculino, ángulo de peso.
+  // Subtítulo: femenino con ángulo de grasa corporal; masculino con ángulo de peso.
   const projectionSubtext = isMalePath
     ? 'Con sesiones de 15 minutos al día, sin dietas restrictivas ni ejercicio de alto impacto.'
-    : interpolate(screen.projectionSubtext, userName, userAge, userGender);
+    : 'Reduce tu grasa corporal con entrenamientos estructurados de 15 minutos — sin dietas extremas ni ejercicio de alto impacto.';
 
   // Bullets: stability por defecto; para masculino, ángulos de peso + grasa abdominal.
   const effectiveBullets = isMalePath
@@ -436,11 +440,10 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
                 <span style={{ color: SAGE }}>{fechaFormatted}</span>
               </>
             ) : (
-              // Headline femenino con la meta de equilibrio y la fecha resaltadas.
+              // Headline femenino con el rango objetivo de grasa corporal y la fecha resaltados.
               <>
-                Puedes recuperar hasta un{' '}
-                <span style={{ color: SAGE }}>{BALANCE_GOAL_PERCENT}%</span> de tu equilibrio y
-                sentirte más segura de aquí al{' '}
+                Puedes alcanzar tu grasa corporal ideal de un{' '}
+                <span style={{ color: SAGE }}>{bodyFatGoalRangeLabel}</span>% de aquí al{' '}
                 <span style={{ color: SAGE }}>{fechaFormatted}</span>
               </>
             )}
@@ -464,14 +467,14 @@ export default function ResultPaywallScreenComp({ screen }: Props) {
                 ? currentWeightKg
                   ? `${String(currentWeightKg).replace('.', ',')} kg`
                   : undefined
-                : `${inestabilidadNow}% inestabilidad`
+                : `${bodyFatNow}% grasa corporal`
             }
             endLabel={
               isMalePath
                 ? targetWeightKg
                   ? `Objetivo ${String(targetWeightKg).replace('.', ',')} kg`
                   : undefined
-                : `Meta: ${inestabilidadGoal}%`
+                : `Meta: ${bodyFatGoal}%`
             }
             maintenanceLabel={isMalePath ? 'Mantenimiento' : 'Sostenido'}
           />
