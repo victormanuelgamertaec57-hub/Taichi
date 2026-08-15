@@ -28,8 +28,13 @@ import movimiento2_400 from '../../assets/avatars/optimized/avatar-masculino-mov
 import movimiento2_600 from '../../assets/avatars/optimized/avatar-masculino-movimiento-2-600w.webp';
 import movimiento2_800 from '../../assets/avatars/optimized/avatar-masculino-movimiento-2-800w.webp';
 
-import grasaAbdominalPng from '../../assets/avatars/grasa-abdominal-transparente.png';
-import grasaAbdominalFemeninoPng from '../../assets/info-photos/grasa-abdominal-femenino.png';
+import grasaAbdominal400 from '../../assets/avatars/optimized/grasa-abdominal-transparente-400w.webp';
+import grasaAbdominal600 from '../../assets/avatars/optimized/grasa-abdominal-transparente-600w.webp';
+import grasaAbdominal800 from '../../assets/avatars/optimized/grasa-abdominal-transparente-800w.webp';
+
+import grasaAbdominalFemenino400 from '../../assets/info-photos/optimized/grasa-abdominal-femenino-400w.webp';
+import grasaAbdominalFemenino600 from '../../assets/info-photos/optimized/grasa-abdominal-femenino-600w.webp';
+import grasaAbdominalFemenino800 from '../../assets/info-photos/optimized/grasa-abdominal-femenino-800w.webp';
 
 interface ImageMapItem {
   w400: string;
@@ -77,12 +82,16 @@ const IMAGE_MAP: Record<string, ImageMapItem> = {
     alt: 'Hombre practicando el método FirmMe de Tai Chi en silla',
   },
   'grasa-abdominal-transparente': {
-    w400: grasaAbdominalPng,
+    w400: grasaAbdominal400,
+    w600: grasaAbdominal600,
+    w800: grasaAbdominal800,
     alt: 'Hombre mostrando resultados de reducción de grasa abdominal con Tai Chi',
     isTransparent: true,
   },
   'grasa-abdominal-femenino': {
-    w400: grasaAbdominalFemeninoPng,
+    w400: grasaAbdominalFemenino400,
+    w600: grasaAbdominalFemenino600,
+    w800: grasaAbdominalFemenino800,
     alt: 'Ilustración anatómica mostrando la grasa abdominal en el cuerpo femenino',
     isTransparent: true,
   },
@@ -214,6 +223,14 @@ export default function InfoScreenComp({ screen }: Props) {
           >
             <img
               src={imgData.w400}
+              srcSet={
+                imgData.w600
+                  ? `${imgData.w400} 400w, ${imgData.w600} 600w, ${imgData.w800} 800w`
+                  : undefined
+              }
+              sizes="(max-width: 480px) 100vw, 240px"
+              width={400}
+              height={400}
               alt={imgData.alt}
               loading="eager"
               decoding="async"

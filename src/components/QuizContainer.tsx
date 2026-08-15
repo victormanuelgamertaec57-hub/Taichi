@@ -126,8 +126,8 @@ export default function QuizContainer() {
         )}
       </div>
 
-      {/* Screen content */}
-      <div className="w-full max-w-lg flex-1 overflow-hidden">
+      {/* Main quiz content — <main> for a11y + screen readers */}
+      <main className="w-full max-w-lg flex-1 overflow-hidden" id="main-content">
         <motion.div
           key={currentScreen}
           initial={{ x: direction === 'forward' ? 40 : -40, opacity: 0 }}
@@ -137,16 +137,16 @@ export default function QuizContainer() {
         >
           <Suspense fallback={
             <div className="w-full min-h-[400px] flex items-center justify-center">
-              <div 
-                className="w-10 h-10 rounded-full border-4 border-indigo-100 border-t-indigo-500 animate-spin" 
-                style={{ borderTopColor: '#5C7AE0', willChange: 'transform' }} 
+              <div
+                className="w-10 h-10 rounded-full border-4 border-indigo-100 border-t-indigo-500 animate-spin"
+                style={{ borderTopColor: '#5C7AE0', willChange: 'transform' }}
               />
             </div>
           }>
             {renderScreen(screen)}
           </Suspense>
         </motion.div>
-      </div>
+      </main>
 
       {/* Footer */}
       <footer className="w-full max-w-lg px-6 py-4 text-center">

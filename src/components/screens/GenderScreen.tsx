@@ -3,8 +3,13 @@ import { motion } from 'framer-motion';
 import { useQuizStore } from '../../store/quizStore';
 import type { GenderScreen } from '../../types/quiz';
 
-import femaleAvatar from '../../assets/avatars/avatar-femenino-manos-juntas.jpeg';
-import maleAvatar from '../../assets/avatars/avatar-masculino-manos-juntas.jpeg';
+// ─── WebP variants (LCP-critical: 5-20KB vs 99-354KB originals) ──────────────
+import femaleAvatar400 from '../../assets/avatars/optimized/avatar-femenino-manos-juntas-400w.webp';
+import femaleAvatar600 from '../../assets/avatars/optimized/avatar-femenino-manos-juntas-600w.webp';
+import femaleAvatar800 from '../../assets/avatars/optimized/avatar-femenino-manos-juntas-800w.webp';
+import maleAvatar400 from '../../assets/avatars/optimized/avatar-masculino-manos-juntas-400w.webp';
+import maleAvatar600 from '../../assets/avatars/optimized/avatar-masculino-manos-juntas-600w.webp';
+import maleAvatar800 from '../../assets/avatars/optimized/avatar-masculino-manos-juntas-800w.webp';
 
 interface Props {
   screen: GenderScreen;
@@ -63,16 +68,29 @@ export default function GenderScreenComp({ screen }: Props) {
                 willChange: 'transform, border-color',
               }}
             >
-              {/* Photo background */}
-              <img
-                src={gender === 'female' ? femaleAvatar : maleAvatar}
-                alt={opt.label}
-                loading="eager"
-                decoding="async"
-                className={`absolute inset-0 w-full h-full object-cover ${
-                  gender === 'female' ? 'object-[center_20%]' : 'object-[center_15%]'
-                }`}
-              />
+              {/* Photo background — LCP candidate: WebP srcset + fetchpriority=high */}
+              {(() => {
+                const isFemale = gender === 'female';
+                const src400 = isFemale ? femaleAvatar400 : maleAvatar400;
+                const src600 = isFemale ? femaleAvatar600 : maleAvatar600;
+                const src800 = isFemale ? femaleAvatar800 : maleAvatar800;
+                return (
+                  <img
+                    src={src600}
+                    srcSet={`${src400} 400w, ${src600} 600w, ${src800} 800w`}
+                    sizes="(max-width: 640px) 50vw, 320px"
+                    width={600}
+                    height={800}
+                    alt={opt.label}
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
+                    className={`absolute inset-0 w-full h-full object-cover ${
+                      isFemale ? 'object-[center_20%]' : 'object-[center_15%]'
+                    }`}
+                  />
+                );
+              })()}
 
               {/* Bottom badge - gradient azul indigo */}
               <div

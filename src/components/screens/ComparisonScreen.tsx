@@ -16,11 +16,22 @@ import {
   bodyFatFitnessPercent,
 } from '../../utils/comparisonMetrics';
 
-import ahoraFemenino from '../../assets/avatars/avatar-ahora-femenino.png';
-import objetivoFemenino from '../../assets/avatars/avatar-objetivo-femenino.png';
+// ─── WebP variants — 17-57KB vs 1.8-3.4MB originals ─────────────────────────
+import ahoraFemenino400 from '../../assets/avatars/optimized/avatar-ahora-femenino-400w.webp';
+import ahoraFemenino600 from '../../assets/avatars/optimized/avatar-ahora-femenino-600w.webp';
+import ahoraFemenino800 from '../../assets/avatars/optimized/avatar-ahora-femenino-800w.webp';
 
-import ahoraMasculino from '../../assets/avatars/avatar-ahora-masculino.png';
-import objetivoMasculino from '../../assets/avatars/avatar-objetivo-masculino.png';
+import objetivoFemenino400 from '../../assets/avatars/optimized/avatar-objetivo-femenino-400w.webp';
+import objetivoFemenino600 from '../../assets/avatars/optimized/avatar-objetivo-femenino-600w.webp';
+import objetivoFemenino800 from '../../assets/avatars/optimized/avatar-objetivo-femenino-800w.webp';
+
+import ahoraMasculino400 from '../../assets/avatars/optimized/avatar-ahora-masculino-400w.webp';
+import ahoraMasculino600 from '../../assets/avatars/optimized/avatar-ahora-masculino-600w.webp';
+import ahoraMasculino800 from '../../assets/avatars/optimized/avatar-ahora-masculino-800w.webp';
+
+import objetivoMasculino400 from '../../assets/avatars/optimized/avatar-objetivo-masculino-400w.webp';
+import objetivoMasculino600 from '../../assets/avatars/optimized/avatar-objetivo-masculino-600w.webp';
+import objetivoMasculino800 from '../../assets/avatars/optimized/avatar-objetivo-masculino-800w.webp';
 
 interface Props {
   screen: ComparisonScreen;
@@ -172,13 +183,15 @@ export default function ComparisonScreenComp({ screen }: Props) {
           </span>
         </div>
 
-        {/* Photos side by side */}
+        {/* Photos side by side — WebP srcset, 17-57KB instead of 1.8-3.4MB */}
         <div className="grid grid-cols-2 gap-2.5">
           {isMale ? (
             <img
-              src={ahoraMasculino}
-              width={160}
-              height={213}
+              src={ahoraMasculino400}
+              srcSet={`${ahoraMasculino400} 400w, ${ahoraMasculino600} 600w, ${ahoraMasculino800} 800w`}
+              sizes="(max-width: 480px) 50vw, 240px"
+              width={400}
+              height={533}
               loading="lazy"
               decoding="async"
               alt="Foto de referencia — estado actual"
@@ -187,9 +200,11 @@ export default function ComparisonScreenComp({ screen }: Props) {
           ) : (
             <div className="w-full aspect-[3/4] overflow-hidden rounded-2xl">
               <img
-                src={ahoraFemenino}
-                width={160}
-                height={213}
+                src={ahoraFemenino400}
+                srcSet={`${ahoraFemenino400} 400w, ${ahoraFemenino600} 600w, ${ahoraFemenino800} 800w`}
+                sizes="(max-width: 480px) 50vw, 240px"
+                width={400}
+                height={533}
                 loading="lazy"
                 decoding="async"
                 alt="Foto de referencia — estado actual"
@@ -200,9 +215,11 @@ export default function ComparisonScreenComp({ screen }: Props) {
           )}
           {isMale ? (
             <img
-              src={objetivoMasculino}
-              width={160}
-              height={213}
+              src={objetivoMasculino400}
+              srcSet={`${objetivoMasculino400} 400w, ${objetivoMasculino600} 600w, ${objetivoMasculino800} 800w`}
+              sizes="(max-width: 480px) 50vw, 240px"
+              width={400}
+              height={533}
               loading="lazy"
               decoding="async"
               alt="Foto de referencia — objetivo"
@@ -211,9 +228,11 @@ export default function ComparisonScreenComp({ screen }: Props) {
           ) : (
             <div className="w-full aspect-[3/4] overflow-hidden rounded-2xl">
               <img
-                src={objetivoFemenino}
-                width={160}
-                height={213}
+                src={objetivoFemenino400}
+                srcSet={`${objetivoFemenino400} 400w, ${objetivoFemenino600} 600w, ${objetivoFemenino800} 800w`}
+                sizes="(max-width: 480px) 50vw, 240px"
+                width={400}
+                height={533}
                 loading="lazy"
                 decoding="async"
                 alt="Foto de referencia — objetivo"

@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { imagetools } from 'vite-imagetools'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -9,7 +10,21 @@ export default defineConfig({
     react(),
     tailwindcss(),
     imagetools(),
+    // Bundle visualizer — genera dist/stats.html con un treemap del bundle.
+    // Solo corre si se ejecuta `npm run build:analyze`.
+    visualizer({
+      filename: 'dist/stats.html',
+      gzipSize: true,
+      brotliSize: true,
+      template: 'treemap',
+    }),
   ],
+  // Build target: 'modules' (es2020+) por defecto en Vite 8, pero lo
+  // declaramos explícitamente para evitar polyfills innecesarios.
+  build: {
+    target: 'es2020',
+    cssTarget: 'chrome108',
+  },
   server: {
     fs: {
       // Este proyecto se ejecuta frecuentemente desde git worktrees

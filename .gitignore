@@ -25,3 +25,6 @@ dist-ssr
 
 # oh-my-claudecode agent tooling state (session logs, memory cache — not project source)
 .omc/
+
+# Local Netlify folder
+.netlify

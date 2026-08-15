@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useQuizStore } from '../../store/quizStore';
 import type { BmiFeedbackScreen } from '../../types/quiz';
-import avatarFisicoSinfondo from '../../assets/avatars/avatar-masculino-fisico-referencia-sinfondo.png';
+// ─── WebP variants — 21-69KB vs 3.4MB original ───────────────────────────────
+import avatarFisico400 from '../../assets/avatars/optimized/avatar-masculino-fisico-referencia-sinfondo-400w.webp';
+import avatarFisico600 from '../../assets/avatars/optimized/avatar-masculino-fisico-referencia-sinfondo-600w.webp';
+import avatarFisico800 from '../../assets/avatars/optimized/avatar-masculino-fisico-referencia-sinfondo-800w.webp';
 
 interface Props {
   screen: BmiFeedbackScreen;
@@ -238,7 +241,13 @@ function ProfileBlock() {
           }}
         >
           <img
-            src={avatarFisicoSinfondo}
+            src={avatarFisico400}
+            srcSet={`${avatarFisico400} 400w, ${avatarFisico600} 600w, ${avatarFisico800} 800w`}
+            sizes="(max-width: 480px) 42vw, 200px"
+            width={400}
+            height={400}
+            loading="lazy"
+            decoding="async"
             alt="Referencia física masculina"
             className="w-full h-auto object-contain object-bottom"
             style={{ maxHeight: '180px' }}
